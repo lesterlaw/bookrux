@@ -1,0 +1,26 @@
+{% extends "books/base.html" %}
+
+{% block content %}
+<h2>{{ object.user }}'s Profile</h2>
+<p>Profile Pic:{% if object.image %}<img src="{{ object.image.url }}" class='img-responsive imggg' style="width:200px; max-height:300px;"></p>{% else %} no profile image{% endif %}
+
+
+
+<h2>more books from this user!</h2>
+{% for book in books %}
+
+
+{% if book.user = object.user %}
+<a href="{% url 'books:bookdetail' book.slug %}">{{ book.title }}</a>
+{% endif %}
+
+{% endfor %}
+
+<!-- SHELVING SYSTEM
+
+{% for shelf in object.shelf.all %}
+{{ shelf.title }} </br>
+{{ shelf.description }}
+{% endfor %} -->
+
+{% endblock %}

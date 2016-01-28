@@ -1,0 +1,140 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+        <div id="heading-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1>List of books being sold!</h1>
+                    </div>
+<!--                     <div class="col-md-5">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html">Home</a>
+                            </li>
+                            <li>Content boxes</li>
+                        </ul>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
+{% if books %}
+
+<div class="featurette">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
+            <span class="input-group-btn">
+            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+
+<!-- working form -->
+<!-- <div>
+<div class="col-md-6 col-sm-6 col-lg-8 centre_div">
+<form method='GET' action='' class="form-inline">
+   <div class="input-group">
+		<input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
+
+		<span class="input-group-btn">
+  	    <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+  	    </span>
+    </div>
+</form>
+</div> -->
+<div class="container">
+<div style="clear:both">
+
+<div class="row portfolio">
+
+
+{% for book in books %}
+
+<div class="col-xs-6 col-sm-4">
+    <div class="box-image-text" style="display:block; border: 2px solid; border-color:#D3D3D3; border-radius:12px;">
+    	<div class="top">
+	        <div class="image rcorner1">
+	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" class="img-responsive">
+	        </div>
+	        <div class="bg"></div>
+	        <div class="text">
+	        <p class="buttons">
+                <a href="{% url 'books:bookdetail' book.slug %}" class="btn btn-template-transparent-primary"><i class="fa fa-link"></i> Read more</a>
+            </p>
+	        </div>
+        </div>
+        <div class="content haha">
+        <header>
+            <h5><a href="{% url 'books:bookdetail' book.slug %}">{{ book.title|title }}</a></h5>
+            </header>
+        </div>
+        <button class="buttonx" id="buttonx"><a href="{% url 'books:bookdetail' book.slug %}"><strong>Details</strong></a></button>
+        <button class="buttony"><strong>${{ book.price }}</strong></button>
+    </div>
+    <!-- /.box-image -->
+
+
+</div>
+
+{% endfor %}
+</div>
+<div>
+{% if is_paginated %}
+<ul class="pagination" style="clear:both;">
+{% if page_obj.has_previous %}
+    <li>
+        <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+    </li>
+{% endif %}
+    <li class="paginationnohover">
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+    </li>
+{% if page_obj.has_next %}
+    <li>
+        <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+    </li>
+{% endif %}
+</ul>
+{% endif %}
+</div>
+{% else %}
+{% if not request.GET.q %}
+
+THERE ARE NO POSTS YET! ADD ONE NOW!
+{% else %}
+<div class="featurette">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
+            <span class="input-group-btn">
+            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+<h2>Search again</h2>
+No such post with this search <a href="{% url 'books:booklist' %}">Go back</a>
+{% endif %}
+{% endif %}
+</div>
+
+{% include 'books/genrelist.html' %}
+
+</div>
+{% endblock %}

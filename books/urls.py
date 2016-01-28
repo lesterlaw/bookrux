@@ -1,0 +1,12 @@
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.BookList.as_view(), name='booklist'),
+    url(r'^info/(?P<slug>[\w.@+-]+)/$', views.BookDetail.as_view(), name='bookdetail'),
+    url(r'^sell/', views.AddBook, name='addbook'),
+    url(r'^edit/(?P<slug>[\w.@+-]+)/$', views.EditBook, name='editbook'),
+    url(r'^delete/(?P<slug>[\w.@+-]+)/$', views.DeleteBook, name='deletebook'),
+    url(r'^genre/$', views.GenreList.as_view(), name='genrelist'),
+
+]

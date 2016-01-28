@@ -1,0 +1,9 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<h1>DETAIL PAGE OF {{ object.title }}</h1>
+<h3>Author: <a href="{% url 'user_profile_detail' object.user %}">{{ object.user }}</a></h3>
+<a href="{% url 'books:editbook' book.slug %}">edit</a>
+<a href="{% url 'books:deletebook' book.slug %}">delete</a>
+<a href="{% url 'postman:write' object.user %}">Write to {{object.user}}</a>
+{% endblock %}
