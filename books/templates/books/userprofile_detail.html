@@ -16,11 +16,27 @@
 
 {% endfor %}
 
+<!-- rating button -->
+<a href="{% url 'addrating' username=object.user %}"><button class="btn btn-default">Add Feedback</button></a>
+
+
 <!-- SHELVING SYSTEM
 
 {% for shelf in object.shelf.all %}
 {{ shelf.title }} </br>
 {{ shelf.description }}
 {% endfor %} -->
+
+
+<!-- rating system working -->
+{% if ratings %}
+{% for rate in ratings %}
+{% ifnotequal rate.rate None %}
+<div>{{ rate.rate }}: {{ rate.feedback }}(BY: {{rate.author}})</div>
+
+{% endifnotequal %}
+{% endfor %}
+
+{% endif %}
 
 {% endblock %}

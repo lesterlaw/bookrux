@@ -26,10 +26,8 @@ SECRET_KEY = 'jo478()2z&&*@0f2t!!b8^pypy2thqh2#y6gbz0fqoi7h!)fgz'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+SITE_ID =4
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.admin',
@@ -43,6 +41,8 @@ INSTALLED_APPS = [
     'registration',
     'books',
     'crispy_forms',
+    'mathfilters',
+    'stripe',
     'rest_framework']
 
 MIDDLEWARE_CLASSES = [
@@ -152,3 +152,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 POSTMAN_AUTO_MODERATE_AS = True
+
+# STRIPE DETAILS
+STRIPE_SECRET = 'sk_test_M6WdwOzKeaFDhllSHVOW5ruN'
+STRIPE_PUBLISHABLE = 'pk_test_XgHLLE6oFdj7Dzs09pCEZub7'

@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^edit/(?P<slug>[\w.@+-]+)/$', views.EditBook, name='editbook'),
     url(r'^delete/(?P<slug>[\w.@+-]+)/$', views.DeleteBook, name='deletebook'),
     url(r'^genre/$', views.GenreList.as_view(), name='genrelist'),
-
+    url(r'^genre/(?P<genre>[\w.@+-]+)/$', views.GenreDetail, name='genredetail'),
+    url(r'^charge/(?P<slug>[\w.@+-]+)/$', views.charge, name='charge'),
 ]

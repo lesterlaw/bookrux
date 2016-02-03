@@ -18,6 +18,9 @@
                 </div>
             </div>
         </div>
+
+
+
 {% if books %}
 
 <div class="featurette">
@@ -26,7 +29,7 @@
          <div class="input-group input-group-lg">
             <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
             <span class="input-group-btn">
-            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
             </span>
          </div>
          <!-- /input-group -->
@@ -58,27 +61,19 @@
 
 
 {% for book in books %}
-
-<div class="col-xs-6 col-sm-4">
-    <div class="box-image-text" style="display:block; border: 2px solid; border-color:#D3D3D3; border-radius:12px;">
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-6 col-sm-4 col-md-3">
+    <div class="box-image-text">
     	<div class="top">
 	        <div class="image rcorner1">
-	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" class="img-responsive">
+	            <a href="{% url 'books:bookdetail' book.slug %}"><img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive"></a>
 	        </div>
-	        <div class="bg"></div>
-	        <div class="text">
-	        <p class="buttons">
-                <a href="{% url 'books:bookdetail' book.slug %}" class="btn btn-template-transparent-primary"><i class="fa fa-link"></i> Read more</a>
-            </p>
-	        </div>
-        </div>
-        <div class="content haha">
-        <header>
-            <h5><a href="{% url 'books:bookdetail' book.slug %}">{{ book.title|title }}</a></h5>
-            </header>
-        </div>
-        <button class="buttonx" id="buttonx"><a href="{% url 'books:bookdetail' book.slug %}"><strong>Details</strong></a></button>
-        <button class="buttony"><strong>${{ book.price }}</strong></button>
+      </div>
+      <div class="content haha">
+          <h5><a href="{% url 'books:bookdetail' book.slug %}">{{ book.title|title }}</a></h5>
+      </div>
+        <a href="{% url 'books:bookdetail' book.slug %}"><button class="buttonx" id="buttonx"><strong>Details <i class="fa fa-arrow-right"></i></strong></button></a>
+        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->
 
@@ -133,7 +128,7 @@ No such post with this search <a href="{% url 'books:booklist' %}">Go back</a>
 {% endif %}
 {% endif %}
 </div>
-
+ 
 {% include 'books/genrelist.html' %}
 
 </div>

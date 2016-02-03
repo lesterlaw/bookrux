@@ -1,11 +1,17 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
+from django.core.urlresolvers import reverse
 from django.db.models import Q
-from .models import Book, UserProfile, assure_user_profile_exists
+from .models import Book, UserProfile, assure_user_profile_exists, Rating
 from django.contrib.auth.models import User
 from django.views import generic
-from .forms import AddBookForm, UserProfileUpdateForm
+from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm
 from django.utils import timezone
+from django.contrib import messages
+from django.conf import settings
+import stripe
+stripe.api_key = settings.STRIPE_SECRET
 
+from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from serializers import BookSerializer, UserSerializer
 
@@ -23,9 +29,48 @@ class BookList(generic.ListView):
 				Q(description__icontains=query)).order_by('-published_date')
 		return Book.objects.order_by('-published_date')
 
+
+
 class BookDetail(generic.DetailView):
 	model = Book
 	template_name = 'books/bookdetail.html'
+
+	def get_context_data(self, **kwargs):
+		# Call the base implementation first to get a context
+		context = super(BookDetail, self).get_context_data(**kwargs)
+		# Add in a QuerySet of all the books
+		context['key'] = settings.STRIPE_PUBLISHABLE
+		return context
+
+@login_required
+def charge(request, slug):
+	book = get_object_or_404(Book, slug=slug)
+	if book.sold == False:
+
+		# grab the logged in user, and the object the user "owns"
+		if request.method != "POST":
+			return redirect(reverse("books:booklist"))
+		if not 'stripeToken' in request.POST:
+			messages.error(request, "Something went wrong")
+		else:
+			customer = stripe.Customer.create(email=request.POST['stripeEmail'],
+				source=request.POST['stripeToken'],)
+			amount = (int(book.price) + 2)* 100
+			charge = stripe.Charge.create(
+				customer=customer.id,
+				amount=amount,
+				currency='sgd',
+				description="OneTimeCharge",)
+			book.sold = True
+			book.save()
+			messages.success(request, 'you have paid')
+			return redirect(reverse('books:booklist'))
+	else:
+
+		messages.success(request, 'You cannot buy this anymore!')
+		return redirect('books:bookdetail', slug=book.slug)
+
+
 
 def AddBook(request):
 	if request.method == "POST":
@@ -42,21 +87,57 @@ def AddBook(request):
 
 def EditBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
-	if request.method == "POST":
-		form = AddBookForm(request.POST, instance=post)
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.user = request.user
-			post.published_date = timezone.now()
-			post.save()
-			return redirect('books:bookdetail', slug=slug)
+	if request.user == post.user:
+		if request.method == "POST":
+			form = AddBookForm(request.POST, instance=post)
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.user = request.user
+				post.published_date = timezone.now()
+				post.save()
+				return redirect('books:bookdetail', slug=slug)
+		else:
+			form = AddBookForm(instance=post)
+		return render(request, 'books/bookedit.html', {'form': form})
 	else:
-		form = AddBookForm(instance=post)
-	return render(request, 'books/bookedit.html', {'form': form})
+		messages.warning(request,"You are not allowed to edit this!")
+		return redirect(reverse('books:booklist'))
 
 def DeleteBook(request, slug):
-	post = get_object_or_404(Book, slug=slug).delete()
-	return redirect('books:booklist')
+	post = get_object_or_404(Book, slug=slug)
+	if request.user == post.user:
+		post.delete()
+		return redirect('books:booklist')
+	else:
+		messages.warning(request, 'You are not allowed to delete this post!')
+		return redirect(reverse('books:booklist'))
+
+def AddRating(request, username):
+	userx = get_object_or_404(User, username=username)
+	if request.method == "POST":
+		form = AddRatingForm(request.POST or None)
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.author = request.user
+			post.user = userx
+			post.save()
+			messages.success(request, 'success!!!!!!')
+			return redirect('user_profile_detail', slug=post.user)
+	else:
+		form = AddRatingForm()
+	return render(request, 'books/addrating.html', {'form':form})
+
+# class GenreDetail(generic.ListView):
+# 	model = Book
+# 	template_name = 'books/genredetail.html'
+
+# 	def get_queryset(self):
+# 		genre = Book.
+def GenreDetail(request, genre):
+	books = Book.objects.all().filter(genre=genre)
+	clean = 
+	return render(request, 'books/genredetail.html', {'book':genre})
+
 
 class GenreList(generic.ListView):
 	model = Book
@@ -81,6 +162,8 @@ class UserProfileDetail(generic.DetailView):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
 		context['books'] = Book.objects.all().order_by('-published_date')
 		context['shelf'] = UserProfile.objects.all()
+		context['ratings'] = Rating.objects.all()
+
 		return context
 
 # def UserProfileUpdate(request, username):

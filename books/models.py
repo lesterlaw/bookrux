@@ -11,6 +11,7 @@ from registration.signals import user_registered
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
+from PIL import Image
 class Book(models.Model):
 	Genres = (
 		('Fiction', 'Fiction'),
@@ -29,6 +30,7 @@ class Book(models.Model):
 		default=get_random_string,
 		max_length=13,
 	)
+	sold = models.BooleanField(default=False)
 	# genslug = AutoSlugField(populate_from='genre',null=True, blank=True)
 	def publish(self):
 		published_date = timezone.now()
@@ -39,7 +41,6 @@ class Book(models.Model):
 
 # def upload_location(instance, filename):
 # 	return "%s/%s" %(instance.id, filename)
-
 class UserProfile(models.Model):
 	user =  models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True)
 	image = models.ImageField(
@@ -55,6 +56,20 @@ class UserProfile(models.Model):
 
 	def __unicode__(self):
 		return self.user.username
+# this is required when you override save functions
+
+class Rating(models.Model):
+	user =  models.ForeignKey(User, related_name='user')
+	author = models.ForeignKey(User, related_name='author',blank=True)
+	Levels =(
+		('Good','Good'),
+		('Neutral','Neutral'),
+		('Bad','Bad'),
+		)
+	rate = models.CharField(max_length=100, choices=Levels,null=True, blank=True)
+	feedback = models.TextField(null=True, blank=True)
+	published_date = models.DateField(default=timezone.now)
+
 
 @receiver(models.signals.post_delete, sender=UserProfile)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

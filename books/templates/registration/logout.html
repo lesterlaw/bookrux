@@ -4,5 +4,9 @@
 {% block title %}{% trans "Logged out" %}{% endblock %}
 
 {% block content %}
-<p>{% trans "Successfully logged out" %}.</p>
+<div class="container">
+<ul class="messages" style="margin-left:-40px">
+    <li class="success alert alert-success" role="alert" style="list-style-type:none;">You have successfully logged out! <a href="{% url 'books:booklist' %}"><i class="fa fa-home"></i>Home Page</a></li>
+</ul>
+</div>
 {% endblock %}

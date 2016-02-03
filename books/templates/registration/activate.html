@@ -2,7 +2,11 @@
 {% load i18n %}
 
 {% block content %}
-<p>{% trans "Account activation failed." %}</p>
+<div class="container">
+<ul class="messages" style="margin-left:-40px">
+    <li class="success alert alert-warning" role="alert" style="list-style-type:none;">Account activation has failed, please try again!</li>
+</ul>
+</div>
 {% endblock %}
 
 
