@@ -134,8 +134,8 @@ def AddRating(request, username):
 # 	def get_queryset(self):
 # 		genre = Book.
 def GenreDetail(request, genre):
-	books = Book.objects.all().filter(genre=genre)
-	clean = 
+	books = Book.objects.all()
+	clean = books.filter()
 	return render(request, 'books/genredetail.html', {'book':genre})
 
 
