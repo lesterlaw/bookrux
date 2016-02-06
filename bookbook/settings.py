@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'mathfilters',
     'stripe',
+    'django_cleanup',
     'rest_framework']
 
 MIDDLEWARE_CLASSES = [

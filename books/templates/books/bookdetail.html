@@ -74,7 +74,7 @@
 							    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 							    <span class="sr-only">Next</span>
 							  </a>
-							                                  <div class="ribbon sale">
+						    <div class="ribbon sale">
                                     <div class="theribbon">{% if object.sold == True %}SOLD{% else %}{{ object.genre|upper }}{% endif %}</div>
                                     <div class="ribbon-background"></div>
                                 </div>
@@ -92,9 +92,10 @@
 
                                         </div>
 
-                                        <p class="price">${{ object.price|floatformat:2 }}</p>
+                                        <p class="price">${{ object.price|floatformat:2 }}{% if object.sold == True %} (SOLD){% endif %}</p>
 
                                         <p class="text-center">
+
                                             <button class="btn btn-template-main"><i class="fa fa-comment"><a href="{% url 'postman:write' object.user %}"></i>Message Seller</a></button>
                                             {% if object.sold == False %}
                                             <h4 class="text-center">OR</h4>
@@ -110,6 +111,7 @@
                                             data-label="Buy Now">
                                             </script>
                                             </form>
+                                            <p class="text-center">(Please confirm Address and Contact number <a href="{% url 'user_profile_edit' request.user %}"><strong>here</strong></a>) before making payment! <i class="fa fa-smile-o"></i></p>
                                             {% endif %}
                                             
 

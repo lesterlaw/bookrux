@@ -1,16 +1,21 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
+from django.template.loader import render_to_string, get_template
+from django.template import Context
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from .models import Book, UserProfile, assure_user_profile_exists, Rating
 from django.contrib.auth.models import User
 from django.views import generic
-from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm
+from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm, ContactForm
 from django.utils import timezone
 from django.contrib import messages
 from django.conf import settings
+from django.core.mail import EmailMessage
+from django.views.generic.edit import FormView
 import stripe
 stripe.api_key = settings.STRIPE_SECRET
 
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from serializers import BookSerializer, UserSerializer
@@ -26,8 +31,8 @@ class BookList(generic.ListView):
 		if query:
 			return Book.objects.filter(
 				Q(title__icontains=query) |
-				Q(description__icontains=query)).order_by('-published_date')
-		return Book.objects.order_by('-published_date')
+				Q(description__icontains=query)).order_by('sold', '-published_date')
+		return Book.objects.order_by('sold', '-published_date')
 
 
 
@@ -63,7 +68,20 @@ def charge(request, slug):
 				description="OneTimeCharge",)
 			book.sold = True
 			book.save()
-			messages.success(request, 'you have paid')
+
+			user = request.user
+			subject = 'Payment confirmation'
+
+			from_email = settings.EMAIL_HOST_USER
+			email = request.POST['stripeEmail']
+			recipient_list = [email, settings.EMAIL_HOST_USER]
+			html_message = render_to_string('books/payment_email.html', {'book':book, 'user':user})
+
+			email = EmailMessage('Payment Confirmation', html_message, from_email,
+			recipient_list)
+			email.content_subtype = 'html'
+			email.send()
+			messages.success(request, 'You have successfully made payment!')
 			return redirect(reverse('books:booklist'))
 	else:
 
@@ -135,8 +153,8 @@ def AddRating(request, username):
 # 		genre = Book.
 def GenreDetail(request, genre):
 	books = Book.objects.all()
-	clean = books.filter()
-	return render(request, 'books/genredetail.html', {'book':genre})
+	clean = books.filter(genre__icontains=genre)
+	return render(request, 'books/genredetail.html', {'books':clean})
 
 
 class GenreList(generic.ListView):
@@ -150,6 +168,37 @@ class GenreList(generic.ListView):
 # 	books = Book.objects.all().order_by('-published_date')
 # 	return render(request, 'books/userprofile_detail.html', {'object': profile, 'books':books, 'user':user})
 #ENDS HERE
+
+def ContactView(request):
+	form_class = ContactForm
+
+	# new logic!
+	if request.method == 'POST':
+		form = form_class(data=request.POST)
+
+		if form.is_valid():
+			contact_name = request.POST.get('contact_name', '')
+			contact_email = request.POST.get('contact_email', '')
+			form_content = request.POST.get('content', '')
+
+			# Email the profile with the 
+			# contact information
+			template = get_template('books/contact_template.txt')
+			context = Context({
+                'contact_name': contact_name,
+                'contact_email': contact_email,
+                'form_content': form_content,
+			})
+			content = template.render(context)
+
+			email = EmailMessage("New contact form submission", content,"Bookrux" +'', ['bookrux@gmail.com'],headers = {'Reply-To': contact_email })
+			email.send()
+			messages.success(request, 'Thank you for your feedback!')
+			return redirect('contactview')
+
+	return render(request, 'books/contact.html', {
+		'form': form_class,
+	})
 
 class UserProfileDetail(generic.DetailView):
 	model = UserProfile
@@ -185,7 +234,7 @@ class UserProfileDetail(generic.DetailView):
 class UserProfileUpdate(generic.UpdateView):
 	model = UserProfile
 	template_name = "books/userprofile_form.html"
-	fields = ('image',)
+	fields = ('image', 'contact_number', 'address',)
 
 	# def get(self, request, *args, **kwargs):
 	# 	assure_user_profile_exists(kwargs['pk'])

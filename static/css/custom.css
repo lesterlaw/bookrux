@@ -104,12 +104,13 @@ box-shadow: 0px 0px 10px #000000;
     cursor: pointer;
     border-right: 1.5px solid #555;
     border-bottom-left-radius: 6px;
-
-#buttonx{
-    font-size: 2em;
 }
 
-}.buttony{
+.buttonxred{
+    background-color: #F1093F;
+}
+
+.buttony{
     width:50%;
     float:right;
     border: none;
@@ -158,3 +159,4 @@ box-shadow: 0px 0px 10px #000000;
   background-color: #FFBA22;
   border-color: #E19B00;
 }
+

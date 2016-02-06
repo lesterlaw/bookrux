@@ -3,7 +3,11 @@ from .models import Book, UserProfile, Rating
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-admin.site.register(Book)
+class BookAdmin(admin.ModelAdmin):
+	list_display = ('title', 'genre', 'sold')
+	list_filter = ['published_date', 'genre', 'sold']
+	search_fields = ['title', 'description']
+admin.site.register(Book, BookAdmin)
 
 # our new model to add at the bottom
 

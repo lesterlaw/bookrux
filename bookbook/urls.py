@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^(/)?$', RedirectView.as_view(url='/books/')),
     url(r'^books/', include('books.urls', namespace="books")),
-    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^accounts/(?P<slug>[\w.@+-]+)/$',
         books.views.UserProfileDetail.as_view(),
         name='user_profile_detail'),  
@@ -53,6 +53,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^addrating/(?P<username>[\w.@+-]+)/$', books.views.AddRating, name='addrating'),
+    url(r'^contact/$', books.views.ContactView, name='contactview'),
 
 ]
 

@@ -12,18 +12,49 @@ from django.conf import settings
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
 from PIL import Image
+from django.core.validators import MaxValueValidator
+
 class Book(models.Model):
 	Genres = (
-		('Fiction', 'Fiction'),
-		('Business', 'Business'),
-		('Adventure', 'Adventure'),
+	('Non-Fiction', (
+		('Biography','Biography'),
+		('Business/Finance','Business'),
+		('Computing','Computing'),
+		('Fiction','Fiction'),
+		('Food & Beverages','Food & Beverages'),
+		('Graphic novels/Manga','Graphic novels/Manga'),
+		('History','History'),
+		('Law','Law'),
+		('Medical','Medical'),
+		('Religion','Religion'),
+		('Sports','Sports'),
+		('Technology & Engineering','Technology & Engineering'),
 		)
+	),
+	('Fiction', (
+			('Adventure', 'Adventure'),
+			('Classics', 'Classics'),
+			('Contemporary Fiction', 'Contemporary Fiction'),
+			('Crime', 'Crime'),
+			('Fantasy', 'Fantasy'),
+			('Horror', 'Horror'),
+			('Romance', 'Romance'),
+			('Science Fiction', 'Science Fiction'),
+			('Thrillers', 'Thrillers'),
+		)
+	),
+	('School Textbooks', (
+			('math','math'),
+			
+		)
+	),
+)
 	user = models.ForeignKey(User)
 	title = models.CharField(max_length=100)
 	genre = models.CharField(max_length=100,choices=Genres)
 	description = models.TextField()
 	personal_review = models.TextField(blank=True)
-	price = models.IntegerField()
+	price = models.IntegerField(validators=[MaxValueValidator(99999)])
 	published_date = models.DateTimeField(default=timezone.now)
 	slug = models.SlugField(
 		unique=True,
@@ -44,14 +75,13 @@ class Book(models.Model):
 class UserProfile(models.Model):
 	user =  models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True)
 	image = models.ImageField(
-			null=True,
-			blank=True,
-			width_field='width_field',
-			height_field='height_field')
-	width_field = models.IntegerField(default=0)
-	height_field = models.IntegerField(default=0)
+            null=True,
+            blank=True)
+	
 	slug = AutoSlugField(populate_from='user',null=True, blank=True)
-	shelf = models.ManyToManyField(Book, null=True, blank=True)
+	shelf = models.ManyToManyField(Book, blank=True)
+	address = models.CharField(max_length=999)
+	contact_number = models.IntegerField(blank=True, null=True, validators=[MaxValueValidator(99999999)])
 #to activate shell, do {{ object.shelf.all }} in templates.
 
 	def __unicode__(self):
@@ -71,32 +101,32 @@ class Rating(models.Model):
 	published_date = models.DateField(default=timezone.now)
 
 
-@receiver(models.signals.post_delete, sender=UserProfile)
-def auto_delete_file_on_delete(sender, instance, **kwargs):
-	"""Deletes file from filesystem
-	when corresponding `UserProfile` object is deleted.
-	"""
-	if instance.image:
-		if os.path.isfile(instance.image.path):
-			os.remove(instance.image.path)
+# @receiver(models.signals.post_delete, sender=UserProfile)
+# def auto_delete_file_on_delete(sender, instance, **kwargs):
+# 	"""Deletes file from filesystem
+# 	when corresponding `UserProfile` object is deleted.
+# 	"""
+# 	if instance.image:
+# 		if os.path.isfile(instance.image.path):
+# 			os.remove(instance.image.path)
 
-@receiver(models.signals.pre_save, sender=UserProfile)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-	"""Deletes file from filesystem
-	when corresponding `UserProfile` object is changed.
-	"""
-	if not instance.pk:
-		return False
+# @receiver(models.signals.pre_save, sender=UserProfile)
+# def auto_delete_file_on_change(sender, instance, **kwargs):
+# 	"""Deletes file from filesystem
+# 	when corresponding `UserProfile` object is changed.
+# 	"""
+# 	if not instance.pk:
+# 		return False
 
-	try:
-		old_file = UserProfile.objects.get(pk=instance.pk).image
-	except UserProfile.DoesNotExist:
-		return False
+# 	try:
+# 		old_file = UserProfile.objects.get(pk=instance.pk).image
+# 	except UserProfile.DoesNotExist:
+# 		return False
 
-	new_file = instance.image
-	if not old_file == new_file:
-		if os.path.isfile(old_file.path):
-			os.remove(old_file.path)
+# 	new_file = instance.image
+# 	if not old_file == new_file:
+# 		if os.path.isfile(old_file.path):
+# 			os.remove(old_file.path)
 
 def assure_user_profile_exists(username):
 	"""

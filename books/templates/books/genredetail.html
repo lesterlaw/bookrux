@@ -1,4 +1,25 @@
 {% extends 'books/base.html' %}
 {% block content %}
-{{ book }}
+{% for book in books %}
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-6 col-sm-4 col-md-3">
+<a href="{% url 'books:bookdetail' book.slug %}">
+    <div class="box-image-text">
+    	<div class="top">
+	        <div class="image rcorner1">
+	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive">
+	        </div>
+      </div>
+      <div class="content haha">
+          <h5>{{ book.title|title }}</h5>
+      </div>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} <i class="fa fa-arrow-right"></i></strong></button>
+        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
+    </div>
+</a>
+    <!-- /.box-image -->
+
+</div>
+
+{% endfor %}
 {% endblock %}

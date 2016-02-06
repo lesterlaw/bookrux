@@ -63,20 +63,21 @@
 {% for book in books %}
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
 <div class="col-xs-6 col-sm-4 col-md-3">
+<a href="{% url 'books:bookdetail' book.slug %}">
     <div class="box-image-text">
     	<div class="top">
 	        <div class="image rcorner1">
-	            <a href="{% url 'books:bookdetail' book.slug %}"><img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive"></a>
+	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive">
 	        </div>
       </div>
       <div class="content haha">
-          <h5><a href="{% url 'books:bookdetail' book.slug %}">{{ book.title|title }}</a></h5>
+          <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:bookdetail' book.slug %}"><button class="buttonx" id="buttonx"><strong>Details <i class="fa fa-arrow-right"></i></strong></button></a>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} <i class="fa fa-arrow-right"></i></strong></button>
         <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
     </div>
+</a>
     <!-- /.box-image -->
-
 
 </div>
 
@@ -87,15 +88,15 @@
 <ul class="pagination" style="clear:both;">
 {% if page_obj.has_previous %}
     <li>
-        <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+        <span><a href="?page={{ page_obj.previous_page_number }}">← Older</a></span>
     </li>
 {% endif %}
     <li class="paginationnohover">
-        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+        <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
     </li>
 {% if page_obj.has_next %}
     <li>
-        <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+        <span><a href="?page={{ page_obj.next_page_number }}">Newer →</a></span>
     </li>
 {% endif %}
 </ul>

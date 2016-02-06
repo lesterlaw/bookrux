@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<p>Dear {{request.user}},</br>
+    We have confirmed you order for book titled {{ book.title|title }} for ${{ book.price|floatformat:2 }}. Do look forward to receiving your book soon!<p></br>
+    Address: {{ user.userprofile.address }}
+    Contact number: {{ user.userprofile.contact_number }}
+
+    </br>
+    With warmest regards,</br>
+    Bookrux</p>
+</body>
+</html>
