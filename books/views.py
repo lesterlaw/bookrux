@@ -31,7 +31,8 @@ class BookList(generic.ListView):
 		if query:
 			return Book.objects.filter(
 				Q(title__icontains=query) |
-				Q(description__icontains=query)).order_by('sold', '-published_date')
+				Q(description__icontains=query) |
+				Q(genre__icontains=query)).order_by('sold', '-published_date')
 		return Book.objects.order_by('sold', '-published_date')
 
 
@@ -89,7 +90,7 @@ def charge(request, slug):
 		return redirect('books:bookdetail', slug=book.slug)
 
 
-
+@login_required
 def AddBook(request):
 	if request.method == "POST":
 		form = AddBookForm(request.POST or None)
@@ -103,6 +104,7 @@ def AddBook(request):
 		form = AddBookForm()
 	return render(request, 'books/bookedit.html', {'form': form})
 
+@login_required
 def EditBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
 	if request.user == post.user:
@@ -120,7 +122,7 @@ def EditBook(request, slug):
 	else:
 		messages.warning(request,"You are not allowed to edit this!")
 		return redirect(reverse('books:booklist'))
-
+@login_required
 def DeleteBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
 	if request.user == post.user:
@@ -129,21 +131,25 @@ def DeleteBook(request, slug):
 	else:
 		messages.warning(request, 'You are not allowed to delete this post!')
 		return redirect(reverse('books:booklist'))
-
+@login_required
 def AddRating(request, username):
 	userx = get_object_or_404(User, username=username)
-	if request.method == "POST":
-		form = AddRatingForm(request.POST or None)
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.author = request.user
-			post.user = userx
-			post.save()
-			messages.success(request, 'success!!!!!!')
-			return redirect('user_profile_detail', slug=post.user)
+	if not userx == request.user:
+		if request.method == "POST":
+			form = AddRatingForm(request.POST or None)
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.author = request.user
+				post.user = userx
+				post.save()
+				messages.success(request, 'success!!!!!!')
+				return redirect('user_profile_detail', slug=post.user)
+		else:
+			form = AddRatingForm()
+		return render(request, 'books/addrating.html', {'form':form, 'userx':userx})
 	else:
-		form = AddRatingForm()
-	return render(request, 'books/addrating.html', {'form':form})
+		messages.warning(request, "You cannot leave feedback for yourself")
+		return redirect('books:booklist')
 
 # class GenreDetail(generic.ListView):
 # 	model = Book
@@ -209,9 +215,9 @@ class UserProfileDetail(generic.DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
-		context['books'] = Book.objects.all().order_by('-published_date')
+		context['books'] = Book.objects.all().order_by('-published_date').filter(user__username=self.kwargs['slug'])
 		context['shelf'] = UserProfile.objects.all()
-		context['ratings'] = Rating.objects.all()
+		context['ratings'] = Rating.objects.all().filter(user__username=self.kwargs['slug'])
 
 		return context
 
@@ -228,8 +234,6 @@ class UserProfileDetail(generic.DetailView):
 # 	else:
 # 		form = UserProfileUpdateForm(instance=profile) 
 # 	return render(request, 'books/userprofile_form.html', {'object':profile, 'UserProfile':UserProfile})
-
-
 
 class UserProfileUpdate(generic.UpdateView):
 	model = UserProfile

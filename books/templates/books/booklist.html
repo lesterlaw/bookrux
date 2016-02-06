@@ -27,7 +27,7 @@
    <div class="featurette-inner text-center">
       <form method='GET' action='' class="search" role="form">
          <div class="input-group input-group-lg">
-            <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
+            <input type='text' name='q' placeholder='Seach for books/genres!' value='{{ request.GET.q }}' class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
             </span>
@@ -125,12 +125,11 @@ THERE ARE NO POSTS YET! ADD ONE NOW!
 
 </div>
 <h2>Search again</h2>
-No such post with this search <a href="{% url 'books:booklist' %}">Go back</a>
+<h4>No such post with this search <a href="{% url 'books:booklist' %}">Go back</a></h4>
 {% endif %}
 {% endif %}
 </div>
  
-{% include 'books/genrelist.html' %}
 
 </div>
 {% endblock %}

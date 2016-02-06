@@ -160,3 +160,34 @@ box-shadow: 0px 0px 10px #000000;
   border-color: #E19B00;
 }
 
+.circular {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    }
+.circularbook {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    }
+
+#navbar{
+    -webkit-box-shadow: 0 6px 20px -8px black;
+       -moz-box-shadow: 0 6px 20px -8px black;
+            box-shadow: 0 6px 20px -8px black;
+}
+#fixedbutton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; 
+}

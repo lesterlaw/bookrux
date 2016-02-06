@@ -1,23 +1,68 @@
 {% extends "books/base.html" %}
 
 {% block content %}
-<h2>{{ object.user }}'s Profile</h2>
-<p>Profile Pic:{% if object.image %}<img src="{{ object.image.url }}" class='img-responsive imggg' style="width:200px; max-height:300px;"></p>{% else %} no profile image{% endif %}
+<div class="container" style="margin-top:50px;">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			{% if object.image %}<img src="{{ object.image.url }}" class='circular'>{% else %}<img src="../../../static/img/noprofilepic.png" class='circular'>{% endif %}
+			<h3>{{ object.user }}</h3>
+			{% if object.user == request.user %}
+				<a href="{% url 'user_profile_edit' object.user %}"><button class="btn btn-default">Edit Profile</button></a>
+			{% else %}
+			<a href="{% url 'addrating' username=object.user %}"><button class="btn btn-default">Add Feedback</button></a>
+			{% endif %}
+		</div>
+	</div>
 
 
+<div class="heading">
+    <h2>Posted Books</h2>
+</div>
 
-<h2>more books from this user!</h2>
 {% for book in books %}
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-6 col-sm-4 col-md-3">
+<a href="{% url 'books:bookdetail' book.slug %}">
+    <div class="box-image-text">
+    	<div class="top">
+	        <div class="image rcorner1">
+	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive">
+	        </div>
+      </div>
+      <div class="content haha">
+          <h5>{{ book.title|title }}</h5>
+      </div>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} <i class="fa fa-arrow-right"></i></strong></button>
+        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
+    </div>
+</a>
+    <!-- /.box-image -->
 
-
-{% if book.user = object.user %}
-<a href="{% url 'books:bookdetail' book.slug %}">{{ book.title }}</a>
-{% endif %}
-
+</div>
+{% empty %}
+<h1>There are no books from this user yet</h1>
 {% endfor %}
 
-<!-- rating button -->
-<a href="{% url 'addrating' username=object.user %}"><button class="btn btn-default">Add Feedback</button></a>
+<div>
+{% if is_paginated %}
+<ul class="pagination" style="clear:both;">
+{% if page_obj.has_previous %}
+    <li>
+        <span><a href="?page={{ page_obj.previous_page_number }}">← Older</a></span>
+    </li>
+{% endif %}
+    <li class="paginationnohover">
+        <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    </li>
+{% if page_obj.has_next %}
+    <li>
+        <span><a href="?page={{ page_obj.next_page_number }}">Newer →</a></span>
+    </li>
+{% endif %}
+</ul>
+{% endif %}
+</div>
+
 
 
 <!-- SHELVING SYSTEM
@@ -29,14 +74,29 @@
 
 
 <!-- rating system working -->
+<div style="clear:both;">
+<div class="heading">
+    <h2>Feedback</h2>
+</div>
 {% if ratings %}
 {% for rate in ratings %}
 {% ifnotequal rate.rate None %}
-<div>{{ rate.rate }}: {{ rate.feedback }}(BY: {{rate.author}})</div>
+<div class="row comment">
+
+                                <div class="col-sm-9 col-md-10">
+                                    <h5 class="text-uppercase"><a href="{% url 'user_profile_detail' rate.author %}"><u>{{rate.author}}</u></a></h5>
+                                    <p class="posted"><i class="fa fa-{% if rate.rate == 'Good' %}thumbs-up{% elif rate.rate == 'Neutral' %}clock-o{% else %}thumbs-down{% endif %}"></i> {{ rate.rate }}</p>
+                                    <p>{{ rate.feedback }}</p>
+                                </div>
+                            </div>
+                            <hr style="border-bottom: 1px solid #ccc">
 
 {% endifnotequal %}
 {% endfor %}
 
-{% endif %}
-
+{% else %}
+<h1>There are no ratings for this user</h1>
+{% endif %} 
+</div>
+</div>
 {% endblock %}

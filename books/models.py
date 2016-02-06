@@ -18,9 +18,10 @@ class Book(models.Model):
 	Genres = (
 	('Non-Fiction', (
 		('Biography','Biography'),
-		('Business/Finance','Business'),
-		('Computing','Computing'),
+		('Business','Business'),
+		('Computer','Computer'),
 		('Fiction','Fiction'),
+		('Finance', 'Finance'),
 		('Food & Beverages','Food & Beverages'),
 		('Graphic novels/Manga','Graphic novels/Manga'),
 		('History','History'),
@@ -77,13 +78,13 @@ class UserProfile(models.Model):
 	image = models.ImageField(
             null=True,
             blank=True)
-	
 	slug = AutoSlugField(populate_from='user',null=True, blank=True)
 	shelf = models.ManyToManyField(Book, blank=True)
 	address = models.CharField(max_length=999)
 	contact_number = models.IntegerField(blank=True, null=True, validators=[MaxValueValidator(99999999)])
 #to activate shell, do {{ object.shelf.all }} in templates.
 
+	
 	def __unicode__(self):
 		return self.user.username
 # this is required when you override save functions

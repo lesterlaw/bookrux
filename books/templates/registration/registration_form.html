@@ -9,7 +9,7 @@
 <form method="post" action="" class="post-form col-md-5">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="{% trans 'Submit' %}" />
+    <button class="btn btn-default" type="submit" value="{% trans 'Submit' %}">Submit</button>
 </form>
 </div>
 {% endblock %}

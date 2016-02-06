@@ -7,6 +7,7 @@ class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'genre', 'sold')
 	list_filter = ['published_date', 'genre', 'sold']
 	search_fields = ['title', 'description']
+
 admin.site.register(Book, BookAdmin)
 
 # our new model to add at the bottom
@@ -21,8 +22,7 @@ class RatingInline(admin.TabularInline):
 	extra = -3
 
 class UserAdmin(UserAdmin):
-    inlines = (UserProfileInline, RatingInline,) 
-
+    inlines = (UserProfileInline, RatingInline,)
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
