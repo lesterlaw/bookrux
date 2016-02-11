@@ -7,7 +7,7 @@ from django.conf import settings
 class AddBookForm(forms.ModelForm):
 	class Meta:
 		model = Book
-		fields = ['title', 'description', 'personal_review', 'genre', 'price']
+		fields = ['title', 'description', 'personal_review', 'genre', 'price', 'image1', 'image2', 'image3', 'image4']
 		labels = {
 			'title': ('What is the name of the book?'),
 			'description':('Details and Condition?'),

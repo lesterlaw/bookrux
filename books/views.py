@@ -28,11 +28,18 @@ class BookList(generic.ListView):
 
 	def get_queryset(self):
 		query = self.request.GET.get('q')
-		if query:
+		filtered = self.request.GET.get('fil')
+		if query and not filtered:
 			return Book.objects.filter(
-				Q(title__icontains=query) |
-				Q(description__icontains=query) |
-				Q(genre__icontains=query)).order_by('sold', '-published_date')
+				Q(title__contains=query)
+				).order_by('sold', '-published_date')
+		elif filtered and not query:
+			return Book.objects.filter(
+				Q(genre__contains=filtered)).order_by('sold', '-published_date')
+		elif filtered and query:
+			return Book.objects.filter(
+				Q(title__contains=query) &
+				Q(genre__contains=filtered)).order_by('sold', '-published_date')
 		return Book.objects.order_by('sold', '-published_date')
 
 
@@ -93,7 +100,7 @@ def charge(request, slug):
 @login_required
 def AddBook(request):
 	if request.method == "POST":
-		form = AddBookForm(request.POST or None)
+		form = AddBookForm(request.POST or None, files=request.FILES)
 		if form.is_valid():
 			post = form.save(commit=False)
 			post.user = request.user
@@ -109,7 +116,7 @@ def EditBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
 	if request.user == post.user:
 		if request.method == "POST":
-			form = AddBookForm(request.POST, instance=post)
+			form = AddBookForm(request.POST, instance=post, files=request.FILES)
 			if form.is_valid():
 				post = form.save(commit=False)
 				post.user = request.user
@@ -142,7 +149,7 @@ def AddRating(request, username):
 				post.author = request.user
 				post.user = userx
 				post.save()
-				messages.success(request, 'success!!!!!!')
+				messages.success(request, 'You have successfully added a feedback for this user!')
 				return redirect('user_profile_detail', slug=post.user)
 		else:
 			form = AddRatingForm()

@@ -13,6 +13,7 @@ from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
 from PIL import Image
 from django.core.validators import MaxValueValidator
+import django_filters
 
 class Book(models.Model):
 	Genres = (
@@ -20,32 +21,37 @@ class Book(models.Model):
 		('Biography','Biography'),
 		('Business','Business'),
 		('Computer','Computer'),
-		('Fiction','Fiction'),
+		('Engineering', 'Engineering'),
 		('Finance', 'Finance'),
-		('Food & Beverages','Food & Beverages'),
-		('Graphic novels/Manga','Graphic novels/Manga'),
+		('Food','Food & Beverages'),
 		('History','History'),
 		('Law','Law'),
+		('Manga', 'Manga'),
 		('Medical','Medical'),
+		('Novel', 'Novel'),
 		('Religion','Religion'),
 		('Sports','Sports'),
-		('Technology & Engineering','Technology & Engineering'),
+		('Technology','Technology'),
 		)
 	),
 	('Fiction', (
-			('Adventure', 'Adventure'),
-			('Classics', 'Classics'),
-			('Contemporary Fiction', 'Contemporary Fiction'),
-			('Crime', 'Crime'),
-			('Fantasy', 'Fantasy'),
-			('Horror', 'Horror'),
-			('Romance', 'Romance'),
-			('Science Fiction', 'Science Fiction'),
-			('Thrillers', 'Thrillers'),
+		('Action', 'Action'),
+		('Adventure', 'Adventure'),
+		('Classics', 'Classics'),
+		('Crime', 'Crime'),
+		('Fantasy', 'Fantasy'),
+		('Horror', 'Horror'),
+		('Romance', 'Romance'),
+		('ScienceFiction', 'Science Fiction'),
+		('Thrillers', 'Thrillers'),
 		)
 	),
-	('School Textbooks', (
-			('math','math'),
+	('School Books', (
+		('Secondary','Secondary'),
+		('Primary','Primary'),
+		('Polytechnic','Polytechnic'),
+		('juniorcollege','Junior College'),
+		('university', 'University'),
 			
 		)
 	),
@@ -63,13 +69,54 @@ class Book(models.Model):
 		max_length=13,
 	)
 	sold = models.BooleanField(default=False)
+	image1 = models.ImageField(
+            null=True,
+            blank=True)
+	image2 = models.ImageField(
+            null=True,
+            blank=True)
+	image3 = models.ImageField(
+            null=True,
+            blank=True)
+	image4 = models.ImageField(
+            null=True,
+            blank=True)
 	# genslug = AutoSlugField(populate_from='genre',null=True, blank=True)
 	def publish(self):
 		published_date = timezone.now()
 		published_date.save()
 
 	def __unicode__(self):
-		return self.title
+			return self.title
+
+	def save(self, *args, **kwargs):
+		# this is required when you override save functions
+		super(Book, self).save(*args, **kwargs)
+	# our new code
+		if self.image1:
+			image1 = Image.open(self.image1)
+			i_width, i_height = image1.size
+			max_size = (1000,750)
+			image1.thumbnail(max_size, Image.ANTIALIAS)
+			image1.save(self.image1.path)
+		if self.image2:
+			image2 = Image.open(self.image2)
+			i_width, i_height = image2.size
+			max_size = (1000,750)
+			image2.thumbnail(max_size, Image.ANTIALIAS)
+			image2.save(self.image2.path)
+		if self.image3:
+			image3 = Image.open(self.image3)
+			i_width, i_height = image3.size
+			max_size = (1000,750)
+			image3.thumbnail(max_size, Image.ANTIALIAS)
+			image3.save(self.image3.path)
+		if self.image4:
+			image4 = Image.open(self.image4)
+			i_width, i_height = image4.size
+			max_size = (1000,750)
+			image4.thumbnail(max_size, Image.ANTIALIAS)
+			image4.save(self.image4.path)
 
 # def upload_location(instance, filename):
 # 	return "%s/%s" %(instance.id, filename)

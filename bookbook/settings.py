@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'stripe',
     'django_cleanup',
+    'django_filters',
     'rest_framework']
 
 MIDDLEWARE_CLASSES = [

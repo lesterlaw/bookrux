@@ -27,7 +27,45 @@
    <div class="featurette-inner text-center">
       <form method='GET' action='' class="search" role="form">
          <div class="input-group input-group-lg">
-            <input type='text' name='q' placeholder='Seach for books/genres!' value='{{ request.GET.q }}' class="form-control">
+            <input type='text' name='q' placeholder='Seach for books' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Non-fiction">
+                  <option value="Biography">Biography</a></option>
+                  <option value="Business">Business</a></option>
+                  <option value="Computer">Computer</a></option>
+                  <option value="Engineering">Engineering</a></option>
+                  <option value="Finance">Finance</a></option>
+                  <option value="food">Food & Beverages</a></option>
+                  <option value="History">History</a></option>
+                  <option value="Law">Law</a></option>
+                  <option value="Manga">Manga</a></option>
+                  <option value="Medical">Medical</a></option>
+                  <option value="Novel">Novel</a></option>
+                  <option value="Religion">Religion</a></option>
+                  <option value="Sports">Sports</a></option>
+                  <option value="Technology">Technology</a></option>
+                </optgroup>
+                <optgroup label="Fiction">
+                  <option value="Action">Action</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Classics">Classics</option>
+                  <option value="Crime">Crime</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Horror">Horror</option>
+                  <option value="Romance">Romance</option>
+                  <option value="ScienceFiction">Science Fiction</option>
+                  <option value="Thrillers">Thrillers</option>
+                </optgroup>
+                <optgroup label="School Books">
+                  <option value="University">University</option>        
+                  <option value="Polytechnic">Polytechnic</option>        
+                  <option value="JuniorCollege">Junior College</option>        
+                  <option value="Secondary">Secondary</option>        
+                  <option value="Primary">Primary</option>        
+                </optgroup>
+
+            </select>
             <span class="input-group-btn">
             <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
             </span>
@@ -67,13 +105,13 @@
     <div class="box-image-text">
     	<div class="top">
 	        <div class="image rcorner1">
-	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive">
+	            <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
 	        </div>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} <i class="fa fa-arrow-right"></i></strong></button>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} ➨</strong></button>
         <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
     </div>
 </a>
@@ -88,7 +126,7 @@
 <ul class="pagination" style="clear:both;">
 {% if page_obj.has_previous %}
     <li>
-        <span><a href="?page={{ page_obj.previous_page_number }}">← Older</a></span>
+        <span><a href="?page={{ page_obj.previous_page_number }}">← Newer</a></span>
     </li>
 {% endif %}
     <li class="paginationnohover">
@@ -96,24 +134,66 @@
     </li>
 {% if page_obj.has_next %}
     <li>
-        <span><a href="?page={{ page_obj.next_page_number }}">Newer →</a></span>
+        <span><a href="?page={{ page_obj.next_page_number }}">Older →</a></span>
     </li>
 {% endif %}
 </ul>
 {% endif %}
 </div>
 {% else %}
-{% if not request.GET.q %}
 
-THERE ARE NO POSTS YET! ADD ONE NOW!
+{% if not request.GET.q and request.GET.fil %}
+
+<div class="container">
+  <h1>There are no such books yet, Sorry! </br>
+  Sell one now! <a href="{% url 'books:addbook' %}"><button class="btn btn-default">Sell</button></a></h1>
+</div>
 {% else %}
 <div class="featurette">
    <div class="featurette-inner text-center">
       <form method='GET' action='' class="search" role="form">
          <div class="input-group input-group-lg">
-            <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control">
+            <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Non-fiction">
+                  <option value="Biography">Biography</a></option>
+                  <option value="Business">Business</a></option>
+                  <option value="Computer">Computer</a></option>
+                  <option value="Engineering">Engineering</a></option>
+                  <option value="Finance">Finance</a></option>
+                  <option value="food">Food & Beverages</a></option>
+                  <option value="History">History</a></option>
+                  <option value="Law">Law</a></option>
+                  <option value="Manga">Manga</a></option>
+                  <option value="Medical">Medical</a></option>
+                  <option value="Novel">Novel</a></option>
+                  <option value="Religion">Religion</a></option>
+                  <option value="Sports">Sports</a></option>
+                  <option value="Technology">Technology</a></option>
+                </optgroup>
+                <optgroup label="Fiction">
+                  <option value="Action">Action</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Classics">Classics</option>
+                  <option value="Crime">Crime</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Horror">Horror</option>
+                  <option value="Romance">Romance</option>
+                  <option value="ScienceFiction">Science Fiction</option>
+                  <option value="Thrillers">Thrillers</option>
+                </optgroup>
+                <optgroup label="School Books">
+                  <option value="University">University</option>        
+                  <option value="Polytechnic">Polytechnic</option>        
+                  <option value="JuniorCollege">Junior College</option>        
+                  <option value="Secondary">Secondary</option>        
+                  <option value="Primary">Primary</option>        
+                </optgroup>
+
+            </select>
             <span class="input-group-btn">
-            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
             </span>
          </div>
          <!-- /input-group -->
@@ -124,6 +204,7 @@ THERE ARE NO POSTS YET! ADD ONE NOW!
    <!-- /.featurette-inner (display:table-cell) -->
 
 </div>
+
 <h2>Search again</h2>
 <h4>No such post with this search <a href="{% url 'books:booklist' %}">Go back</a></h4>
 {% endif %}
@@ -132,4 +213,5 @@ THERE ARE NO POSTS YET! ADD ONE NOW!
  
 
 </div>
+
 {% endblock %}

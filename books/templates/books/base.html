@@ -106,7 +106,7 @@ _________________________________________________________ -->
             <!-- *** NAVBAR ***
     _________________________________________________________ -->
 
-            <div class="navbar-affixed-top" data-spy="affix" data-offset-top="50">
+            <div class="navbar-affixed-top" data-spy="affix" data-offset-top="30">
 
                 <div class="navbar navbar-default yamm" role="navigation" id="navbar">
 
@@ -137,15 +137,27 @@ _________________________________________________________ -->
                                 </ul>
 
                             <ul class="nav navbar-nav navbar-right">
-                                {% if user.is_authenticated %} 
+                                
+                                <li class="dropdown">
+                                    <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">About Us</a>
+                                        </li>
+                                        <li><a href="{% url 'contactview' %}">Contact Us</a>
+                                        </li>
+                                        <li><a href="contact3.html">Contact option 3</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                {% if user.is_authenticated %}
                                 <li>
                                     <a href="{% url 'postman:inbox' %}">Chat</a>
                                 </li>
-                                {% endif %}
                                 <li>
-                                    <a href="{% url 'contactview' %}">Contact Us</a>
+                                    <a href="{% url 'user_profile_detail' request.user %}"><img src="{{ request.user.userprofile.image.url }}" class="circularnav"></a>
                                 </li>
-                                
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -223,6 +235,22 @@ _________________________________________________________ -->
 
     <!-- owl carousel -->
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script type="text/javascript">
+
+
+        function upload_img(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#id_image').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container text-center" style="display:block; padding-bottom: 20px;">
-    <form method="POST" class="post-form col-md-6">{% csrf_token %}
+    <form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="save btn btn-default">Sell!</button>
     </form>
