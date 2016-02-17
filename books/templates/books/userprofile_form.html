@@ -4,18 +4,18 @@
 {% block content %}
 <div class="container text-center" style="display:block; margin-bottom:30px;">
     <h2>Edit lester Profile</h2>
-    <form enctype="multipart/form-data" method="post" class="col-md-6">
+    <form enctype="multipart/form-data" method="post" class="col-md-6">{% csrf_token %}
         <input type="hidden" name="csrfmiddlewaretoken" value="xO88VPxSyMpeGc6IGGdOJShCy3cvZfsZ">
 		
 
-<div id="div_id_image" class="form-group">
+<div id="div_id_image" class="form-group">{% csrf_token %}
 			<label for="id_image" class="control-label ">
                 Profile Picture
             </label> <div class="controls ">
             {% if object.user.userprofile.image %}
             	<div class="thumbnail">
                     <a href="{{ object.user.userprofile.image.url }}">
-                    	<img src="{{ object.user.userprofile.image.url }}">
+                    	<img src="{{ object.user.userprofile.image.url }}">{% csrf_token %}
                     </a>
                     <div class="caption">Current Image</div>
                 </div>
@@ -25,7 +25,7 @@
                 	<img src="../../../static/img/noprofilepic.png" id="id_image">
 	                <div class="caption">
 
-        <input class="clearablefileinput" name="image" type="file" onchange="upload_img(this);"> </div> </div>
+        <input class="clearablefileinput" name="image" type="file" onchange="upload_img(this);"> </div> </div>{% csrf_token %}
 	                </div>
                 </div>
 
@@ -33,9 +33,9 @@
             <label for="id_contact_number" class="control-label ">
                 Contact number
             </label> <div class="controls "> <input class="numberinput form-control" id="id_contact_number" name="contact_number" type="number" value="{{ object.user.userprofile.contact_number }}"> </div> </div> <div id="div_id_address" class="form-group"> <label for="id_address" class="control-label  requiredField">
-                Address<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_address" maxlength="999" name="address" type="text" value="{{ object.user.userprofile.address }}"> </div> </div>
+                Address<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_address" maxlength="999" name="address" type="text" value="{{ object.user.userprofile.address }}"> </div> </div>{% csrf_token %}
 
-        <input type="submit">
-    </form>
+        <input type="submit">{% csrf_token %}
+    </form>{% csrf_token %}
     </div>
 {% endblock %}

@@ -240,3 +240,8 @@ box-shadow: 0px 0px 10px #000000;
     bottom: 20px;
     right: 20px; 
 }
+
+#hometop{
+    width: 100%;
+    opacity: 0.6;
+}

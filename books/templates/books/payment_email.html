@@ -4,7 +4,7 @@
 	<title></title>
 </head>
 <body>
-<p>Dear {{request.user}},</br>
+<p>Dear {{user}},</br>
     We have confirmed you order for book titled {{ book.title|title }} for ${{ book.price|floatformat:2 }}. Do look forward to receiving your book soon!<p></br>
     Address: {{ user.userprofile.address }}
     Contact number: {{ user.userprofile.contact_number }}

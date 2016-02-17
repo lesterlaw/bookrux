@@ -20,6 +20,10 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from serializers import BookSerializer, UserSerializer
 
+def homepage(request):
+	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
+	return render(request, 'books/homepage.html', {'books':books})
+
 class BookList(generic.ListView):
 	model = Book
 	template_name = 'books/booklist.html'
@@ -222,7 +226,7 @@ class UserProfileDetail(generic.DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
-		context['books'] = Book.objects.all().order_by('-published_date').filter(user__username=self.kwargs['slug'])
+		context['books'] = Book.objects.all().order_by('sold','-published_date').filter(user__username=self.kwargs['slug'])
 		context['shelf'] = UserProfile.objects.all()
 		context['ratings'] = Rating.objects.all().filter(user__username=self.kwargs['slug'])
 

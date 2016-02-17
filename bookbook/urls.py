@@ -30,7 +30,7 @@ router.register(r'User', views.UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^(/)?$', RedirectView.as_view(url='/books/')),
+    url(r'^$', books.views.homepage, name="homepage"),
     url(r'^books/', include('books.urls', namespace="books")),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^accounts/(?P<slug>[\w.@+-]+)/$',

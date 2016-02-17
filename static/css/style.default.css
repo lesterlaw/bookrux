@@ -477,9 +477,9 @@ ul.list-style-none {
   top: -32px;
 }
 .navbar-affixed-top.affix-top {
-  -webkit-transition: all 0.5s ease-out;
+/*  -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;*/
 }
 .navbar-affixed-top.affix {
   position: fixed;
@@ -488,9 +488,9 @@ ul.list-style-none {
   z-index: 1000;
   -webkit-box-shadow: 0 0 5px #cccccc;
   box-shadow: 0 0 5px #cccccc;
-  -webkit-transition: all 0.5s ease-out;
+/*  -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;*/
 }
 body.boxed .navbar-affixed-top.affix {
   position: static;

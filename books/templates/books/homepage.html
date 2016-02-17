@@ -1,0 +1,121 @@
+{% extends 'books/base.html' %}
+{% block content %}
+<div style="float:left;">
+<img class="img-responsive" src="../../../static/img/homepic.jpg" id="hometop">
+
+</div>
+<div class="featurette" style="">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='/books/' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for books' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Non-fiction">
+                  <option value="Biography">Biography</option>
+                  <option value="Business">Business</option>
+                  <option value="Computer">Computer</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Finance">Finance</option>
+                  <option value="food">Food & Beverages</option>
+                  <option value="History">History</option>
+                  <option value="Law">Law</option>
+                  <option value="Manga">Manga</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Novel">Novel</option>
+                  <option value="Religion">Religion</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Technology">Technology</option>
+                </optgroup>
+                <optgroup label="Fiction">
+                  <option value="Action">Action</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Classics">Classics</option>
+                  <option value="Crime">Crime</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Horror">Horror</option>
+                  <option value="Romance">Romance</option>
+                  <option value="ScienceFiction">Science Fiction</option>
+                  <option value="Thrillers">Thrillers</option>
+                </optgroup>
+                <optgroup label="School Books">
+                  <option value="University">University</option>        
+                  <option value="Polytechnic">Polytechnic</option>        
+                  <option value="JuniorCollege">Junior College</option>        
+                  <option value="Secondary">Secondary</option>        
+                  <option value="Primary">Primary</option>        
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+<div class="container">
+<div style="clear:both">
+
+<div class="row portfolio">
+
+<div class="heading text-center"><h2>Latest Books</h2></div>
+{% for book in books %}
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-12 col-sm-6 col-md-4">
+<a href="{% url 'books:bookdetail' book.slug %}">
+    <div class="box-image-text">
+    	<div class="top">
+	        <div class="image rcorner1">
+	            <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+	        </div>
+      </div>
+      <div class="content haha">
+          <h5>{{ book.title|title }}</h5>
+      </div>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} ➨</strong></button>
+        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
+    </div>
+</a>
+    <!-- /.box-image -->
+
+</div>
+
+{% endfor %}
+
+<div class="col-md-4 col-xs-12 col-sm-8" style="
+    margin: 0 auto;">
+<a href="{% url 'books:booklist' %}"><button class="btn btn-default btn-lg btn-block">See More Books</button></a>
+</div>
+
+</div>
+
+<div class="row portfolio">
+<div class="heading text-center"><h2>Genres</h2></div>
+<div class="col-xs-12 col-sm-6 col-md-4">
+<a href="{% url 'books:genredetail' 'business' %}">
+    <div class="box-image-text">
+    	<div class="top">
+	        <div class="image rcorner1">
+	            <img src="../../../static/img/portfolio-1.jpg" alt="" id="listimg" class="img-responsive">
+	        </div>
+      </div>
+      <div class="content haha">
+          <h5>business</h5>
+      </div>
+    </div>
+</a>
+    <!-- /.box-image -->
+
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

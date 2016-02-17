@@ -5,7 +5,7 @@
 <html>
 <head>
 	<title>Bookcrux</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,700,800' rel='stylesheet' type='text/css'>
 
     <link href="{% static 'css/fontidkwhat.css' %}" rel="stylesheet" type='text/css'>
@@ -68,12 +68,7 @@ _________________________________________________________ -->
                             </p>
                         </div>
                         <div class="col-xs-7">
-                            <div class="social">
-                                <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
-                                <a href="https://instagram.com/bookrux" target="_blank" class="external gplus" data-animate-hover="pulse"><i class="fa fa-instagram"></i></a>
-                                <a href="https://twitter.com/bookrux" target="_blank" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
-                            </div>
+
 
                             <div class="login">
                                 {% if user.is_authenticated %}
@@ -106,14 +101,15 @@ _________________________________________________________ -->
             <!-- *** NAVBAR ***
     _________________________________________________________ -->
 
-            <div class="navbar-affixed-top" data-spy="affix" data-offset-top="30">
+            <div style="height:62px;">
+            <div class="navbar-affixed-top" data-spy="affix" data-offset-top="40">
 
-                <div class="navbar navbar-default yamm" role="navigation" id="navbar">
+                <div class="navbar navbar-default yamm no-transition" role="navigation" id="navbar">
 
                     <div class="container">
                         <div class="navbar-header">
 
-                            <a class="navbar-brand home" href="{% url 'books:booklist' %}">
+                            <a class="navbar-brand home" href="{% url 'homepage' %}">
                                 <img src="../../../static/img/logo.jpg" alt="Universal logo" class="hidden-xs" style="height:42px;">
                                 <img src="../../../static/img/logo.jpg" alt="Universal logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
                             </a>
@@ -155,7 +151,7 @@ _________________________________________________________ -->
                                     <a href="{% url 'postman:inbox' %}">Chat</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'user_profile_detail' request.user %}"><img src="{{ request.user.userprofile.image.url }}" class="circularnav"></a>
+                                    <a href="{% url 'user_profile_detail' request.user %}"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" class="circularnav"></a>
                                 </li>
                                 {% endif %}
                             </ul>
@@ -168,9 +164,8 @@ _________________________________________________________ -->
                 <!-- /#navbar -->
 
             </div>
-
             <!-- *** NAVBAR END *** -->
-
+</div>
 
 {% if messages %}
 <div class="container">
@@ -192,9 +187,14 @@ _________________________________________________________ -->
             <div class="container">
                 <div class="col-md-12">
                     <p class="pull-right">&copy; Bookrux 2015.</p>
-<!--                     <p class="pull-right">Template by <a href="http://bootstrapious.com">Bootstrap 4 Themes</a> with support from <a href="http://kakusei.cz">Designové předměty</a> 
+                    <p class="pull-left">                            <div class="social">
+                                <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                <a href="https://instagram.com/bookrux" target="_blank" class="external gplus" data-animate-hover="pulse"><i class="fa fa-instagram"></i></a>
+                                <a href="https://twitter.com/bookrux" target="_blank" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                            </div>
 
-                    </p> -->
+                    </p>
 
 
                 </div>
@@ -203,7 +203,7 @@ _________________________________________________________ -->
         <!-- /#copyright -->
 
         <!-- *** COPYRIGHT END *** -->
-        <a href="{% url 'contactview' %}"><i class="fa fa-comments fa-3x" id="fixedbutton" style="color:#E19B00;"></i></a>
+        <a href="{% url 'contactview' %}"><i class="fa fa-comments-o fa-3x" id="fixedbutton" style="color:#ff5948;"></i></a>
     <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}"></script>
 
