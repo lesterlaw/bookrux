@@ -56,48 +56,6 @@
     <![endif]-->
 </head>
 <body>
-
-            <!-- *** TOP ***
-_________________________________________________________ -->
-            <div id="top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-5 contact">
-                            <p class="hidden-sm hidden-xs">{% if user.is_authenticated %}Welcome, {{request.user}}, {% endif %}Contact us at bookrux@gmail.com for any enquires</p>
-                            <p class="hidden-md hidden-lg">{% if user.is_authenticated %}Welcome, {{ request.user}}{% else %}Contact us at bookrux@gmail.com for any enquires{% endif %}
-                            </p>
-                        </div>
-                        <div class="col-xs-7">
-
-
-                            <div class="login">
-                                {% if user.is_authenticated %}
-                                <a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i> <span class="hidden-xs text-uppercase">Sign Out</span></a>
-                                <a href="{% url 'postman:inbox' %}"><i class="fa fa-comments"></i> <span class="hidden-xs text-uppercase">Messages</span></a>
-                                <span class="dropdown">
-                                    <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{% url 'user_profile_detail' request.user %}">View Profile</a>
-                                        </li>
-                                        <li><a href="{% url 'user_profile_edit' request.user %}">Edit Profile</a>
-                                        </li>
-                                        <li><a href="{% url 'auth_password_change' %}">Change Password</a>
-                                        </li>
-                                        <li><a href="{% url 'auth_password_reset' %}">Reset Password</a></li>
-                                    </ul>
-                                </span>
-                                {% else %}
-                                <a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> <span class="hidden-xs text-uppercase">Sign In</span></a>
-                                <a href="{% url 'registration_register' %}"><i class="fa fa-user-plus"></i> <span class="hidden-xs text-uppercase">Sign up</span></a>
-                                {% endif %}
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- *** TOP END *** -->
             <!-- *** NAVBAR ***
     _________________________________________________________ -->
 
@@ -122,35 +80,33 @@ _________________________________________________________ -->
 
                         <div class="navbar-collapse collapse" id="navigation">
                                 <ul class="nav navbar-nav">
-                                {% if user.is_authenticated %}
-                                  <li><a href="{% url 'books:addbook' %}">Sell a Book!</a></li>
-                                {% endif %}
                                 
                             <!--       <li><a href="#">Page 2</a></li> 
                                   <li><a href="#">Page 3</a></li>  -->
                                 </ul>
 
                             <ul class="nav navbar-nav navbar-right">
-                                
-                                <li class="dropdown">
-                                    <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">About Us</a>
-                                        </li>
-                                        <li><a href="{% url 'contactview' %}">Contact Us</a>
-                                        </li>
-                                        <li><a href="contact3.html">Contact option 3</a>
-                                        </li>
-
-                                    </ul>
-                                </li>
                                 {% if user.is_authenticated %}
-                                <li>
-                                    <a href="{% url 'postman:inbox' %}">Chat</a>
+                                <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i> <span class="text-uppercase">Sign Out</span></a></li>
+                                <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-comments"></i> <span class="text-uppercase">Messages</span></a></li>
+                                <li class="dropdown">
+                                    <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Profile<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'user_profile_detail' request.user %}">View Profile</a>
+                                        </li>
+                                        <li><a href="{% url 'user_profile_edit' request.user %}">Edit Profile</a>
+                                        </li>
+                                        <li><a href="{% url 'auth_password_change' %}">Change Password</a>
+                                        </li>
+                                        <li><a href="{% url 'auth_password_reset' %}">Reset Password</a></li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="{% url 'user_profile_detail' request.user %}"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" class="circularnav"></a>
                                 </li>
+                                {% else %}
+                                <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> <span class="text-uppercase">Sign In</span></a></li>
+                                <li><a href="{% url 'registration_register' %}"><i class="fa fa-user-plus"></i> <span class="text-uppercase">Sign up</span></a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -198,7 +154,7 @@ _________________________________________________________ -->
         <!-- /#copyright -->
 
         <!-- *** COPYRIGHT END *** -->
-        <a href="{% url 'contactview' %}"><i class="fa fa-comments-o fa-3x" id="fixedbutton" style="color:#ff5948;"></i></a>
+        <a href="{% url 'books:addbook' %}"><i class="fa fa-plus-circle fa-4x" id="fixedbutton" style="color:#ff5948;text-shadow: 1px 1px #696969;"></i></a>
     <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}"></script>
 

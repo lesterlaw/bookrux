@@ -111,8 +111,8 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} ➨</strong></button>
-        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Info{% endif %}</strong></button>
+        <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
 </a>
     <!-- /.box-image -->

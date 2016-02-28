@@ -42,9 +42,9 @@
 							  <!-- Indicators -->
 							  <ol class="carousel-indicators">
 							    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-							    <li data-target="#myCarousel" data-slide-to="1"></li>
-							    <li data-target="#myCarousel" data-slide-to="2"></li>
-							    <li data-target="#myCarousel" data-slide-to="3"></li>
+							    {% if object.image2 %}<li data-target="#myCarousel" data-slide-to="1"></li>{% endif %}
+							    {% if object.image3 %}<li data-target="#myCarousel" data-slide-to="2"></li>{% endif %}
+							    {% if object.image4 %}<li data-target="#myCarousel" data-slide-to="3"></li>{% endif %}
 							  </ol>
 
 							  <!-- Wrapper for slides -->
@@ -53,17 +53,17 @@
 							      <img src="{% if object.image1 %}{{ object.image1.url }}{% else %}../../../static/noprofilepic.png{% endif %}" alt="Chania">
 							    </div>
 
-							    <div class="item">
-							      <img src="{% if object.image2 %}{{ object.image2.url }}{% else %}../../../static/noprofilepic.png{% endif %}" alt="Chania">
-							    </div>
+							    {% if object.image2 %}<div class="item">
+							      <img src="{{ object.image2.url }}" alt="pic2">
+							    </div>{% endif %}
 
-							    <div class="item">
-							      <img src="{% if object.image3 %}{{ object.image3.url }}{% else %}../../../static/noprofilepic.png{% endif %}" alt="Flower">
-							    </div>
+							    {% if object.image3 %}<div class="item">
+							      <img src="{{ object.image3.url }}" alt="Flower">
+							    </div>{% endif %}
 
-							    <div class="item">
-							      <img src="{% if object.image4 %}{{ object.image4.url }}{% else %}../../../static/noprofilepic.png{% endif %}" alt="Flower">
-							    </div>
+							    {% if object.image4 %}<div class="item">
+							      <img src="{{ object.image4.url }}" alt="Flower">
+							    </div>{% endif %}
 							  </div>
 
 							  <!-- Left and right controls -->
