@@ -3,6 +3,7 @@
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
 <div class="container">
 {% if books %}
+<div class="row portfolio">
 {% for book in books %}
 <div class="col-xs-6 col-sm-4 col-md-3">
 <a href="{% url 'books:bookdetail' book.slug %}">
@@ -23,6 +24,23 @@
 
 </div>
 {% endfor %}
+</div>
+<div>
+<ul class="pagination" style="clear:both;">
+{% if contacts.has_previous %}
+    <li>
+        <span><a href="?page={{ contacts.previous_page_number }}">← Newer</a></span>
+    </li>
+{% endif %}
+    <li class="paginationnohover">
+        <span>Page {{ contacts.number }} / {{ contacts.paginator.num_pages }}</span>
+    </li>
+{% if contacts.has_next %}
+    <li>
+        <span><a href="?page={{ contacts.next_page_number }}">Older →</a></span>
+    </li>
+{% endif %}
+</ul></div>
 {% endif %}
 </div>
 {% endblock %}

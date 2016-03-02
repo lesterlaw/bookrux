@@ -12,10 +12,12 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.views.generic.edit import FormView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import stripe
 stripe.api_key = settings.STRIPE_SECRET
 
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from serializers import BookSerializer, UserSerializer
@@ -100,7 +102,7 @@ def charge(request, slug):
 		messages.success(request, 'You cannot buy this anymore!')
 		return redirect('books:bookdetail', slug=book.slug)
 
-
+@csrf_protect
 @login_required
 def AddBook(request):
 	if request.method == "POST":
@@ -114,7 +116,7 @@ def AddBook(request):
 	else:
 		form = AddBookForm()
 	return render(request, 'books/bookedit.html', {'form': form})
-
+@csrf_protect
 @login_required
 def EditBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
@@ -129,7 +131,7 @@ def EditBook(request, slug):
 				return redirect('books:bookdetail', slug=slug)
 		else:
 			form = AddBookForm(instance=post)
-		return render(request, 'books/bookedit.html', {'form': form})
+		return render(request, 'books/bookedit.html', {'form': form, 'object': post})
 	else:
 		messages.warning(request,"You are not allowed to edit this!")
 		return redirect(reverse('books:booklist'))
@@ -170,13 +172,23 @@ def AddRating(request, username):
 # 		genre = Book.
 def GenreDetail(request, genre):
 	books = Book.objects.all()
-	clean = books.filter(genre__icontains=genre)
-	return render(request, 'books/genredetail.html', {'books':clean})
+	clean = books.filter(genre__icontains=genre).order_by('sold')
+	paginator = Paginator(clean, 12)
+	page = request.GET.get('page')
+	try:
+		contacts = paginator.page(page)
+	except PageNotAnInteger:
+		contacts = paginator.page(1)
+	except EmptyPage:
+		contacts = paginator.page(paginator.num_pages)
+	return render(request, 'books/genredetail.html', {'books':clean, 'contacts': contacts})
 
 
 class GenreList(generic.ListView):
 	model = Book
 	template_name = "books/genrelist.html"
+
+
 
 #WORKING FUNCTION BASED VIEW STARTS HERE
 # def UserProfileDetail(request, pk):
@@ -220,9 +232,6 @@ def ContactView(request):
 class UserProfileDetail(generic.DetailView):
 	model = UserProfile
 	template_name = "books/userprofile_detail.html"
-
-	# def get_queryset(self, **kwargs):
-	# 	username = User.get_username()
 
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
