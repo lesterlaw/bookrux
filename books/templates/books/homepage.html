@@ -78,8 +78,8 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Details{% endif %} ➨</strong></button>
-        <button class="buttony"><strong><i class="fa fa-usd"></i>{{ book.price }}</strong></button>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Info{% endif %}</strong></button>
+        <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
 </a>
     <!-- /.box-image -->
@@ -141,5 +141,89 @@
 </div>
 </div>
 </div>
+        <footer id="footer">
+            <div class="container">
+                <div class="col-md-6 col-sm-6">
+                    <h4>About us</h4>
 
+                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+
+                    <hr>
+
+                    <h4>Join our monthly newsletter</h4>
+
+                    <form>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control">
+
+                            <span class="input-group-btn">
+
+                        <button class="btn btn-default" type="button"><i class="fa fa-send"></i></button>
+
+                    </span>
+
+                        </div>
+                        <!-- /input-group -->
+                    </form>
+
+                    <hr class="hidden-md hidden-lg hidden-sm">
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                
+
+                <div class="col-md-6 col-sm-6">
+
+                    <h4>Contact</h4>
+
+                    <p><strong>Universal Ltd.</strong>
+                        <br>13/25 New Avenue
+                        <br>Newtown upon River
+                        <br>45Y 73J
+                        <br>England
+                        <br>
+                        <strong>Great Britain</strong>
+                    </p>
+
+                    <a href="{% url 'contactview' %}" class="btn btn-small btn-template-main">Go to contact page</a>
+
+                    <hr class="hidden-md hidden-lg hidden-sm">
+
+                </div>
+                <!-- /.col-md-3 -->
+
+
+
+                
+                <!-- /.col-md-3 -->
+            </div>
+            <!-- /.container -->
+        </footer>
+        <!-- /#footer -->
+                <!-- *** COPYRIGHT ***
+_________________________________________________________ -->
+
+        <div id="copyright">
+            <div class="container">
+                <div class="col-md-12">
+                    <p class="pull-right">&copy; Bookrux 2015.</p>
+                    <p class="pull-left">                            
+                            <div class="social">
+                                <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                <a href="https://instagram.com/bookrux" target="_blank" class="external gplus" data-animate-hover="pulse"><i class="fa fa-instagram"></i></a>
+                                <a href="https://twitter.com/bookrux" target="_blank" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                            </div>
+
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /#copyright -->
+
+        <!-- *** COPYRIGHT END *** -->
 {% endblock %}

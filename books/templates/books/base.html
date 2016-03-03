@@ -5,7 +5,7 @@
 <html>
 <head>
 	<title>Bookrux</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,700,800' rel='stylesheet' type='text/css'>
 
     <link href="{% static 'css/fontidkwhat.css' %}" rel="stylesheet" type='text/css'>
@@ -85,7 +85,7 @@
                                 <li class="dropdown">
                                     <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Profile <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{% url 'user_profile_detail' request.user %}">View Profile</a>
+                                        <li><a href="{% url 'user_profile_detail' request.user|lower %}">View Profile</a>
                                         </li>
                                         <li><a href="{% url 'user_profile_edit' request.user %}">Edit Profile</a>
                                         </li>
@@ -95,7 +95,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{% url 'user_profile_detail' request.user %}"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" class="circularnav"></a>
+                                    <a href="{% url 'user_profile_detail' request.user|lower %}"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" class="circularnav"></a>
                                 </li>
                                 {% else %}
                                 <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> <span class="text-uppercase">Sign In</span></a></li>
@@ -112,7 +112,7 @@
 
 
 {% if messages %}
-<div class="container">
+<div class="container" style="padding-top:20px; padding-bottonm:20px;">
 <ul class="messages" style="margin-left:-40px;">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }} alert alert-{{message.tags}}" role="alert"{% endif %} style="list-style-type:none;">{{ message }}</li>
@@ -124,31 +124,8 @@
 {% endblock %}
 
 
-        <!-- *** COPYRIGHT ***
-_________________________________________________________ -->
 
-        <div id="copyright">
-            <div class="container">
-                <div class="col-md-12">
-                    <p class="pull-right">&copy; Bookrux 2015.</p>
-                    <p class="pull-left">                            
-                            <div class="social">
-                                <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
-                                <a href="https://instagram.com/bookrux" target="_blank" class="external gplus" data-animate-hover="pulse"><i class="fa fa-instagram"></i></a>
-                                <a href="https://twitter.com/bookrux" target="_blank" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
-                            </div>
-
-                    </p>
-
-
-                </div>
-            </div>
-        </div>
-        <!-- /#copyright -->
-
-        <!-- *** COPYRIGHT END *** -->
-        <a href="{% url 'books:addbook' %}"><i class="fa fa-plus-circle fa-4x" id="fixedbutton" style="color:#ff5948;text-shadow: 1px 1px #696969;"></i></a>
+        <a href="{% url 'books:addbook' %}"><img src="../../../static/img/addbookbutton.png" id="fixedbutton"></a>
     <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}"></script>
 

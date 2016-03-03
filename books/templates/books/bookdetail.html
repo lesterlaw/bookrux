@@ -137,15 +137,26 @@
 
                         <div class="box" id="details">
                             <p>
-                                <h4>Product Details</h4>
-                                <p>{{ object.description }}</p>
-                                <h4>Personal Thoughts</h4>
-                                <p>{{ object.personal_review }}</p>
+                              <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                <li><a data-toggle="tab" href="#menu1">Review</a></li>
+                              </ul>
 
+                              <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                  <h3>Product Details</h3>
+                                  <p>{{ object.description }}</p>
+                                </div>
+                                <div id="menu1" class="tab-pane fade">
+                                  <h3>Personal Thoughts</h3>
+                                  <p>{{ object.personal_review }}</p>
+                                </div>
+                              </div>
                                 <blockquote>
                                     <p><em>Posted by <a href="{% url 'user_profile_detail' object.user %}">{{object.user}}</a> on {{object.published_date}}</em>
                                     </p>
                                 </blockquote>
+                            </p>
                         </div>
 
 
@@ -364,5 +375,5 @@
             <!-- /.container -->
         </div>
         <!-- /#content -->
-
+        
 {% endblock %}
