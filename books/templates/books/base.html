@@ -115,14 +115,31 @@
 <div class="container" style="padding-top:20px; padding-bottonm:20px;">
 <ul class="messages" style="margin-left:-40px;">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }} alert alert-{{message.tags}}" role="alert"{% endif %} style="list-style-type:none;">{{ message }}</li>
+    <li {% if message.tags %} class="{{ message.tags }} alert alert-{{message.tags}}" role="alert"{% endif %} style="list-style-type:none;">{{ message }}</li>
     {% endfor %}
 </ul>
 </div>
 {% endif %}
 {% block content %}
 {% endblock %}
+    <div class="footer">
+      <div class="container">
+                <div class="col-md-12">
+                    <p class="pull-right">&copy; Bookrux 2015.</p>
+                    <p class="pull-left">                            
+                            <div class="social">
+                                <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                <a href="https://instagram.com/bookrux" target="_blank" class="external gplus" data-animate-hover="pulse"><i class="fa fa-instagram"></i></a>
+                                <a href="https://twitter.com/bookrux" target="_blank" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
+                                <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                            </div>
 
+                    </p>
+
+
+                </div>
+            </div>
+    </div>
 
 
         <a href="{% url 'books:addbook' %}"><img src="../../../static/img/addbookbutton.png" id="fixedbutton"></a>

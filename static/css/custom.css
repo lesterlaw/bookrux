@@ -245,4 +245,23 @@ box-shadow: 0px 0px 10px #000000;
 #hometop{
     width: 100%;
     opacity: 0.6;
+}html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  
+  background: #333;
+  color: #ccc;
+  padding: 15px 0;
+  font-size: 15px;
+  line-height: 28px;
 }
