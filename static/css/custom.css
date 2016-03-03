@@ -239,7 +239,7 @@ box-shadow: 0px 0px 10px #000000;
     position: fixed;
     bottom: 20px;
     right: 20px; 
-    width: 80px;
+    width: 60px;
 }
 
 #hometop{
@@ -258,7 +258,7 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  
+
   background: #333;
   color: #ccc;
   padding: 15px 0;
