@@ -2605,13 +2605,7 @@ fieldset[disabled] .btn-template-primary.active {
   padding: 15px 0;
   font-size: 15px;
   line-height: 28px;
-
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  clear:both;
 }
-
 #copyright p {
   margin: 0;
 }
