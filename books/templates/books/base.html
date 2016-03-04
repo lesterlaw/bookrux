@@ -1,10 +1,10 @@
 
 {% load staticfiles %}
-
+{% load postman_tags %}
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Bookrux</title>
+	<title>Bookrux{% postman_unread as unread_count %}{% if unread_count %}({{ unread_count }}){% endif %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,700,800' rel='stylesheet' type='text/css'>
 
@@ -81,7 +81,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 {% if user.is_authenticated %}
                                 <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i> <span class="text-uppercase">Sign Out</span></a></li>
-                                <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-comments"></i> <span class="text-uppercase">Messages</span></a></li>
+                                <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-comments"></i> <span class="text-uppercase">Messages{% postman_unread as unread_count %}{% if unread_count %}<strong>({{ unread_count }})</strong>{% endif %}</span></a></li>
                                 <li class="dropdown">
                                     <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Profile <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
@@ -122,6 +122,7 @@
 {% endif %}
 {% block content %}
 {% endblock %}
+
     <div class="footer">
       <div class="container">
                 <div class="col-md-12">
@@ -221,6 +222,8 @@ function upload_img4(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+
 
     </script>
 </body>

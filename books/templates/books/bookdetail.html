@@ -112,7 +112,7 @@
                                             data-label="Buy Now">
                                             </script>
                                             </form>
-                                            <p class="text-center">Please confirm Address and Contact number <a href="{% url 'user_profile_edit' request.user %}"><strong>here</strong></a> before making payment! <i class="fa fa-smile-o"></i></p>
+                                            <p class="text-center">Please confirm Address and Contact number <a href="{% url 'user_profile_edit' request.user|lower %}"><strong>here</strong></a> before making payment! <i class="fa fa-smile-o"></i></p>
                                             {% endif %}
 
                                             {% else %}

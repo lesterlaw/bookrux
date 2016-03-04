@@ -7,7 +7,7 @@
 <form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
         
 
-<div id="div_id_title" class="form-group"> <label for="id_title" class="control-label  requiredField">
+<div id="div_id_title" class="form-group"> {{ form.title.errors }}<label for="id_title" class="control-label  requiredField">
                 What is the name of the book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_title" maxlength="100" name="title" type="text" value="{% if object.title %}{{ object.title }}{% endif %}"> </div> </div> <div id="div_id_description" class="form-group"> <label for="id_description" class="control-label  requiredField">
                 Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control" cols="40" id="id_description" name="description" rows="10">{% if object.description %}{{ object.description }}{% endif %}</textarea> </div> </div> <div id="div_id_personal_review" class="form-group"> <label for="id_personal_review" class="control-label ">
                 Your thoughts/summary?

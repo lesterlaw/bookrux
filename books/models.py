@@ -11,7 +11,7 @@ from registration.signals import user_registered
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
-from PIL import Image
+from PIL import Image, ExifTags
 from django.core.validators import MaxValueValidator
 import django_filters
 
@@ -93,12 +93,32 @@ class Book(models.Model):
 		# this is required when you override save functions
 		super(Book, self).save(*args, **kwargs)
 	# our new code
+
 		if self.image1:
+				
 			image1 = Image.open(self.image1)
 			i_width, i_height = image1.size
 			max_size = (1000,750)
 			image1.thumbnail(max_size, Image.ANTIALIAS)
-			image1.save(self.image1.path)
+			try:
+				if hasattr(image1, '_getexif'): # only present in JPEGs
+					for orientation in ExifTags.TAGS.keys(): 
+						if ExifTags.TAGS[orientation]=='Orientation':
+							break 
+					e = image1._getexif()       # returns None if no EXIF data
+					if e is not None:
+						exif=dict(e.items())
+						orientation = exif[orientation] 
+
+						if orientation == 3:   image = image1.transpose(Image.ROTATE_180)
+						elif orientation == 6: image = image1.transpose(Image.ROTATE_270)
+						elif orientation == 8: image = image1.transpose(Image.ROTATE_90)
+
+				image1.thumbnail((THUMB_WIDTH , THUMB_HIGHT), Image.ANTIALIAS)
+				image1.save(self.image1.path)
+
+			except:
+				pass
 		if self.image2:
 			image2 = Image.open(self.image2)
 			i_width, i_height = image2.size

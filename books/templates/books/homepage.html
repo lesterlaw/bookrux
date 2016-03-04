@@ -70,8 +70,8 @@
 <div class="col-xs-6 col-sm-6 col-md-4">
 <a href="{% url 'books:bookdetail' book.slug %}">
     <div class="box-image-text">
-    	<div class="top">
-	        <div class="image rcorner1">
+    	<div class="top squaredd">
+	        <div class="image rcorner1 text-center">
 	            <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
 	        </div>
       </div>
