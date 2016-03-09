@@ -87,7 +87,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="{% url 'user_profile_detail' request.user|lower %}">View Profile</a>
                                         </li>
-                                        <li><a href="{% url 'user_profile_edit' request.user %}">Edit Profile</a>
+                                        <li><a href="{% url 'user_profile_edit' request.user|lower %}">Edit Profile</a>
                                         </li>
                                         <li><a href="{% url 'auth_password_change' %}">Change Password</a>
                                         </li>
