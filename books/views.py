@@ -3,7 +3,7 @@ from django.template.loader import render_to_string, get_template
 from django.template import Context
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from .models import Book, UserProfile, assure_user_profile_exists, Rating
+from .models import Book, UserProfile, Rating
 from django.contrib.auth.models import User
 from django.views import generic
 from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm, ContactForm
@@ -145,8 +145,8 @@ def DeleteBook(request, slug):
 		messages.warning(request, 'You are not allowed to delete this post!')
 		return redirect(reverse('books:booklist'))
 @login_required
-def AddRating(request, username):
-	userx = get_object_or_404(User, username=username)
+def AddRating(request, slug):
+	userx = get_object_or_404(UserProfile, slug=slug)
 	if not userx == request.user:
 		if request.method == "POST":
 			form = AddRatingForm(request.POST or None)
@@ -156,7 +156,7 @@ def AddRating(request, username):
 				post.user = userx
 				post.save()
 				messages.success(request, 'You have successfully added a feedback for this user!')
-				return redirect('user_profile_detail', slug=post.user)
+				return redirect('user_profile_detail', slug=userx.slug)
 		else:
 			form = AddRatingForm()
 		return render(request, 'books/addrating.html', {'form':form, 'userx':userx})
@@ -235,9 +235,9 @@ class UserProfileDetail(generic.DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
-		context['books'] = Book.objects.all().order_by('sold','-published_date').filter(user__username=self.kwargs['slug'])
+		context['books'] = Book.objects.all().order_by('sold','-published_date').filter(user__userprofile__slug__iexact=self.kwargs['slug'])
 		context['shelf'] = UserProfile.objects.all()
-		context['ratings'] = Rating.objects.all().filter(user__username=self.kwargs['slug'])
+		context['ratings'] = Rating.objects.all().filter(user__slug__iexact=self.kwargs['slug'])
 
 		return context
 
@@ -258,7 +258,20 @@ class UserProfileDetail(generic.DetailView):
 class UserProfileUpdate(generic.UpdateView):
 	model = UserProfile
 	template_name = "books/userprofile_form.html"
+	login_required = True
 	fields = ('image', 'contact_number', 'address',)
+	def user_passes_test(self, request):
+		if request.user.is_authenticated():
+			self.object = self.get_object()
+			return self.object.user == request.user
+		return False
+
+	def dispatch(self, request, *args, **kwargs):
+		if not self.user_passes_test(request):
+			messages.warning(request,"You are not allowed to edit this!")
+			return redirect('homepage')
+		return super(UserProfileUpdate, self).dispatch(
+            request, *args, **kwargs)
 
 	# def get(self, request, *args, **kwargs):
 	# 	assure_user_profile_exists(kwargs['pk'])

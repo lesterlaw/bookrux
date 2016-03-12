@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container text-center" style="display:block; margin-bottom:30px;">
-    <h2>Edit lester Profile</h2>
+    <h2>Edit {{ object.user }} Profile</h2>
     <form enctype="multipart/form-data" method="post" class="col-md-6">{% csrf_token %}
         <input type="hidden" name="csrfmiddlewaretoken" value="xO88VPxSyMpeGc6IGGdOJShCy3cvZfsZ">
 		

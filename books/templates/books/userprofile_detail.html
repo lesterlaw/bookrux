@@ -7,9 +7,10 @@
 			{% if object.image %}<img src="{{ object.image.url }}" class='circular'>{% else %}<img src="../../../static/img/noprofilepic.png" class='circular'>{% endif %}
 			<h3>{{ object.user }}</h3>
 			{% if object.user == request.user %}
-				<a href="{% url 'user_profile_edit' object.user %}"><button class="btn btn-default">Edit Profile</button></a>
+				<a href="{% url 'user_profile_edit' object.user.userprofile.slug %}"><button class="btn btn-default">Edit Profile</button></a>
 			{% else %}
-			<a href="{% url 'addrating' username=object.user %}"><button class="btn btn-default">Add Feedback</button></a>
+			<a href="{% url 'addrating' object.user.userprofile.slug %}"><button class="btn btn-default">Add Feedback</button></a>
+            <a href="{% url 'postman:write' object.user %}"><button class="btn btn-default"><i class="fa fa-comment"></i>Message</button></a>
 			{% endif %}
 		</div>
 	</div>
@@ -84,7 +85,7 @@
 <div class="row comment">
 
                                 <div class="col-sm-9 col-md-10">
-                                    <h5 class="text-uppercase"><a href="{% url 'user_profile_detail' rate.author|lower %}"><u>{{rate.author}}</u></a></h5>
+                                    <h5 class="text-uppercase"><a href="{% url 'user_profile_detail' rate.author.userprofile.slug %}"><u>{{rate.author}}</u></a></h5>
                                     <p class="posted"><i class="fa fa-{% if rate.rate == 'Good' %}thumbs-up{% elif rate.rate == 'Neutral' %}clock-o{% else %}thumbs-down{% endif %}"></i> {{ rate.rate }}</p>
                                     <p>{{ rate.feedback }}</p>
                                 </div>

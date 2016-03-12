@@ -18,8 +18,6 @@ class UserProfileInline(admin.TabularInline):
 
 class RatingInline(admin.TabularInline):
 	model = Rating
-	fk_name = 'user'
-	extra = -3
 
 class UserAdmin(UserAdmin):
     inlines = (UserProfileInline, RatingInline,)

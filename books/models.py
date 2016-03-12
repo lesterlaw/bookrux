@@ -14,7 +14,7 @@ from autoslug import AutoSlugField
 from PIL import Image, ExifTags
 from django.core.validators import MaxValueValidator
 import django_filters
-
+from types import MethodType
 class Book(models.Model):
 	Genres = (
 	('Non-Fiction', (
@@ -145,7 +145,7 @@ class UserProfile(models.Model):
 	image = models.ImageField(
             null=True,
             blank=True)
-	slug = AutoSlugField(populate_from='user',null=True, blank=True)
+	slug = AutoSlugField(populate_from='user',null=True, blank=True, unique=True)
 	shelf = models.ManyToManyField(Book, blank=True)
 	address = models.CharField(max_length=999)
 	contact_number = models.IntegerField(blank=True, null=True, validators=[MaxValueValidator(99999999)])
@@ -157,7 +157,7 @@ class UserProfile(models.Model):
 # this is required when you override save functions
 
 class Rating(models.Model):
-	user =  models.ForeignKey(User, related_name='user')
+	user =  models.ForeignKey(UserProfile, related_name='userprofile', blank=True,null=True)
 	author = models.ForeignKey(User, related_name='author',blank=True)
 	Levels =(
 		('Good','Good'),

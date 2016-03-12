@@ -52,7 +52,7 @@ urlpatterns = [
     url(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
     url(r'^messages/', include('postman.urls', namespace='postman')),
-    url(r'^addrating/(?P<username>[\w.@+-]+)/$', books.views.AddRating, name='addrating'),
+    url(r'^addrating/(?P<slug>[\w.@+-]+)/$', books.views.AddRating, name='addrating'),
     url(r'^contact/$', books.views.ContactView, name='contactview'),
 
 ]
