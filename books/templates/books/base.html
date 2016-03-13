@@ -53,8 +53,7 @@
     _________________________________________________________ -->
 
 
-                <div class="navbar navbar-default yamm no-transition" role="navigation" id="navbar">
-
+                <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
                     <div class="container">
                         <div class="navbar-header">
 
@@ -63,9 +62,9 @@
                                 <img src="../../../static/img/logo.jpg" alt="Universal logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
                             </a>
                             <div class="navbar-buttons">
-                                <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation">
+                                <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:red;"{% endif %}>
                                     <span class="sr-only">Toggle navigation</span>
-                                    <i class="fa fa-align-justify"></i>
+                                    <i class="fa fa-align-justify"></i><strong>{% if unread_count %}({{ unread_count }}){% endif %}</strong>
                                 </button>
                             </div>
                         </div>
@@ -110,6 +109,9 @@
                 </div>
                 <!-- /#navbar -->
 
+                <div class="container" style="height:62px;">
+                    
+                </div>
 
 {% if messages %}
 <div class="container" style="padding-top:20px; padding-bottonm:20px;">
@@ -176,14 +178,16 @@
     <!-- owl carousel -->
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script type="text/javascript">
+$('.carousel').carousel({
+    interval: false
+}); 
 
-
-function upload_img(input) {
+function upload_img2(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            $('#id_image').attr('src', e.target.result);
+            $('#id_image2').attr('src', e.target.result);
         }
 
         reader.readAsDataURL(input.files[0]);

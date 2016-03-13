@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^genre/$', views.GenreList.as_view(), name='genrelist'),
     url(r'^genre/(?P<genre>[\w.@+-]+)/$', views.GenreDetail, name='genredetail'),
     url(r'^charge/(?P<slug>[\w.@+-]+)/$', views.charge, name='charge'),
+    url(r'^sold/(?P<slug>[\w.@+-]+)/$', views.sold, name='sold'),
 ]

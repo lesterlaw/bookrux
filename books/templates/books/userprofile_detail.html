@@ -25,10 +25,10 @@
 <div class="col-xs-6 col-sm-4 col-md-3">
 <a href="{% url 'books:bookdetail' book.slug %}">
     <div class="box-image-text">
-    	<div class="top">
-	        <div class="image rcorner1">
-	            <img src="../../static/img/portfolio-{% if forloop.counter < 10 %}{{ forloop.counter }}{% else %}{{ forloop.counter|add:"-9" }}{% endif %}.jpg" alt="" id="listimg" class="img-responsive">
-	        </div>
+        <div class="top">
+            <div class="image rcorner1 text-center">
+                <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+            </div>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
@@ -40,6 +40,7 @@
     <!-- /.box-image -->
 
 </div>
+
 {% empty %}
 <h1>There are no books from this user yet</h1>
 {% endfor %}

@@ -144,6 +144,22 @@ def DeleteBook(request, slug):
 	else:
 		messages.warning(request, 'You are not allowed to delete this post!')
 		return redirect(reverse('books:booklist'))
+
+def sold(request, slug):
+	post = get_object_or_404(Book, slug=slug)
+	if post.sold == False:
+		if request.user == post.user:
+			post.sold = True
+			post.save()
+			messages.success(request, 'This book has been successfully marked as sold')
+			return redirect('books:bookdetail', slug=post.slug)
+		else:
+			messages.warning(request, 'You are not allowed to mark this book as sold')
+			return redirect('books:bookdetail', slug=post.slug)
+	else:
+		messages.warning(request, 'This book has already been marked as sold')
+		return redirect('books:bookdetail', slug=post.slug)
+
 @login_required
 def AddRating(request, slug):
 	userx = get_object_or_404(UserProfile, slug=slug)

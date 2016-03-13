@@ -11,6 +11,8 @@
             {% if request.user == object.user %}
             <div class="col-md-5">
                 <ul class="breadcrumb">
+                    {% if object.post == False %}
+                    <a href="{% url 'books:sold' object.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a>{% endif %}
                     <a href="{% url 'books:editbook' object.slug %}"><button class="btn btn-default">Edit Post</button></a>
                     <a href="{% url 'books:deletebook' object.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
                 </ul>
@@ -95,26 +97,15 @@
 
                                         <p class="price">${{ object.price|floatformat:2 }}{% if object.sold == True %} (SOLD){% endif %}</p>
 
-                                        <p class="text-center">
+                                        <div class="text-center">
                                             {% if user.is_authenticated %}
-                                            <button class="btn btn-template-main"><i class="fa fa-comment"><a href="{% url 'postman:write' object.user %}"></i>Message Seller</a></button>
+                                            <a href="{% url 'postman:write' object.user %}"><button class="btn btn-template-main"><i class="fa fa-comment"></i>Message Seller</button></a>
                                             {% if object.sold == False %}
                                             <h4 class="text-center">OR</h4>
-                                            <form action="{% url 'books:charge' object.slug %}" method="POST" class='text-center'>
-                                            {% csrf_token %}
-                                            <script src="https://checkout.stripe.com/checkout.js"
-                                            class="stripe-button"
-                                            data-key="{{ key }}"
-                                            data-name="Bookrux"
-                                            data-description="Buy now"
-                                            data-amount="{{ object.price|add:2|mul:100 }}"
-                                            data-allow-remember-me="false"
-                                            data-label="Buy Now">
-                                            </script>
-                                            </form>
-                                            <p class="text-center">Please confirm Address and Contact number <a href="{% url 'user_profile_edit' request.user.userprofile.slug %}"><strong>here</strong></a> before making payment! <i class="fa fa-smile-o"></i></p>
+                                            <a href="{% url 'postman:write' object.user %}"><button class="btn btn-template-main"><i class="fa fa-clock-o"></i>Rent Now</button></a>
                                             {% endif %}
 
+                                        </div>
                                             {% else %}
                                             <a href="{% url 'auth_login' %}"><button class="btn btn-default">Log In</button></a> or 
                                             <a href="{% url 'registration_register' %}"><button class="btn btn-default">Sign Up</button></a> to buy!
@@ -124,7 +115,6 @@
                                             <!-- ADD TO BOOKSHELF BUTTON (DOESNT WORK) -->
 <!--                                             <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add to wishlist"><i class="fa fa-heart-o"></i>
                                             </button> -->
-                                        </p>
 
                                     </div>
                                 </div>
