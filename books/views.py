@@ -278,7 +278,7 @@ class UserProfileUpdate(generic.UpdateView):
 	model = UserProfile
 	template_name = "books/userprofile_form.html"
 	login_required = True
-	fields = ('image', 'contact_number', 'address',)
+	fields = ('image',)
 	def user_passes_test(self, request):
 		if request.user.is_authenticated():
 			self.object = self.get_object()

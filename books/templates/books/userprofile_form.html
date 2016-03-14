@@ -29,13 +29,7 @@
 	                </div>
                 </div>
 
-            <div id="div_id_contact_number" class="form-group"> 
-            <label for="id_contact_number" class="control-label ">
-                Contact number
-            </label> <div class="controls "> <input class="numberinput form-control" id="id_contact_number" name="contact_number" type="number" value="{{ object.user.userprofile.contact_number }}"> </div> </div> <div id="div_id_address" class="form-group"> <label for="id_address" class="control-label  requiredField">
-                Address<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_address" maxlength="999" name="address" type="text" value="{{ object.user.userprofile.address }}"> </div> </div>{% csrf_token %}
-
-        <input type="submit">{% csrf_token %}
+        <input class="btn btn-default" type="submit">{% csrf_token %}
     </form>{% csrf_token %}
     </div>
 {% endblock %}
