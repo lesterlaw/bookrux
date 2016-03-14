@@ -1,0 +1,31 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+        <div id="content">
+            <div class="container">
+
+                <div class="col-sm-6 col-sm-offset-3" id="error-page">
+
+                    <div class="box">
+
+                        <p class="text-center">
+                            <a href="index.html">
+                                <img src="../../../static/img/logo.jpg" alt="Obaju template"style="height:42px;">
+                            </a>
+                        </p>
+
+                        <h3>Rental services are coming soon</h3>
+                        <h4 class="text-muted">Stay tuned!</h4>
+
+                        <p class="buttons"><a href="{% url 'homepage' %}" class="btn btn-template-main"><i class="fa fa-home"></i> Go to Homepage</a>
+                        </p>
+                    </div>
+
+
+                </div>
+                <!-- /.col-sm-6 -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+{% endblock %}

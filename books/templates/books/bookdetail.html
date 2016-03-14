@@ -11,7 +11,7 @@
             {% if request.user == object.user %}
             <div class="col-md-5">
                 <ul class="breadcrumb">
-                    {% if object.post == False %}
+                    {% if object.sold == False %}
                     <a href="{% url 'books:sold' object.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a>{% endif %}
                     <a href="{% url 'books:editbook' object.slug %}"><button class="btn btn-default">Edit Post</button></a>
                     <a href="{% url 'books:deletebook' object.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
@@ -103,7 +103,7 @@
                                             {% if object.sold == False %}
                                             <h4 class="text-center">OR</h4>
 
-                                            <a href="{% url 'postman:write' object.user %}"><button class="btn btn-template-main"><i class="fa fa-clock-o"></i>Rent</button></a>
+                                            <a href="{% url 'books:rentcomingsoon' %}"><button class="btn btn-template-main"><i class="fa fa-clock-o"></i>Rent</button></a>
                                             {% endif %}
 
                                             {% else %}

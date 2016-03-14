@@ -160,6 +160,9 @@ def sold(request, slug):
 		messages.warning(request, 'This book has already been marked as sold')
 		return redirect('books:bookdetail', slug=post.slug)
 
+def rentcomingsoon(request):
+	return render(request, 'books/rentcomingsoon.html')
+
 @login_required
 def AddRating(request, slug):
 	userx = get_object_or_404(UserProfile, slug=slug)

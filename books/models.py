@@ -147,8 +147,6 @@ class UserProfile(models.Model):
             blank=True)
 	slug = AutoSlugField(populate_from='user',null=True, blank=True, unique=True)
 	shelf = models.ManyToManyField(Book, blank=True)
-	address = models.CharField(max_length=999)
-	contact_number = models.IntegerField(blank=True, null=True, validators=[MaxValueValidator(99999999)])
 #to activate shell, do {{ object.shelf.all }} in templates.
 
 	

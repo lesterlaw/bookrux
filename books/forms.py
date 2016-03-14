@@ -18,7 +18,7 @@ class AddBookForm(forms.ModelForm):
 class UserProfileUpdateForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ['image', 'contact_number', 'address',]
+		fields = ['image',]
 
 class AddRatingForm(forms.ModelForm):
 	class Meta:
