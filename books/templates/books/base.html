@@ -62,7 +62,7 @@
                                 <img src="../../../static/img/logo.jpg" alt="Universal logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
                             </a>
                             <div class="navbar-buttons">
-                                <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:red;"{% endif %}>
+                                <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:#FF5948;"{% endif %}>
                                     <span class="sr-only">Toggle navigation</span>
                                     <i class="fa fa-align-justify"></i><strong>{% if unread_count %}({{ unread_count }}){% endif %}</strong>
                                 </button>
@@ -226,7 +226,6 @@ function upload_img4(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-
 
 
     </script>

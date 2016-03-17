@@ -1,20 +1,52 @@
 {% extends "books/base.html" %}
-<div class="container">
 {% load i18n %}{% load postman_tags %}
-{% block title %}{% trans "Messaging" %}{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top:20px;">
+
+<div class="btn-group" role="group" aria-label="...">
+
+  <div class="btn-group" role="group">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    {% if request.resolver_match.url_name == 'inbox' %}
+    	<i class="fa fa-envelope-o"></i>{% trans "Inbox" %}
+    {% elif request.resolver_match.url_name == 'sent' %}
+    	<i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}
+    {% elif request.resolver_match.url_name == 'archives' %}
+    	<i class="fa fa-file-archive-o"></i>{% trans "Archives" %}
+    {% elif request.resolver_match.url_name == 'trash' %}
+    	<i class="fa fa-trash-o"></i>{% trans "Trash" %}
+    {% elif request.resolver_match.url_name == 'write' %}
+    	<i class="fa fa-pencil-square-o"></i>{% trans "Write" %}
+    {% elif request.resolver_match.url_name == 'reply' %}
+    	<i class="fa fa-pencil-square-o"></i>{% trans "Reply" %}
+    {% elif request.resolver_match.url_name == 'view' %}
+    	<i class="fa fa-envelope"></i>{% trans "Message" %}
+    {% endif %}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+ <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-envelope-o"></i>{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+ <li><a href="{% url 'postman:sent' %}"><i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
+ <li><a href="{% url 'postman:archives' %}"><i class="fa fa-file-archive-o"></i>{% trans "Archives" %}</a></li>
+ <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}</a></li>
+    <li role="separator" class="divider"></li>
+ 	<li><a href="{% url 'postman:write' %}"><i class="fa fa-pencil-square-o"></i>{% trans "Write" %}</a></li>
+  </ul>
+  </div>
+<a href="{% url 'postman:write' %}" style="color:black;"><button class="btn btn-default"><i class="fa fa-pencil"></i></button></a>
+</div>
+
+
+
+
 {% block extrahead %}{{ block.super }}
 <link type="text/css" media="all" rel="stylesheet" href="
 {# dj v1.4 #}{% load static %}{% static 'postman/css/postman.css' %}
 {# dj v1.3 #}{# {{ STATIC_URL }}postman/css/postman.css #}
 {# dj v1.2 #}{# {{ MEDIA_URL }}postman/css/postman.css #}
 " />{% endblock %}
-{% block postman_menu %}
-<ul id="postman_menu">{% postman_unread as unread_count %}
- <li><a href="{% url 'postman:inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
- <li><a href="{% url 'postman:sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>
- <li><a href="{% url 'postman:write' %}">&raquo;&nbsp;{% trans "Write" %}</a></li>
- <li><a href="{% url 'postman:archives' %}">&raquo;&nbsp;{% trans "Archives" %}</a></li>
- <li><a href="{% url 'postman:trash' %}">&raquo;&nbsp;{% trans "Trash" %}</a></li>
-</ul>
+{% block content2 %}
+{% endblock %}
 </div>
 {% endblock %}

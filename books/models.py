@@ -99,42 +99,95 @@ class Book(models.Model):
 			image1 = Image.open(self.image1)
 			i_width, i_height = image1.size
 			max_size = (1000,750)
-			image1.thumbnail(max_size, Image.ANTIALIAS)
 			try:
-				if hasattr(image1, '_getexif'): # only present in JPEGs
-					for orientation in ExifTags.TAGS.keys(): 
-						if ExifTags.TAGS[orientation]=='Orientation':
-							break 
-					e = image1._getexif()       # returns None if no EXIF data
-					if e is not None:
-						exif=dict(e.items())
-						orientation = exif[orientation] 
+			    for orientation in ExifTags.TAGS.keys():
+			        if ExifTags.TAGS[orientation]=='Orientation':
+			            break
+			    exif=dict(image1._getexif().items())
 
-						if orientation == 3:   image = image1.transpose(Image.ROTATE_180)
-						elif orientation == 6: image = image1.transpose(Image.ROTATE_270)
-						elif orientation == 8: image = image1.transpose(Image.ROTATE_90)
+			    if exif[orientation] == 3:
+			        image1=image1.rotate(180, expand=True)
+			    elif exif[orientation] == 6:
+			        image1=image1.rotate(270, expand=True)
+			    elif exif[orientation] == 8:
+			        image1=image1.rotate(90, expand=True)
+			    image1.save(self.image1.path)
 
-				image1.thumbnail((THUMB_WIDTH , THUMB_HIGHT), Image.ANTIALIAS)
-				image1.save(self.image1.path)
-
-			except:
-				pass
+			except (AttributeError, KeyError, IndexError):
+			    # cases: image don't have getexif
+			    pass
+			image1.thumbnail(max_size, Image.ANTIALIAS)
+			image1.save(self.image1.path)
 		if self.image2:
+				
 			image2 = Image.open(self.image2)
 			i_width, i_height = image2.size
 			max_size = (1000,750)
+			try:
+			    for orientation in ExifTags.TAGS.keys():
+			        if ExifTags.TAGS[orientation]=='Orientation':
+			            break
+			    exif=dict(image2._getexif().items())
+
+			    if exif[orientation] == 3:
+			        image=image.rotate(180, expand=True)
+			    elif exif[orientation] == 6:
+			        image2=image2.rotate(270, expand=True)
+			    elif exif[orientation] == 8:
+			        image2=image2.rotate(90, expand=True)
+			    image2.save(self.image2.path)
+
+			except (AttributeError, KeyError, IndexError):
+			    # cases: image don't have getexif
+			    pass
 			image2.thumbnail(max_size, Image.ANTIALIAS)
 			image2.save(self.image2.path)
 		if self.image3:
+				
 			image3 = Image.open(self.image3)
 			i_width, i_height = image3.size
 			max_size = (1000,750)
+			try:
+			    for orientation in ExifTags.TAGS.keys():
+			        if ExifTags.TAGS[orientation]=='Orientation':
+			            break
+			    exif=dict(image3._getexif().items())
+
+			    if exif[orientation] == 3:
+			        image3=image3.rotate(180, expand=True)
+			    elif exif[orientation] == 6:
+			        image3=image3.rotate(270, expand=True)
+			    elif exif[orientation] == 8:
+			        image3=image3.rotate(90, expand=True)
+			    image3.save(self.image3.path)
+
+			except (AttributeError, KeyError, IndexError):
+			    # cases: image don't have getexif
+			    pass
 			image3.thumbnail(max_size, Image.ANTIALIAS)
 			image3.save(self.image3.path)
 		if self.image4:
+				
 			image4 = Image.open(self.image4)
 			i_width, i_height = image4.size
 			max_size = (1000,750)
+			try:
+			    for orientation in ExifTags.TAGS.keys():
+			        if ExifTags.TAGS[orientation]=='Orientation':
+			            break
+			    exif=dict(image4._getexif().items())
+
+			    if exif[orientation] == 3:
+			        image4=image4.rotate(180, expand=True)
+			    elif exif[orientation] == 6:
+			        image4=image4.rotate(270, expand=True)
+			    elif exif[orientation] == 8:
+			        image4=image4.rotate(90, expand=True)
+			    image4.save(self.image4.path)
+
+			except (AttributeError, KeyError, IndexError):
+			    # cases: image don't have getexif
+			    pass
 			image4.thumbnail(max_size, Image.ANTIALIAS)
 			image4.save(self.image4.path)
 

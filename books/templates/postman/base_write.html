@@ -25,9 +25,10 @@
 {% endif %}
 {{ form.media }}{# for ajax_selects (v1.3.6 at least) #}
 {% endblock %}
-{% block content %}
+{% block content2 %}
+</div>
 <div class="container">
-	<div class='col-md-5'>
+	<div class='col-md-5' style="padding-left:0;padding-right:0;">
 		<div id="postman">
 		<h1>{% block pm_write_title %}{% endblock %}</h1>
 		<form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
@@ -40,4 +41,5 @@
 		</div>
 	</div>
 </div>
+<div class="container">
 {% endblock %}
