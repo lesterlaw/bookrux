@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_cleanup',
     'django_filters',
     'imagekit',
-    'form_utils',
     'rest_framework']
 
 MIDDLEWARE_CLASSES = [
