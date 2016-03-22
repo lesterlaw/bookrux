@@ -4,7 +4,10 @@
 <div class="container" style="margin-top:50px;">
 	<div class="row">
 		<div class="col-lg-12 text-center">
-			{% if object.image %}<img src="{{ object.image.url }}" class='circular'>{% else %}<img src="../../../static/img/noprofilepic.png" class='circular'>{% endif %}
+			{% if object.image %}
+            <div class="circular"><img src="{{ object.image.url }}"></div>
+            {% else %}
+            <div class="circular"><img src="../../../static/img/noprofilepic.png"></div>{% endif %}
 			<h3>{{ object.user }}</h3>
 			{% if object.user == request.user %}
 				<a href="{% url 'user_profile_edit' object.user.userprofile.slug %}"><button class="btn btn-default">Edit Profile</button></a>
@@ -33,7 +36,7 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Info{% endif %}</strong></button>
+        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if not book in object.shelf.all %}-o{% endif %}" style="color:red"></i></strong></button></a>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
 </a>
@@ -64,8 +67,6 @@
 </ul>
 {% endif %}
 </div>
-
-
 
 <!-- SHELVING SYSTEM
 
@@ -100,5 +101,32 @@
 <h1>There are no ratings for this user</h1>
 {% endif %} 
 </div>
+</div>
+
+
+<div class="container">
+<div class="heading">
+    <h2>Liked Books</h2>
+</div>
+{% for book in object.shelf.all %}
+<div class="col-xs-6 col-sm-4 col-md-3">
+<a href="{% url 'books:bookdetail' book.slug %}">
+    <div class="box-image-text">
+        <div class="top">
+            <div class="image rcorner1 text-center">
+                <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+            </div>
+      </div>
+      <div class="content haha">
+          <h5>{{ book.title|title }}</h5>
+      </div>
+        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if not book in object.shelf.all %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <button class="buttony"><strong>${{ book.price }}</strong></button>
+    </div>
+</a>
+    <!-- /.box-image -->
+
+</div>
+{% endfor %}
 </div>
 {% endblock %}

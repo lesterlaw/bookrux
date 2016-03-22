@@ -67,7 +67,11 @@
 .box-image-text{
     overflow: hidden;
     display:block;
-    border-radius:6px;
+    border-radius:9px;
+    border: 2px #38a7bb solid;
+-moz-box-shadow: 0px 0px 5px #000000;
+-webkit-box-shadow: 0px 0px 5px #000000;
+box-shadow: 0px 0px 5px #000000;
 }
 
 .box-image-text:hover{
@@ -90,16 +94,16 @@ box-shadow: 0px 0px 10px #000000;
     top: -1000%;
     bottom: -1000%;
     margin: auto;
-    min-height: 100%;
-    min-width: 100%;
+    max-width:100%;
+    max-height:100%;/*
   border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+  border-top-right-radius: 6px;*/
 }
 .rcorner1{
 
   position: relative;
   overflow: hidden;
-  padding-bottom: 70%
+  padding-bottom: 80%;
 }
 /*@media screen and (max-width: 1199px) {
     #listimg{
@@ -187,7 +191,14 @@ box-shadow: 0px 0px 10px #000000;
   border-color: #E19B00;
 }
 
+.circular img {
+    text-align: center;
+    width:200px;
+    min-height:200px;
+}
 .circular {
+    display: inline-block;
+    overflow: hidden;
     width: 200px;
     height: 200px;
     border-radius: 100px;

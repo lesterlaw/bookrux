@@ -1,5 +1,6 @@
 
 {% load staticfiles %}
+{% load thumbnail %}
 {% load postman_tags %}
 <!DOCTYPE html>
 <html>
@@ -227,7 +228,13 @@ function upload_img4(input) {
     }
 }
 
-
+$('#likes').click(function(){
+    var catid;
+    catid = $(this).attr("data-catid");
+    $.get('/books/like/', {slug: catid}, function(data){
+               $('#likes').hide();
+    });
+});
     </script>
 </body>
 

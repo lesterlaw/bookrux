@@ -24,7 +24,8 @@ from serializers import BookSerializer, UserSerializer
 
 def homepage(request):
 	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
-	return render(request, 'books/homepage.html', {'books':books})
+	shelf = request.user.userprofile.shelf.all()
+	return render(request, 'books/homepage.html', {'books':books, 'shelf':shelf})
 
 class BookList(generic.ListView):
 	model = Book
@@ -255,7 +256,6 @@ class UserProfileDetail(generic.DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
 		context['books'] = Book.objects.all().order_by('sold','-published_date').filter(user__userprofile__slug__iexact=self.kwargs['slug'])
-		context['shelf'] = UserProfile.objects.all()
 		context['ratings'] = Rating.objects.all().filter(user__slug__iexact=self.kwargs['slug'])
 
 		return context
@@ -302,6 +302,18 @@ class UserProfileUpdate(generic.UpdateView):
 # 	books = Book.objects.all().order_by('-published_date')
 # 	return render(request, 'books/profilelist.html', {'books':books, 'user':user})
 
+def LikeBook(request, slug):
+	post = get_object_or_404(Book, slug=slug)
+	shelf = request.user.userprofile.shelf
+	if not post in request.user.userprofile.shelf.all():
+		shelf.add(post)
+		post.likes += 1
+		post.save()
+	else:
+		shelf.remove(post)
+		post.likes -= 1
+		post.save()
+	return redirect('books:booklist')
 
 class BookViewSet(viewsets.ModelViewSet):
 	queryset = Book.objects.all()

@@ -63,6 +63,7 @@ class Book(models.Model):
 	personal_review = models.TextField(blank=True)
 	price = models.IntegerField(validators=[MaxValueValidator(99999)])
 	published_date = models.DateTimeField(default=timezone.now)
+	likes = models.IntegerField(default=0)
 	slug = models.SlugField(
 		unique=True,
 		default=get_random_string,
@@ -199,7 +200,7 @@ class UserProfile(models.Model):
             null=True,
             blank=True)
 	slug = AutoSlugField(populate_from='user',null=True, blank=True, unique=True)
-	shelf = models.ManyToManyField(Book, blank=True)
+	shelf = models.ManyToManyField(Book, blank=True, related_name='shelf_set')
 #to activate shell, do {{ object.shelf.all }} in templates.
 
 	

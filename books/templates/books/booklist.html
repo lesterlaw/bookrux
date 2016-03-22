@@ -111,7 +111,7 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong>{% if book.sold == True %}SOLD{% else %}Info{% endif %}</strong></button>
+        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}" style="color:red"></i></strong></button></a>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
 </a>

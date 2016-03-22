@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^charge/(?P<slug>[\w.@+-]+)/$', views.charge, name='charge'),
     url(r'^sold/(?P<slug>[\w.@+-]+)/$', views.sold, name='sold'),
     url(r'^rent/$', views.rentcomingsoon, name='rentcomingsoon'),
+    url(r'^like/(?P<slug>[\w.@+-]+)/$', views.LikeBook, name='likebook'),
 ]
