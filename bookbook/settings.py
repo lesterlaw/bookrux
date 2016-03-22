@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'django_filters',
     'imagekit',
     'form_utils',
-    'sorl.thumbnail',
     'rest_framework']
 
 MIDDLEWARE_CLASSES = [
