@@ -3,7 +3,6 @@ from .models import Book, UserProfile, Rating
 from django.core.validators import MaxValueValidator
 from django.core.mail import send_mail
 from django.conf import settings
-from form_utils.widgets import ImageWidget
 
 class AddBookForm(forms.ModelForm):
 	class Meta:
