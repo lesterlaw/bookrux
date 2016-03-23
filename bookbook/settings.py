@@ -159,3 +159,10 @@ POSTMAN_AUTO_MODERATE_AS = True
 # STRIPE DETAILS
 STRIPE_SECRET = 'sk_test_M6WdwOzKeaFDhllSHVOW5ruN'
 STRIPE_PUBLISHABLE = 'pk_test_XgHLLE6oFdj7Dzs09pCEZub7'
+
+from django.contrib.messages import constants as message_constants
+MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
+                message_constants.INFO: 'info',
+                message_constants.SUCCESS: 'success',
+                message_constants.WARNING: 'warning',
+                message_constants.ERROR: 'danger',}

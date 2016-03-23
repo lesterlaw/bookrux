@@ -79,7 +79,7 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if not book in shelf %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i></strong></button></a>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->

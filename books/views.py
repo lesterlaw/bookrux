@@ -24,8 +24,7 @@ from serializers import BookSerializer, UserSerializer
 
 def homepage(request):
 	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
-	shelf = request.user.userprofile.shelf.all()
-	return render(request, 'books/homepage.html', {'books':books, 'shelf':shelf})
+	return render(request, 'books/homepage.html', {'books':books})
 
 class BookList(generic.ListView):
 	model = Book
@@ -303,17 +302,21 @@ class UserProfileUpdate(generic.UpdateView):
 # 	return render(request, 'books/profilelist.html', {'books':books, 'user':user})
 
 def LikeBook(request, slug):
-	post = get_object_or_404(Book, slug=slug)
-	shelf = request.user.userprofile.shelf
-	if not post in request.user.userprofile.shelf.all():
-		shelf.add(post)
-		post.likes += 1
-		post.save()
+	if request.user.is_authenticated():
+		post = get_object_or_404(Book, slug=slug)
+		shelf = request.user.userprofile.shelf
+		if not post in request.user.userprofile.shelf.all():
+			shelf.add(post)
+			post.likes += 1
+			post.save()
+		else:
+			shelf.remove(post)
+			post.likes -= 1
+			post.save()
+		return redirect('books:booklist')
 	else:
-		shelf.remove(post)
-		post.likes -= 1
-		post.save()
-	return redirect('books:booklist')
+		messages.error(request, "Log in or sign up to like an image!")
+		return redirect('auth_login')
 
 class BookViewSet(viewsets.ModelViewSet):
 	queryset = Book.objects.all()
