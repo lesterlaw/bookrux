@@ -57,6 +57,7 @@ class Book(models.Model):
 	),
 )
 	user = models.ForeignKey(User)
+	author = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)
 	genre = models.CharField(max_length=100,choices=Genres)
 	description = models.TextField()
@@ -99,7 +100,7 @@ class Book(models.Model):
 				
 			image1 = Image.open(self.image1)
 			i_width, i_height = image1.size
-			max_size = (1000,750)
+			max_size = (250,250)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -123,7 +124,7 @@ class Book(models.Model):
 				
 			image2 = Image.open(self.image2)
 			i_width, i_height = image2.size
-			max_size = (1000,750)
+			max_size = (250,250)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -147,7 +148,7 @@ class Book(models.Model):
 				
 			image3 = Image.open(self.image3)
 			i_width, i_height = image3.size
-			max_size = (1000,750)
+			max_size = (250,250)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -171,7 +172,7 @@ class Book(models.Model):
 				
 			image4 = Image.open(self.image4)
 			i_width, i_height = image4.size
-			max_size = (1000,750)
+			max_size = (250,250)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -203,7 +204,36 @@ class UserProfile(models.Model):
 	shelf = models.ManyToManyField(Book, blank=True, related_name='shelf_set')
 #to activate shell, do {{ object.shelf.all }} in templates.
 
-	
+	def save(self, *args, **kwargs):
+		# this is required when you override save functions
+		super(UserProfile, self).save(*args, **kwargs)
+	# our new code
+
+		if self.image:
+				
+			image = Image.open(self.image)
+			i_width, i_height = image.size
+			max_size = (250,250)
+			try:
+			    for orientation in ExifTags.TAGS.keys():
+			        if ExifTags.TAGS[orientation]=='Orientation':
+			            break
+			    exif=dict(image._getexif().items())
+
+			    if exif[orientation] == 3:
+			        image=image.rotate(180, expand=True)
+			    elif exif[orientation] == 6:
+			        image=image.rotate(270, expand=True)
+			    elif exif[orientation] == 8:
+			        image=image.rotate(90, expand=True)
+			    image.save(self.image.path)
+
+			except (AttributeError, KeyError, IndexError):
+			    # cases: image don't have getexif
+			    pass
+			image.thumbnail(max_size, Image.ANTIALIAS)
+			image.save(self.image1.path)
+
 	def __unicode__(self):
 		return self.user.username
 # this is required when you override save functions

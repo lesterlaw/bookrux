@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-lg-12 text-center">
 			{% if object.image %}
-            <div class="circular"><img src="{{ object.image.url }}"></div>
+            <a href="{{object.image.url}}"><div class="circular"><img src="{{ object.image.url }}"></div></a>
             {% else %}
             <div class="circular"><img src="../../../static/img/noprofilepic.png"></div>{% endif %}
 			<h3>{{ object.user }}</h3>
