@@ -12,8 +12,8 @@
             <div class="col-md-5">
                 <ul class="breadcrumb">
                     {% if object.sold == False %}
-                    <a href="{% url 'books:sold' object.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a>{% endif %}
-                    <a href="{% url 'books:editbook' object.slug %}"><button class="btn btn-default">Edit Post</button></a>
+                    <a href="{% url 'books:sold' object.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a>
+                    <a href="{% url 'books:editbook' object.slug %}"><button class="btn btn-default">Edit Post</button></a>{% endif %}
                     <a href="{% url 'books:deletebook' object.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
                 </ul>
 
@@ -26,7 +26,11 @@
         <div id="content">
             <div class="container">
                 <div class="col-md-9">
-                    <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}"><h2>{% if object.user.userprofile.image %}<img src="{{ object.user.userprofile.image.url }}" class="circularbook">{% else %}<img src="../../../static/img/noprofilepic.png" class="circularbook">{% endif %}</a>
+                    <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}"><h2>{% if object.user.userprofile.image %}
+                        <div class="circularbook">
+                            <img src="{{ object.user.userprofile.image.url }}">{% else %}<img src="../../../static/img/nobookimg.png">{% endif %}
+                        </div>
+                    </a>
                     <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}" style=" margin-left:14px;">{{object.user}}</a></h2><!-- <hr style="border-bottom: 1px solid #ccc"> -->
                     
                 </div>

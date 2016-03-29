@@ -93,7 +93,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{% url 'user_profile_detail' request.user.userprofile.slug %}"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" class="circularnav"></a>
+                                    <a href="{% url 'user_profile_detail' request.user.userprofile.slug %}"><div class="circularnav"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}"></div></a>
                                 </li>
                                 {% else %}
                                 <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> <span class="text-uppercase">Sign In</span></a></li>
