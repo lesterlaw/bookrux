@@ -39,7 +39,6 @@
     <link href="{% static 'css/owl.theme.css' %}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/creative.css' %}" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,8 +57,8 @@
                         <div class="navbar-header">
 
                             <a class="navbar-brand home" href="{% url 'homepage' %}">
-                                <img src="../../../static/img/logo.jpg" alt="Universal logo" class="hidden-xs" style="height:42px;">
-                                <img src="../../../static/img/logo.jpg" alt="Universal logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
+                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="hidden-xs" style="height:42px;">
+                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
                             </a>
                             <div class="navbar-buttons">
                                 <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:#FF5948;"{% endif %}>
@@ -153,12 +152,8 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
-    <script src="{% static 'js/jquery.fittext.js' %}"></script>
-    <script src="{% static 'js/wow.min.js' %}"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="{% static 'js/creative.js' %}"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -172,80 +167,13 @@
     <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
     <script src="{% static 'js/jquery.parallax-1.1.3.js' %}"></script>
     <script src="{% static 'js/front.js' %}"></script>
-    <script type="text/javascript" src="{% static 'stripe.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
     
 
     <!-- owl carousel -->
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-<script type="text/javascript">
-$('.carousel').carousel({
-    interval: false
-}); 
 
-function upload_imgprof(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#id_imageprof').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-function upload_img2(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#id_image2').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-function upload_img1(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#id_image1').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-function upload_img3(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#id_image3').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-function upload_img4(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#id_image4').attr('src', e.target.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$('#likes').click(function(){
-    var catid;
-    catid = $(this).attr("data-catid");
-    $.get('/books/like/', {slug: catid}, function(data){
-               $('#likes').hide();
-    });
-});
-    </script>
 </body>
 
 </html>

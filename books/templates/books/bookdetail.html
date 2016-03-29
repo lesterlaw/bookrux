@@ -113,7 +113,7 @@
                                             
 
                                             <!-- ADD TO BOOKSHELF BUTTON (DOESNT WORK) -->
-                                            <button type="submit" class="btn btn-template-main" data-toggle="tooltip" data-placement="top" title="Add to wishlist" style="color:red"><i class="fa fa-heart-o" style="color:red"></i>
+                                            <button type="submit" class="btn btn-template-main likes1" data-toggle="tooltip" data-placement="top" title="Add to wishlist" style="color:red" data-catid="{{ object.slug }}"><i id="likebuttonheart1" class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i>
                                             </button>
                                         </p>
 

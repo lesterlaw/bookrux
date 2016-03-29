@@ -112,7 +112,7 @@
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->

@@ -3443,7 +3443,6 @@ address {
 .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
-  border: 1px solid transparent;
   border-radius: 0;
   -webkit-box-shadow: 0 0 0;
   box-shadow: 0 0 0;

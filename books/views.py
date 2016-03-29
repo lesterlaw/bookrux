@@ -21,6 +21,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from serializers import BookSerializer, UserSerializer
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def homepage(request):
 	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
@@ -248,6 +249,25 @@ def ContactView(request):
 		'form': form_class,
 	})
 
+# def UserProfileDetail(request, slug):
+# 	object = get_object_or_404(UserProfile, slug=slug)
+# 	books = Book.objects.all().order_by('sold','-published_date').filter(user__userprofile__slug__iexact=slug)
+# 	ratings = Rating.objects.all().filter(user__slug__iexact=slug)
+# 	paginator = Paginator(books, 12) # Show 25 contacts per page
+
+# 	page = request.GET.get('page')
+# 	try:
+# 		contacts = paginator.page(page)
+# 	except PageNotAnInteger:
+# 		# If page is not an integer, deliver first page.
+# 		contacts = paginator.page(1)
+# 	except EmptyPage:
+# 		# If page is out of range (e.g. 9999), deliver last page of results.
+# 		contacts = paginator.page(paginator.num_pages)
+
+
+# 	return render(request, 'books/userprofile_detail.html', {'object':object,'books':books,'ratings':ratings})
+
 class UserProfileDetail(generic.DetailView):
 	model = UserProfile
 	template_name = "books/userprofile_detail.html"
@@ -301,8 +321,9 @@ class UserProfileUpdate(generic.UpdateView):
 # 	books = Book.objects.all().order_by('-published_date')
 # 	return render(request, 'books/profilelist.html', {'books':books, 'user':user})
 
-def LikeBook(request, slug):
+def LikeBook(request):
 	if request.user.is_authenticated():
+		slug = request.GET.get('slug', None)
 		post = get_object_or_404(Book, slug=slug)
 		shelf = request.user.userprofile.shelf
 		if not post in request.user.userprofile.shelf.all():

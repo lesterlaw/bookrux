@@ -27,17 +27,17 @@
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
 <div class="col-xs-6 col-sm-4 col-md-3">
     <div class="box-image-text">
-        <div class="top">
+      <div class="top">
 <a href="{% url 'books:bookdetail' book.slug %}">
-            <div class="image rcorner1 text-center">
-                <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
-            </div>
+          <div class="image rcorner1 text-center">
+              <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+          </div>
 </a>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in object.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in object.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->
@@ -51,29 +51,22 @@
 <div>
 {% if is_paginated %}
 <ul class="pagination" style="clear:both;">
-{% if page_obj.has_previous %}
+{% if contacts.has_previous %}
     <li>
-        <span><a href="?page={{ page_obj.previous_page_number }}">← Older</a></span>
+        <span><a href="?page={{ contacts.previous_page_number }}">← Older</a></span>
     </li>
 {% endif %}
     <li class="paginationnohover">
-        <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        <span>Page {{ contacts.number }} / {{ contacts.paginator.num_pages }}</span>
     </li>
-{% if page_obj.has_next %}
+{% if contacts.has_next %}
     <li>
-        <span><a href="?page={{ page_obj.next_page_number }}">Newer →</a></span>
+        <span><a href="?page={{ contacts.next_page_number }}">Newer →</a></span>
     </li>
 {% endif %}
 </ul>
 {% endif %}
 </div>
-
-<!-- SHELVING SYSTEM
-
-{% for shelf in object.shelf.all %}
-{{ shelf.title }} </br>
-{{ shelf.description }}
-{% endfor %} -->
 
 
 <!-- rating system working -->
@@ -98,7 +91,13 @@
 {% endfor %}
 
 {% else %}
-<h1>There are no ratings for this user</h1>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>
+     There are no ratings for this user
+    </h4>
+  </div>
+</div>
 {% endif %} 
 </div>
 </div>
@@ -110,20 +109,20 @@
 </div>
 {% for book in object.shelf.all %}
 <div class="col-xs-6 col-sm-4 col-md-3">
-<a href="{% url 'books:bookdetail' book.slug %}">
     <div class="box-image-text">
-        <div class="top">
-            <div class="image rcorner1 text-center">
-                <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
-            </div>
+      <div class="top">
+<a href="{% url 'books:bookdetail' book.slug %}">
+          <div class="image rcorner1 text-center">
+              <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+          </div>
+</a>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if not book in object.shelf.all %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %}">Liked</button>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
-</a>
     <!-- /.box-image -->
 
 </div>

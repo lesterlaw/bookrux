@@ -73,17 +73,25 @@
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
 <div class="col-xs-6 col-sm-6 col-md-4">
     <div class="box-image-text">
-    	<div class="top squaredd">
+      <div class="top">
 <a href="{% url 'books:bookdetail' book.slug %}">
-	        <div class="image rcorner1 text-center">
-	            <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
-	        </div>
+          <div class="image rcorner1 text-center">
+              <img src="{% if book.image1 %}
+                          {{ book.image1.url }}
+                        {% elif book.image2 %}
+                            {{ book.image2.url }}
+                        {% elif book.image3 %}
+                            {{ book.image3.url }}
+                        {% elif book.image4 %}
+                            {{ book.image4.url }}
+                        {% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg" class="img-responsive">
+          </div>
 </a>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
-        <a href="{% url 'books:likebook' book.slug %}"><button class="buttonx{% if book.sold = True %} buttonxred{% endif %}" id="buttonx"><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i></strong></button></a>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->

@@ -12,20 +12,15 @@
 			<label for="id_image" class="control-label ">
                 Profile Picture
             </label> <div class="controls ">
-            {% if object.user.userprofile.image %}
+            
             	<div class="thumbnail">
-                    <a href="{{ object.user.userprofile.image.url }}">
-                    	<img src="{{ object.user.userprofile.image.url }}">{% csrf_token %}
-                    </a>
-                    <div class="caption">Current Image</div>
+                    	<img src="{% if object.user.userprofile.image %}{{ object.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}" id="id_image">{% csrf_token %}
+                    <div class="caption">{% if object.user.userprofile.image %}
+                    <input id="image-clear_id" name="image-clear" type="checkbox"><label for="image-clear_id">Delete</label><br>{% endif %}
+        <input class="clearablefileinput" id="id_image" name="image" type="file" onchange="upload_img(this);">{% csrf_token %}</div>
                 </div>
-                    <input id="image-clear_id" name="image-clear" type="checkbox"><label for="image-clear_id">Delete</label><br>
-                    Replace: {% endif %}
-                <div class="thumbnail">
-                	<img src="../../../static/img/noprofilepic.png" id="id_image">
-	                <div class="caption">
+                
 
-        <input class="clearablefileinput" name="image" type="file" onchange="upload_img(this);"> </div> </div>{% csrf_token %}
 	                </div>
                 </div>
 

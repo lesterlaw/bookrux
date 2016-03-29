@@ -100,7 +100,7 @@ class Book(models.Model):
 				
 			image1 = Image.open(self.image1)
 			i_width, i_height = image1.size
-			max_size = (250,250)
+			max_size = (750,750)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -124,7 +124,7 @@ class Book(models.Model):
 				
 			image2 = Image.open(self.image2)
 			i_width, i_height = image2.size
-			max_size = (250,250)
+			max_size = (750,750)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -148,7 +148,7 @@ class Book(models.Model):
 				
 			image3 = Image.open(self.image3)
 			i_width, i_height = image3.size
-			max_size = (250,250)
+			max_size = (750,750)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -172,7 +172,7 @@ class Book(models.Model):
 				
 			image4 = Image.open(self.image4)
 			i_width, i_height = image4.size
-			max_size = (250,250)
+			max_size = (750,750)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -213,7 +213,7 @@ class UserProfile(models.Model):
 				
 			image = Image.open(self.image)
 			i_width, i_height = image.size
-			max_size = (250,250)
+			max_size = (750,750)
 			try:
 			    for orientation in ExifTags.TAGS.keys():
 			        if ExifTags.TAGS[orientation]=='Orientation':
@@ -232,7 +232,7 @@ class UserProfile(models.Model):
 			    # cases: image don't have getexif
 			    pass
 			image.thumbnail(max_size, Image.ANTIALIAS)
-			image.save(self.image1.path)
+			image.save(self.image.path)
 
 	def __unicode__(self):
 		return self.user.username
