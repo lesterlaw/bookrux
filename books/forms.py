@@ -3,11 +3,11 @@ from .models import Book, UserProfile, Rating
 from django.core.validators import MaxValueValidator
 from django.core.mail import send_mail
 from django.conf import settings
-
+from widgets import AdvancedFileInput
 class AddBookForm(forms.ModelForm):
 	class Meta:
 		model = Book
-		fields = ['title', 'description', 'personal_review', 'genre', 'price', 'image1', 'image2', 'image3', 'image4']
+		fields = ['title', 'description', 'personal_review', 'condition', 'genre', 'price', 'image1', 'image2', 'image3', 'image4']
 		labels = {
 			'title': ('What is the name of the book?'),
 			'description':('Details and Condition?'),

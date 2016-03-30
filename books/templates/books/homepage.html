@@ -84,14 +84,18 @@
                             {{ book.image3.url }}
                         {% elif book.image4 %}
                             {{ book.image4.url }}
-                        {% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg">
+                        {% else %}../../../static/img/nobookimg.png{% endif %}" alt="" id="listimg">
           </div>
 </a>
       </div>
       <div class="content haha">
           <h5>{{ book.title|title }}</h5>
       </div>
+        {% if book.sold == True %}
+        <button class="buttonx buttonxred">SOLD</button>
+        {% else %}
         <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
+        {% endif %}
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
     <!-- /.box-image -->

@@ -58,7 +58,7 @@
 
                             <a class="navbar-brand home" href="{% url 'homepage' %}">
                                 <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="hidden-xs" style="height:42px;">
-                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="visible-xs" style="height:35px;"><span class="sr-only">Universal - go to homepage</span>
+                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="visible-xs" style="height:35px;">
                             </a>
                             <div class="navbar-buttons">
                                 <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:#FF5948;"{% endif %}>
@@ -69,7 +69,7 @@
                         </div>
                         <!--/.navbar-header -->
 
-                        <div class="navbar-collapse collapse" id="navigation">
+                        <div class="navbar-collapse collapse" id="navigation" style="">
                                 <ul class="nav navbar-nav">
                                 
                             <!--       <li><a href="#">Page 2</a></li> 
@@ -92,8 +92,8 @@
                                         <li><a href="{% url 'auth_password_reset' %}">Reset Password</a></li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="{% url 'user_profile_detail' request.user.userprofile.slug %}"><div class="circularnav"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}../../../static/img/noprofilepic.png{% endif %}"></div></a>
+                                <li style="position:relative;z-index:1000">
+                                    <a href="{% url 'user_profile_detail' request.user.userprofile.slug %}"><div class="circularnav"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}{% static "img/noprofilepic.png" %}{% endif %}"></div></a>
                                 </li>
                                 {% else %}
                                 <li><a href="{% url 'auth_login' %}"><i class="fa fa-sign-in"></i> <span class="text-uppercase">Sign In</span></a></li>
@@ -144,7 +144,7 @@
     </div>
 
 
-        <a href="{% url 'books:addbook' %}"><img src="../../../static/img/addbookbutton.png" id="fixedbutton"></a>
+        <a href="{% url 'books:addbook' %}"><img src="{% static "img/addbookbutton.png" %}" id="fixedbutton"></a>
     <!-- jQuery -->
     <script src="{% static 'js/jquery.js' %}"></script>
 

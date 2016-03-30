@@ -15,6 +15,7 @@ from PIL import Image, ExifTags
 from django.core.validators import MaxValueValidator
 import django_filters
 from types import MethodType
+from likert_field.models import LikertField
 class Book(models.Model):
 	Genres = (
 	('Non-Fiction', (
@@ -62,9 +63,10 @@ class Book(models.Model):
 	genre = models.CharField(max_length=100,choices=Genres)
 	description = models.TextField()
 	personal_review = models.TextField(blank=True)
-	price = models.IntegerField(validators=[MaxValueValidator(99999)])
+	price = models.DecimalField(max_digits=6, decimal_places=2)
 	published_date = models.DateTimeField(default=timezone.now)
 	likes = models.IntegerField(default=0)
+	condition = LikertField(blank=False)
 	slug = models.SlugField(
 		unique=True,
 		default=get_random_string,
