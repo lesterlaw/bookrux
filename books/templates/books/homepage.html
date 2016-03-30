@@ -94,7 +94,7 @@
         {% if book.sold == True %}
         <button class="buttonx buttonxred">SOLD</button>
         {% else %}
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
+        <button class="buttonx likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
         {% endif %}
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>

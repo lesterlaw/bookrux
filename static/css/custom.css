@@ -65,6 +65,7 @@
     width: 100%;
 }
 .box-image-text{
+  background-color: #38a7bb;
     overflow: hidden;
     display:block;
     border-radius:9px;
@@ -130,10 +131,10 @@ box-shadow: 0px 0px 10px #000000;
     padding: 10px 0px;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 15.4px;
     cursor: pointer;
     border-right: 1.5px solid #555;
-    border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 5px;
 }
 
 .buttonxred{
