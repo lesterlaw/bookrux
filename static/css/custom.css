@@ -172,10 +172,9 @@ box-shadow: 0px 0px 10px #000000;
     min-height: 100%;
 }
 
-/*.carousel-inner .item img {
+.carousel-inner .item img {
     width: 100%;
-    min-height: 100%;
-}*/
+}
 
 .haha{
     background-color: #eee;
