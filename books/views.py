@@ -26,7 +26,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def homepage(request):
 	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
 	return render(request, 'books/homepage.html', {'books':books})
-
+	
 class BookList(generic.ListView):
 	model = Book
 	template_name = 'books/booklist.html'

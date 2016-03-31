@@ -51,14 +51,13 @@
             <!-- *** NAVBAR ***
     _________________________________________________________ -->
 
-
                 <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
                     <div class="container">
                         <div class="navbar-header">
 
                             <a class="navbar-brand home" href="{% url 'homepage' %}">
-                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="hidden-xs" style="height:42px;">
-                                <img src="../../../static/img/logo.jpg" alt="Bookrux Logo" class="visible-xs" style="height:35px;">
+                                <img src="{% static 'img/logo.jpg' %}" alt="Bookrux Logo" class="hidden-xs" style="height:42px;">
+                                <img src="{% static 'img/logo.jpg' %}" alt="Bookrux Logo" class="visible-xs" style="height:35px;">
                             </a>
                             <div class="navbar-buttons">
                                 <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:#FF5948;"{% endif %}>
@@ -121,13 +120,14 @@
 </ul>
 </div>
 {% endif %}
+
 {% block content %}
 {% endblock %}
 
     <div class="footer">
       <div class="container">
                 <div class="col-md-12">
-                    <p class="pull-right">&copy; Bookrux 2015.</p>
+                    <p class="pull-right">&copy; Bookrux 2016.</p>
                     <p class="pull-left">                            
                             <div class="social">
                                 <a href="https://facebook.com/bookrux" target="_blank" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>

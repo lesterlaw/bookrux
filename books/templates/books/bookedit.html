@@ -51,8 +51,8 @@
 </select>{% if form.genre.errors %}<p id="error_1_id_genre" class="help-block"><strong>This field is required.</strong></p>{% endif %} </div> </div> 
 
 <div id="div_id_price" class="form-group {% if form.price.errors %} has-error {% endif %}"> <label for="id_price" class="control-label  requiredField">
-                How much are you selling for?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="numberinput form-control" id="id_price" name="price" type="number" step="0.01" value="{% if object.price %}{{ object.price }}{% elif form.price.data %}{{form.price.data}}{% endif %}"> {% if form.price.errors %}<p id="error_1_id_price" class="help-block"><strong>{{ form.price.errors }}</strong></p>{% endif %}</div> </div>
-<label for="id_condition">Rating:</label>
+                How much are you selling for?<span class="asteriskField">*</span> </label> <div class="controls"> <div class=" input-group"><span class="input-group-addon">$</span><input class="numberinput form-control" id="id_price" name="price" type="number" step="0.01" value="{% if object.price %}{{ object.price }}{% elif form.price.data %}{{form.price.data}}{% endif %}"> </div>{% if form.price.errors %}<p id="error_1_id_price" class="help-block"><strong>{{ form.price.errors }}</strong></p>{% endif %}</div> </div>
+<label for="id_condition">Condition:</label>
 <div class="star-rating star-5">
 <input id="id_condition" type="radio" name="condition" value="1" {% if object.condition == 1 or form.condition.data == '1' %} checked="checked" {% endif %} 
  class="likert-field" /><i></i>

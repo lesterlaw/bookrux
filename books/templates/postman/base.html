@@ -20,7 +20,7 @@
     	<i class="fa fa-pencil-square-o"></i>{% trans "Write" %}
     {% elif request.resolver_match.url_name == 'reply' %}
     	<i class="fa fa-pencil-square-o"></i>{% trans "Reply" %}
-    {% elif request.resolver_match.url_name == 'view' %}
+    {% elif request.resolver_match.url_name == 'view' or request.resolver_match.url_name == 'view_conversation' %}
     	<i class="fa fa-envelope"></i>{% trans "Message" %}
     {% endif %}
     <span class="caret"></span>
@@ -34,9 +34,9 @@
  	<li><a href="{% url 'postman:write' %}"><i class="fa fa-pencil-square-o"></i>{% trans "Write" %}</a></li>
   </ul>
   </div>
-<a href="{% url 'postman:write' %}" style="color:black;"><button class="btn btn-default"><i class="fa fa-pencil"></i></button></a>
 </div>
 
+<a href="{% url 'postman:write' %}" style="color:black;"><button class="btn btn-default"><i class="fa fa-pencil"></i> Compose</button></a>
 
 
 

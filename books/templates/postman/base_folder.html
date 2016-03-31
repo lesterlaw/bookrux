@@ -27,24 +27,21 @@ in the INSTALLED_APPS setting.
 </div>{% endblock pm_by_modes %}
 <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
 {% block pm_form_buttons %}<span id="pm_buttons">
-{% block pm_delete_button %}<button style="margin:10px 0px;" title="Delete" class="btn btn-default" type="submit" onclick="this.form.action='{% url 'postman:delete' %}'"><i class="fa fa-trash"></i></button>{% endblock %}
-{% block pm_archive_button %}<button title="Archive" class="btn btn-default" type="submit" onclick="this.form.action='{% url 'postman:archive' %}'"><i class="fa fa-archive"></i></button>{% endblock %}
 {% block pm_undelete_button %}<button style="margin:10px 0px;" class="btn btn-default" type="submit" onclick="this.form.action='{% url 'postman:undelete' %}'"><i class="fa fa-minus-circle"></i>Undelete</button>{% endblock %}
 </span>{% endblock %}
 <table id="pm_messages" class="table table-hover" style="width:100%;">
  <thead>
   <tr style="border-top:1px solid #ddd;">
-   <th style="width:3%;">{% trans "Action" %}</th>
 {% block pm_sender_header %}   <th style="width:10%;border-left:1px solid #ddd;"><a href="{% postman_order_by sender %}">{% trans "Sender" %}</a></th>{% endblock %}
 {% block pm_recipient_header %}   <th style="width:10%;border-left:1px solid #ddd;"><a href="{% postman_order_by recipient %}">{% trans "Recipient" %}</a></th>{% endblock %}
    <th style="border-left:1px solid #ddd;"><a href="{% postman_order_by subject %}">{% trans "Subject" %}</a></th>
-   <th style="width:5%;border-left:1px solid #ddd;"><a href="{% postman_order_by date %}">{% block pm_date %}{% trans "Date" %}{% endblock %}</a></th>
+   
   </tr>
  </thead>
  <tbody>{% for message in pm_messages %}
 
   <tr{% if not message.is_new %} style="background-color:#ededed;"{% endif %}>
-   <td><input type="checkbox" {% if by_conversation and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} /></td>
+   
 {% block pm_sender_cell %}   <td>{% if message.obfuscated_sender|or_me:user == '<me>' %}<me>{% else %}<a href="{% url 'user_profile_detail'  message.sender.userprofile.slug %}">{% endif %}{{ message.obfuscated_sender|or_me:user|truncatechars:9 }}{% if message.count %} ({{ message.count }}){% endif %}{% if not message.obfuscated_sender|or_me:user == '<me>' %}</a>{% endif %}</td>{% endblock %}
 {% block pm_recipient_cell %}   <td>{{ message.obfuscated_recipient|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}</td>{% endblock %}
    <td>{% if message.is_new %}<strong>{% endif %}{% if message.is_replied %}<em>{% endif %}
@@ -54,7 +51,6 @@ in the INSTALLED_APPS setting.
     </a>
 {% endblock %}
    {% if message.is_replied %}</em>{% endif %}{% if message.is_new %}</strong>{% endif %}</td>
-   <td>{{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}</td>
 
   </tr>{% endfor %}
  </tbody>

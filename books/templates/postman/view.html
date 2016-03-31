@@ -19,8 +19,6 @@
 <input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
 <a href="{{ next_url }}"><div class="btn btn-default"><i class="fa fa-arrow-left"></i>{% trans "Back" %}</div></a>
 <span id="pm_buttons">
-<button class="btn btn-default" type="submit" onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'"><i class="fa fa-trash-o"></i></button>
-{% if not archived %}<button class="btn btn-default" type="submit" onclick="this.form.action='{% url 'postman:archive' %}?next={{ next_url|urlencode }}'"><i class="fa fa-archive"></i></button>{% endif %}
 </span>
 {% if reply_to_pk %}<a href="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}"><div class="btn btn-default"><i class="fa fa-reply"></i></div></a>{% endif %}
 </form>
