@@ -260,6 +260,7 @@ td a{
     bottom: 20px;
     right: 20px; 
     width: 60px;
+    z-index: 6;
 }
 
 #hometop{
@@ -361,4 +362,36 @@ only screen and (max-width: 760px),
 .likert-star{
     color: #FFBA22;
     font-size: 2em;
+}
+
+.form-control-book{
+
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 18px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  border: 0;
+}
+.post-form-book{
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  padding: 0;
+}
+.form-control-book:focus{
+  background-color: #f2f2f2;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.form-group-book{
+  padding:15px;
+  border-bottom: 2px solid #e6e6e6;
 }

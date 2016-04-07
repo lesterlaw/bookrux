@@ -1,4 +1,5 @@
 {% extends 'books/base.html' %}
+{% load staticfiles %}
 {% block content %}
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
 <div class="container">
@@ -10,7 +11,15 @@
       <div class="top">
 <a href="{% url 'books:bookdetail' book.slug %}">
           <div class="image rcorner1 text-center">
-              <img src="{% if book.image1 %}{{ book.image1.url }}{% else %}../../../static/img/portfolio-1.jpg{% endif %}" alt="" id="listimg">
+              <img src="{% if book.image1 %}
+                          {{ book.image1.url }}
+                        {% elif book.image2 %}
+                            {{ book.image2.url }}
+                        {% elif book.image3 %}
+                            {{ book.image3.url }}
+                        {% elif book.image4 %}
+                            {{ book.image4.url }}
+                        {% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="" id="listimg">
           </div>
 </a>
       </div>
@@ -20,7 +29,7 @@
       {% if book.sold == True %}
         <button class="buttonx buttonxred">SOLD</button>
       {% else %}
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"><span style="color:white;">   {{book.likes}}</span></i></strong></button>
       {% endif %}
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
@@ -45,6 +54,16 @@
     </li>
 {% endif %}
 </ul></div>
+{% else %}
+
+<div class="panel panel-default" style="margin-top:20px;">
+  <div class="panel-body">
+    <h4>
+    There are no books with this genre yet.
+    </h4>
+  </div>
+</div>
 {% endif %}
+
 </div>
 {% endblock %}

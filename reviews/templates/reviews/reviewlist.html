@@ -1,0 +1,9 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+
+{% for review in reviews %}
+<a href="{% url 'reviews:reviewdetail' review.slug %}">{{ review.title }}</a>
+{% endfor %}
+
+{% endblock %}

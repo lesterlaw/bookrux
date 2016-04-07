@@ -1,5 +1,6 @@
 {% extends 'books/base.html' %}
 
+{% load staticfiles %}
 {% block content %}
         <div id="heading-breadcrumbs">
             <div class="container">
@@ -113,7 +114,7 @@
                             {{ book.image3.url }}
                         {% elif book.image4 %}
                             {{ book.image4.url }}
-                        {% else %}../../../static/img/nobookimg.png{% endif %}" alt="" id="listimg">
+                        {% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="" id="listimg">
           </div>
 </a>
       </div>
@@ -123,7 +124,7 @@
         {% if book.sold == True %}
         <button class="buttonx buttonxred">SOLD</button>
         {% else %}
-        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"></i></strong></button>
+        <button class="buttonx{% if book.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ book.slug }}" ><strong><i class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" id="likebuttonheart{{forloop.counter}}" style="color:red"><span style="color:white;">   {{book.likes}}</span></i></strong></button>
         {% endif %}
         <button class="buttony"><strong>${{ book.price }}</strong></button>
     </div>
@@ -134,25 +135,23 @@
 
 {% endfor %}
 </div>
-<div>
+
 {% if is_paginated %}
-<ul class="pagination" style="clear:both;">
-{% if page_obj.has_previous %}
-    <li>
-        <span><a href="?page={{ page_obj.previous_page_number }}">← Newer</a></span>
-    </li>
-{% endif %}
-    <li class="paginationnohover">
-        <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-    </li>
-{% if page_obj.has_next %}
-    <li>
-        <span><a href="?page={{ page_obj.next_page_number }}">Older →</a></span>
-    </li>
-{% endif %}
-</ul>
-{% endif %}
+<div>
+<ul class="pagination nav navbar-nav">
+    {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+    {% endif %}
+    {% for page in page_obj.paginator.page_range %}
+        <li class="{% if page_obj.number == page  %}active{% endif %}"><a href="?page={{page }}">{{ page }}</a></li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <li> <a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+ </ul>
 </div>
+{% endif %}
 {% else %}
 
 {% if not request.GET.q and request.GET.fil %}

@@ -1,0 +1,71 @@
+{% extends 'books/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+<div style="clear:both">
+
+<div class="row portfolio">
+
+
+{% for note in notes %}
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-6 col-sm-4 col-md-3">
+    <div class="box-image-text">
+      <div class="top">
+<a href="{% url 'notes:notedetail' note.slug %}">
+          <div class="image rcorner1 text-center">
+              <img src="{% if note.image1 %}
+                          {{ note.image1.url }}
+                        {% elif note.image2 %}
+                            {{ note.image2.url }}
+                        {% elif note.image3 %}
+                            {{ note.image3.url }}
+                        {% elif note.image4 %}
+                            {{ note.image4.url }}
+                        {% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="" id="listimg">
+          </div>
+</a>
+      </div>
+      <div class="content haha">
+          <h5>{{ note.name|title }}</h5>
+      </div>
+        {% if note.sold == True %}
+        <button class="buttonx buttonxred">SOLD</button>
+        {% else %}
+        <button class="buttonx{% if note.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ note.slug }}" ><strong><i class="fa fa-heart" id="likebuttonheart{{forloop.counter}}" style="color:red"><span style="color:white;">   {{note.likes}}</span></i></strong></button>
+        {% endif %}
+        <button class="buttony"><strong>${{ note.price }}</strong></button>
+    </div>
+    <!-- /.box-image -->
+
+</div>
+
+
+{% endfor %}
+</div>
+
+{% if is_paginated %}
+<div>
+<ul class="pagination nav navbar-nav">
+    {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+    {% endif %}
+    {% for page in page_obj.paginator.page_range %}
+        <li class="{% if page_obj.number == page  %}active{% endif %}"><a href="?page={{page }}">{{ page }}</a></li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <li> <a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% endif %}
+ </ul>
+</div>
+{% endif %}
+</div>
+ 
+
+</div>
+
+
+{% endblock %}

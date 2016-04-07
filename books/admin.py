@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class BookAdmin(admin.ModelAdmin):
 	list_display = ('title', 'genre', 'sold')
 	list_filter = ['published_date', 'genre', 'sold']
-	search_fields = ['title', 'description']
+	search_fields = ['title', 'description', 'author']
 
 admin.site.register(Book, BookAdmin)
 

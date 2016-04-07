@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = "jo478()2z&&*@0f2t!!b8^pypy2thqh2#y6gbz0fqoi7h!)fgz"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bookrux.webfactional.com', 'bookrux.com', 'www.bookrux.com']
 SITE_ID =4
 # Application definition
 INSTALLED_APPS = [
@@ -90,8 +90,12 @@ WSGI_APPLICATION = 'bookbook.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'django_db',
+         'USER': 'bookrux',
+         'PASSWORD': 'KJcannotpronounce',
+         'HOST': '127.0.0.1',
+         'PORT': '5432',
     }
 }
 
@@ -132,13 +136,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATIC_URL = '/static/static_root/'
+STATIC_ROOT = '/home/bookrux/webapps/staticfiles/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/bookrux/webapps/media/'
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"

@@ -7,12 +7,14 @@ from widgets import AdvancedFileInput
 class AddBookForm(forms.ModelForm):
 	class Meta:
 		model = Book
-		fields = ['title', 'description', 'personal_review', 'condition', 'genre', 'price', 'image1', 'image2', 'image3', 'image4']
+		fields = ['title', 'author', 'description', 'personal_review', 'condition', 'genre', 'price', 'image1', 'image2', 'image3', 'image4']
 		labels = {
 			'title': ('What is the name of the book?'),
+			'author': ('Who wrote this book?'),
 			'description':('Details and Condition?'),
 			'personal_review': ('Your thoughts/summary?'),
 			'price': ('How much are you selling for?'),
+
 		}
 
 class UserProfileUpdateForm(forms.ModelForm):

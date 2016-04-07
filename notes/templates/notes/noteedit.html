@@ -1,0 +1,17 @@
+{% extends 'books/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container text-center" style="display:block; padding-bottom: 20px; padding-top:20px;">
+
+<form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
+        
+{{ form|crispy }}
+        <button type="submit" class="save btn btn-lg btn-default" style='margin-top:20px;'>Sell!</button>{% csrf_token %}
+    </form>
+
+
+
+</div>
+{% endblock %}

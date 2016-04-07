@@ -1,23 +1,23 @@
 {% extends 'books/base.html' %}
-{% load mathfilters %}
+
 {% load staticfiles %}
 {% load likert_fa_stars %}
-
 {% block content %}
+
 <div id="heading-breadcrumbs">
     <div class="container">
         <div class="row">
             <div class="col-md-7" style="display:inline;">
-                <h1>{{ object.title|title }}{% if object.author %} - {{ object.author|title }}{% endif %}</h1>
+                <h1>{{ note.title|title }}{% if note.author %} - {{ note.author|title }}{% endif %}</h1>
 
             </div>
-            {% if request.user == object.user %}
+            {% if request.user == note.user %}
             <div class="col-md-5">
                 <ul class="breadcrumb">
-                    {% if object.sold == False %}
-                    <a href="{% url 'books:sold' object.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a>
-                    <a href="{% url 'books:editbook' object.slug %}"><button class="btn btn-default">Edit Post</button></a>{% endif %}
-                    <a href="{% url 'books:deletebook' object.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
+                    {% if note.sold == False %}
+<!--                     <a href="{% url 'books:sold' note.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a> -->
+                    <a href="{% url 'notes:editnote' note.slug %}"><button class="btn btn-default">Edit Post</button></a>{% endif %}
+                    <a href="{% url 'notes:deletenote' note.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
                 </ul>
 
             </div>
@@ -29,12 +29,12 @@
         <div id="content">
             <div class="container">
                 <div class="col-md-9">
-                    <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}">
-                        <span class="circularbook">{% if object.user.userprofile.image %}
-                            <img src="{{ object.user.userprofile.image.url }}">{% else %}<img src="{% static 'img/noprofilepic.png' %}">{% endif %}
+                    <a href="{% url 'user_profile_detail' note.user.userprofile.slug %}">
+                        <span class="circularbook">{% if note.user.userprofile.image %}
+                            <img src="{{ note.user.userprofile.image.url }}">{% else %}<img src="{% static 'img/noprofilepic.png' %}">{% endif %}
                         </span>
                     </a><h2>
-                    <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}" style=" margin-left:14px;">{{object.user}}</a></h2><!-- <hr style="border-bottom: 1px solid #ccc"> -->
+                    <a href="{% url 'user_profile_detail' note.user.userprofile.slug %}" style=" margin-left:14px;">{{note.user}}</a></h2><!-- <hr style="border-bottom: 1px solid #ccc"> -->
                     
                 </div>
                 <div class="row">
@@ -51,27 +51,27 @@
 							  <!-- Indicators -->
 							  <ol class="carousel-indicators">
 							    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-							    {% if object.image2 %}<li data-target="#myCarousel" data-slide-to="1"></li>{% endif %}
-							    {% if object.image3 %}<li data-target="#myCarousel" data-slide-to="2"></li>{% endif %}
-							    {% if object.image4 %}<li data-target="#myCarousel" data-slide-to="3"></li>{% endif %}
+							    {% if note.image2 %}<li data-target="#myCarousel" data-slide-to="1"></li>{% endif %}
+							    {% if note.image3 %}<li data-target="#myCarousel" data-slide-to="2"></li>{% endif %}
+							    {% if note.image4 %}<li data-target="#myCarousel" data-slide-to="3"></li>{% endif %}
 							  </ol>
 
 							  <!-- Wrapper for slides -->
 							  <div class="carousel-inner" role="listbox">
 							    <div class="item active">
-							      <img src="{% if object.image1 %}{{ object.image1.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="pic1">
+							      <img src="{% if note.image1 %}{{ note.image1.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="pic1">
 							    </div>
 
-							    {% if object.image2 %}<div class="item">
-							      <img src="{{ object.image2.url }}" alt="pic2">
+							    {% if note.image2 %}<div class="item">
+							      <img src="{{ note.image2.url }}" alt="pic2">
 							    </div>{% endif %}
 
-							    {% if object.image3 %}<div class="item">
-							      <img src="{{ object.image3.url }}" alt="pic3">
+							    {% if note.image3 %}<div class="item">
+							      <img src="{{ note.image3.url }}" alt="pic3">
 							    </div>{% endif %}
 
-							    {% if object.image4 %}<div class="item">
-							      <img src="{{ object.image4.url }}" alt="pic4">
+							    {% if note.image4 %}<div class="item">
+							      <img src="{{ note.image4.url }}" alt="pic4">
 							    </div>{% endif %}
 							  </div>
 
@@ -85,7 +85,7 @@
 							    <span class="sr-only">Next</span>
 							  </a>
 						    <div class="ribbon sale">
-                                    <div class="theribbon">{% if object.sold == True %}SOLD{% else %}{{ object.genre|upper }}{% endif %}</div>
+                                    <div class="theribbon">{% if note.sold == True %}SOLD{% else %}{{ note.subject|upper }}{% endif %}</div>
                                     <div class="ribbon-background"></div>
                                 </div>
 							</div>
@@ -102,12 +102,12 @@
 
                                         </div>
 
-                                        <p class="price">${{ object.price|floatformat:2 }}{% if object.sold == True %} (SOLD){% endif %}</p>
+                                        <p class="price">${{ note.price|floatformat:2 }}{% if note.sold == True %} (SOLD){% endif %}</p>
 
                                         <p class="text-center">
                                             {% if user.is_authenticated %}
-                                            <a href="{% url 'postman:write' object.user %}"><button class="btn btn-template-main"><i class="fa fa-comment"></i>Message Seller</button></a>
-                                            {% if object.sold == False %}
+                                            <a href="{% url 'postman:write' note.user %}"><button class="btn btn-template-main"><i class="fa fa-comment"></i>Message Seller</button></a>
+                                            {% if note.sold == False %}
                                             <h4 class="text-center">OR</h4>
 
                                             <a href="{% url 'books:rentcomingsoon' %}"><button class="btn btn-template-main"><i class="fa fa-clock-o"></i>Rent</button></a>
@@ -120,7 +120,7 @@
                                             
 
                                             <!-- ADD TO BOOKSHELF BUTTON (DOESNT WORK) -->
-                                            <button type="submit" class="btn btn-template-main likes1" data-toggle="tooltip" data-placement="top" title="Add to wishlist" style="color:red" data-catid="{{ object.slug }}"><i id="likebuttonheart1" class="fa fa-heart{% if user.is_authenticated %}{% if not book in request.user.userprofile.shelf.all %}-o{% endif %}{% else %}-o{% endif %}" style="color:red"></i>
+                                            <button type="submit" class="btn btn-template-main likes1" data-toggle="tooltip" data-placement="top" title="Add to wishlist" style="color:red" data-catid="{{ note.slug }}"><i id="likebuttonheart1" class="fa fa-heart" style="color:red"></i>
                                             </button>
                                         </p>
 
@@ -143,17 +143,17 @@
                               <div class="tab-content">
                                 <div id="home" class="tab-pane fade in active">
                                     <h3>Book Condition</h3>
-                                    {{ object.condition|fa_stars4 }}
+                                    {{ note.condition|fa_stars4 }}
                                   <h3>Book Details</h3>
-                                  <p>{{ object.description }}</p>
+                                  <p>{{ note.description }}</p>
                                 </div>
                                 <div id="menu1" class="tab-pane fade">
                                   <h3>Personal Thoughts and Review</h3>
-                                  <p>{{ object.personal_review }}</p>
+                                  <p>{{ note.personal_review }}</p>
                                 </div>
                               </div>
                                 <blockquote>
-                                    <p><em>Posted by <a href="{% url 'user_profile_detail' object.user.userprofile.slug %}">{{object.user}}</a> on {{object.published_date}}</em>
+                                    <p><em>Posted by <a href="{% url 'user_profile_detail' note.user.userprofile.slug %}">{{note.user}}</a> on {{note.published_date}}</em>
                                     </p>
                                 </blockquote>
                             </p>
@@ -271,101 +271,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="panel panel-default sidebar-menu">
-
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Brands</h3>
-                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
-                            </div>
-
-                            <div class="panel-body">
-
-                                <form>
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Armani (10)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Versace (12)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Carlo Bruni (15)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Jack Honey (14)
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
-
-                                </form>
-
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default sidebar-menu">
-
-                            <div class="panel-heading">
-                                <h3 class="panel-title clearfix">Colours</h3>
-                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
-                            </div>
-
-                            <div class="panel-body">
-
-                                <form>
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour white"></span> White (14)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour blue"></span> Blue (10)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour green"></span> Green (20)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour yellow"></span> Yellow (13)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour red"></span> Red (10)
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
-
-                                </form>
-
-                            </div>
-                        </div> -->
-
-                        <!-- *** MENUS AND FILTERS END *** -->
-
-<!--                         <div class="banner">
-                            <a href="shop-category.html">
-                                <img src="../../../static/img/banner.jpg" alt="sales 2014" class="img-responsive">
-                            </a>
-                        </div>
-                    </div> -->
-                    <!-- /.col-md-3 -->
-
                     <!-- *** RIGHT COLUMN END *** -->
 
                 </div>
@@ -375,5 +280,6 @@
             <!-- /.container -->
         </div>
         <!-- /#content -->
+
 
 {% endblock %}

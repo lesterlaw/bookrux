@@ -4,6 +4,8 @@ from django.template import Context
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from .models import Book, UserProfile, Rating
+from notes.models import Note
+from reviews.models import Review
 from django.contrib.auth.models import User
 from django.views import generic
 from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm, ContactForm
@@ -25,7 +27,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def homepage(request):
 	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
-	return render(request, 'books/homepage.html', {'books':books})
+	notes = Note.objects.all().order_by('-published_date').filter(sold=False)[:6]
+	reviews = Review.objects.all().order_by('-published_date')
+	return render(request, 'books/homepage.html', {'books':books,'notes':notes,'reviews':reviews})
 	
 class BookList(generic.ListView):
 	model = Book
@@ -38,15 +42,15 @@ class BookList(generic.ListView):
 		filtered = self.request.GET.get('fil')
 		if query and not filtered:
 			return Book.objects.filter(
-				Q(title__contains=query)
+				Q(title__icontains=query)
 				).order_by('sold', '-published_date')
 		elif filtered and not query:
 			return Book.objects.filter(
-				Q(genre__contains=filtered)).order_by('sold', '-published_date')
+				Q(genre__icontains=filtered)).order_by('sold', '-published_date')
 		elif filtered and query:
 			return Book.objects.filter(
-				Q(title__contains=query) &
-				Q(genre__contains=filtered)).order_by('sold', '-published_date')
+				Q(title__icontains=query) &
+				Q(genre__icontains=filtered)).order_by('sold', '-published_date')
 		return Book.objects.order_by('sold', '-published_date')
 
 
