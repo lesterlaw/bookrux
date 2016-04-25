@@ -1,13 +1,64 @@
 {% extends 'books/base.html' %}
 
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 {% block content %}
 
 <div class="container text-center" style="display:block; padding-bottom: 20px; padding-top:20px;">
 
-<form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
+<form enctype="multipart/form-data" method="POST" class="post-form col-md-6 col-md-offset-3">{% csrf_token %}
         
-{{ form|crispy }}
+<div class="post-form-book">
+
+
+<div id="div_id_title" class="form-group-book {% if form.title.errors %} has-error {% endif %}"><label for="id_title" class="control-label  requiredField">
+                What is the name of the book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_title" maxlength="100" name="title" type="text" placeholder="Title of the book" value="{% if object.title %}{{ object.title }}{% elif form.title.data %}{{form.title.data}}{% endif %}">{% if form.title.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+
+<div id="div_id_writer" class="form-group-book {% if form.writer.errors %} has-error {% endif %}"><label for="id_writer" class="control-label  requiredField">
+                Who wrote this book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_writer" maxlength="100" name="writer" type="text" placeholder="Author" value="{% if object.writer %}{{ object.writer }}{% elif form.writer.data %}{{form.writer.data}}{% endif %}">{% if form.writer.errors %}<p id="error_1_id_writer" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+
+<div id="div_id_review" class="form-group-book {% if form.review.errors %} has-error {% endif %}"> <label for="id_review" class="control-label  requiredField">
+                Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_review" name="review" rows="10" placeholder="Describe briefly about the book.
+(E.g. When did you buy the book? How many times have you read the book?) ">{% if object.review %}{{ object.review }}{% elif form.review.data %}{{form.review.data}}{% endif %}</textarea>{% if form.review.errors %}<p id="error_1_id_review" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+
+                <div class="form-group-book">
+                <label for="id_rating">Condition:</label></br>
+<div class="star-rating star-5">
+<input id="id_rating" type="radio" name="rating" value="1" {% if object.rating == 1 or form.rating.data == '1' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_rating" type="radio" name="rating" value="2" {% if object.rating == 2 or form.rating.data == '2' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_rating" type="radio" name="rating" value="3" {% if object.rating == 3 or form.rating.data == '3' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_rating" type="radio" name="rating" value="4" {% if object.rating == 4 or form.rating.data == '4' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_rating" type="radio" name="rating" value="5" {% if object.rating == 5 or form.rating.data == '5' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+ </div>
+ {% if form.rating.errors %}<p id="error_1_id_rating" class="help-block" style="color:#a94442;"><strong>This field is required.</strong></p>{% endif %}
+ </div>
+
+<div id="div_id_image1" class="form-group-book"> 
+	            <label for="id_image1" class="control-label ">
+	                {% if object.image1 %}Change Image:{% else %}Image{% endif %}
+	            </label> 
+            	<div class="controls ">
+		            <div class="thumbnail">
+	                    <img src="{% if object.image1 %}{{ object.image1.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" id="id_image1">
+	                    <div class="caption">
+	                    	<input class="clearablefileinput" id="id_image1" name="image1" type="file" onchange="upload_img1(this);">
+	                    </div>
+	                    {% if object.image1 %}
+	                    <input id="image1-clear_id" name="image1-clear" type="checkbox">
+		                <label for="image1-clear_id">
+		                	Remove Image
+		                </label><br>
+		                {% endif %}
+	                </div>
+            	</div> 
+            </div>
+
+</div>
         <button type="submit" class="save btn btn-lg btn-default" style='margin-top:20px;'>Sell!</button>{% csrf_token %}
     </form>
 

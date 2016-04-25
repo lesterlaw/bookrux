@@ -1,13 +1,174 @@
 {% extends 'books/base.html' %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block content %}
 
 <div class="container text-center" style="display:block; padding-bottom: 20px; padding-top:20px;">
+								{% if not object.name %}
+                              <ul class="nav nav-tabs" style="padding-top:10px;">
+                                <li style="width:50%;"><a href="{% url 'books:addbook' %}" class="text-center">Books</a></li>
+                                <li class="active" style="width:50%;"><a href="{% url 'notes:addnote' %}" class="text-center">Textbooks/Notes</a></li>
+                              </ul>
+                              	{% endif %}
 
 <form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
+
+<div class="post-form-book">
         
-{{ form|crispy }}
+
+<div id="div_id_name" class="form-group-book {% if form.name.errors %} has-error {% endif %}"><label for="id_name" class="control-label  requiredField">
+                What is the name of the item?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_name" maxlength="100" name="name" type="text" placeholder="Name of the textbook/lecture note" value="{% if object.name %}{{ object.name }}{% elif form.name.data %}{{form.name.data}}{% endif %}">{% if form.name.errors %}<p id="error_1_id_name" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div>  <div id="div_id_subject" class="form-group-book {% if form.subject.errors %} has-error {% endif %}"> <label for="id_subject" class="control-label  requiredField">
+                Subject<span class="asteriskField">*</span> </label> <div class="controls "> 
+{% if object.genre == "Biography" or form.genre.data == "Biography" %} selected="selected"{% endif %}
+<select class="select form-control-book" id="id_subject" name="subject">
+<option value="">Subject</option>
+<optgroup label="Primary">
+<option value="prienglish"{% if object.subject == "prienglish" or form.subject.data == "prienglish" %} selected="selected"{% endif %}>English</option>
+<option value="primath"{% if object.subject == "primath" or form.subject.data == "primath" %} selected="selected"{% endif %}>Math</option>
+<option value="primothertongue"{% if object.subject == "primothertongue" or form.subject.data == "primothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+<option value="priscience"{% if object.subject == "priscience" or form.subject.data == "priscience" %} selected="selected"{% endif %}>Science</option>
+</optgroup>
+<optgroup label="Secondary">
+<option value="secenglish"{% if object.subject == "secenglish" or form.subject.data == "secenglish" %} selected="selected"{% endif %}>English</option>
+<option value="secmath"{% if object.subject == "secmath" or form.subject.data == "secmath" %} selected="selected"{% endif %}>Math</option>
+<option value="secmothertongue"{% if object.subject == "secmothertongue" or form.subject.data == "secmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+<option value="secscience"{% if object.subject == "secscience" or form.subject.data == "secscience" %} selected="selected"{% endif %}>Science</option>
+<option value="sechumanities"{% if object.subject == "sechumanities" or form.subject.data == "sechumanities" %} selected="selected"{% endif %}>Humanities</option>
+</optgroup>
+<optgroup label="Junior College">
+<option value="jcgp"{% if object.subject == "jcgp" or form.subject.data == "jcgp" %} selected="selected"{% endif %}>General Paper</option>
+<option value="jcmath"{% if object.subject == "jcmath" or form.subject.data == "jcmath" %} selected="selected"{% endif %}>Math</option>
+<option value="jcmothertongue"{% if object.subject == "jcmothertongue" or form.subject.data == "jcmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+<option value="jcscience"{% if object.subject == "jcscience" or form.subject.data == "jcscience" %} selected="selected"{% endif %}>Science</option>
+<option value="jchumanities"{% if object.subject == "jchumanities" or form.subject.data == "jchumanities" %} selected="selected"{% endif %}>Humanities</option>
+</optgroup>
+<optgroup label="Polytechnic">
+<option value="polybusiness"{% if object.subject == "polybusiness" or form.subject.data == "polybusiness" %} selected="selected"{% endif %}>Business</option>
+<option value="polydesign"{% if object.subject == "polydesign" or form.subject.data == "polydesign" %} selected="selected"{% endif %}>Design</option>
+<option value="polyengineering"{% if object.subject == "polyengineering" or form.subject.data == "polyengineering" %} selected="selected"{% endif %}>Engineering</option>
+<option value="polyit"{% if object.subject == "polyit" or form.subject.data == "polyit" %} selected="selected"{% endif %}>IT</option>
+<option value="polymedia"{% if object.subject == "polymedia" or form.subject.data == "polymedia" %} selected="selected"{% endif %}>Media</option>
+<option value="polyscience"{% if object.subject == "polyscience" or form.subject.data == "polyscience" %} selected="selected"{% endif %}>Science</option>
+</optgroup>
+<optgroup label="ITE">
+<option value="itebusiness"{% if object.subject == "itebusiness" or form.subject.data == "itebusiness" %} selected="selected"{% endif %}>Business</option>
+<option value="itedesign"{% if object.subject == "itedesign" or form.subject.data == "itedesign" %} selected="selected"{% endif %}>Design</option>
+<option value="iteengineering"{% if object.subject == "iteengineering" or form.subject.data == "iteengineering" %} selected="selected"{% endif %}>Engineering</option>
+<option value="iteit"{% if object.subject == "iteit" or form.subject.data == "iteit" %} selected="selected"{% endif %}>IT</option>
+<option value="itemedia"{% if object.subject == "itemedia" or form.subject.data == "itemedia" %} selected="selected"{% endif %}>Media</option>
+<option value="itescience"{% if object.subject == "itescience" or form.subject.data == "itescience" %} selected="selected"{% endif %}>Science</option>
+</optgroup>
+<optgroup label="University">
+<option value="unibusiness"{% if object.subject == "unibusiness" or form.subject.data == "unibusiness" %} selected="selected"{% endif %}>Business</option>
+<option value="unidesign"{% if object.subject == "unidesign" or form.subject.data == "unidesign" %} selected="selected"{% endif %}>Design</option>
+<option value="uniengineering"{% if object.subject == "uniengineering" or form.subject.data == "uniengineering" %} selected="selected"{% endif %}>Engineering</option>
+<option value="uniit"{% if object.subject == "uniit" or form.subject.data == "uniit" %} selected="selected"{% endif %}>IT</option>
+<option value="unimedia"{% if object.subject == "unimedia" or form.subject.data == "unimedia" %} selected="selected"{% endif %}>Media</option>
+<option value="uniscience"{% if object.subject == "uniscience" or form.subject.data == "uniscience" %} selected="selected"{% endif %}>Science</option>
+</optgroup>
+</select> {% if form.subject.errors %}<p id="error_1_id_subject" class="help-block"><strong>This field is required.</strong></p>{% endif %}</div> </div> 
+<div id="div_id_description" class="form-group-book {% if form.description.errors %} has-error {% endif %}"> <label for="id_description" class="control-label  requiredField">
+                Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_description" name="description" rows="10" placeholder="Describe briefly about the item.
+(E.g. When did you buy it? How many times have you read it?) If applicable, give a short review as well!">{% if object.description %}{{ object.description }}{% elif form.description.data %}{{form.description.data}}{% endif %}</textarea>{% if form.description.errors %}<p id="error_1_id_description" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+
+<div id="div_id_price" class="form-group-book {% if form.price.errors %} has-error {% endif %}"> <label for="id_price" class="control-label  requiredField">
+                How much are you selling for?<span class="asteriskField">*</span> </label> <div class="controls"> <div class=" input-group"><span class="input-group-addon">$</span><input class="numberinput form-control-book " id="id_price" name="price" type="number" step="0.01" value="{% if object.price %}{{ object.price }}{% elif form.price.data %}{{form.price.data}}{% endif %}"> </div>{% if form.price.errors %}<p id="error_1_id_price" class="help-block"><strong>{{ form.price.errors }}</strong></p>{% endif %}</div> </div>
+
+                                <div class="form-group-book">
+                <label for="id_condition">Condition:</label></br>
+<div class="star-rating star-5">
+<input id="id_condition" type="radio" name="condition" value="1" {% if object.condition == 1 or form.condition.data == '1' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_condition" type="radio" name="condition" value="2" {% if object.condition == 2 or form.condition.data == '2' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_condition" type="radio" name="condition" value="3" {% if object.condition == 3 or form.condition.data == '3' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_condition" type="radio" name="condition" value="4" {% if object.condition == 4 or form.condition.data == '4' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+<input id="id_condition" type="radio" name="condition" value="5" {% if object.condition == 5 or form.condition.data == '5' %} checked="checked" {% endif %} 
+ class="likert-field" /><i></i>
+ </div>
+ {% if form.condition.errors %}<p id="error_1_id_condition" class="help-block" style="color:#a94442;"><strong>This field is required.</strong></p>{% endif %}
+ </div>
+
+ <div id="div_id_image1" class="form-group-book"> 
+	            <label for="id_image1" class="control-label ">
+	                {% if object.image1 %}Change Image:{% else %}First Image{% endif %}
+	            </label> 
+            	<div class="controls ">
+		            <div class="thumbnail">
+	                    <img src="{% if object.image1 %}{{ object.image1.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" id="id_image1">
+	                    <div class="caption">
+	                    	<input class="clearablefileinput" id="id_image1" name="image1" type="file" onchange="upload_img1(this);">
+	                    </div>
+	                    {% if object.image1 %}
+	                    <input id="image1-clear_id" name="image1-clear" type="checkbox">
+		                <label for="image1-clear_id">
+		                	Remove Image
+		                </label><br>
+		                {% endif %}
+	                </div>
+            	</div> 
+            </div>
+            <div id="div_id_image2" class="form-group-book"> 
+	            <label for="id_image2" class="control-label ">
+	                {% if object.image2 %}Change Image:{% else %}Second Image{% endif %}
+	            </label> 
+            	<div class="controls ">
+		            <div class="thumbnail">
+	                    <img src="{% if object.image2 %}{{ object.image2.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" id="id_image2">
+	                    <div class="caption">
+	                    	<input class="clearablefileinput" id="id_image2" name="image2" type="file" onchange="upload_img2(this);">
+	                    </div>
+	                    {% if object.image2 %}
+	                    <input id="image1-clear_id" name="image1-clear" type="checkbox"> 
+		                <label for="image1-clear_id">
+		                	Remove Image
+		                </label><br>
+		                {% endif %}
+	                </div>
+            	</div> 
+            </div>
+            <div id="div_id_image3" class="form-group-book"> 
+	            <label for="id_image3" class="control-label ">
+	                {% if object.image3 %}Change Image:{% else %}Third Image{% endif %}
+	            </label> 
+            	<div class="controls ">
+		            <div class="thumbnail">
+	                    <img src="{% if object.image3 %}{{ object.image3.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" id="id_image3">
+	                    <div class="caption">
+	                    	<input class="clearablefileinput" id="id_image3" name="image3" type="file" onchange="upload_img3(this);">
+	                    </div>
+	                    {% if object.image3 %}
+	                    <input id="image3-clear_id" name="image3-clear" type="checkbox"> 
+		                <label for="image3-clear_id">
+		                	Remove Image
+		                </label><br>
+		                {% endif %}
+	                </div>
+            	</div> 
+            </div>
+            <div id="div_id_image4" class="form-group-book"> 
+	            <label for="id_image4" class="control-label ">
+	                {% if object.image4 %}Change Image:{% else %}Fourth Image{% endif %}
+	            </label> 
+            	<div class="controls ">
+		            <div class="thumbnail">
+	                    <img src="{% if object.image4 %}{{ object.image4.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}" id="id_image4">
+	                    <div class="caption">
+	                    	<input class="clearablefileinput" id="id_image4" name="image4" type="file" onchange="upload_img4(this);">
+	                    </div>
+	                    {% if object.image4 %}
+	                    <input id="image4-clear_id" name="image4-clear" type="checkbox"> 
+		                <label for="image4-clear_id">
+		                	Remove Image
+		                </label><br>
+		                {% endif %}
+	                </div>
+            	</div> 
+            </div>
+           </div>
         <button type="submit" class="save btn btn-lg btn-default" style='margin-top:20px;'>Sell!</button>{% csrf_token %}
     </form>
 

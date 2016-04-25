@@ -4,19 +4,26 @@
 
 {% block content %}
 <div class="container text-center" style="display:block; padding-bottom: 20px; padding-top:20px;">
+								{% if not object.title %}
+                              <ul class="nav nav-tabs" style="padding-top:10px;">
+                                <li class="active" style="width:50%;"><a data-toggle="tab" href="#home" class="text-center">Books</a></li>
+                                <li style="width:50%;"><a href="{% url 'notes:addnote' %}" class="text-center">Textbooks/Notes</a></li>
+                              </ul>
+                              	{% endif %}
 
 <form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
         
 <div class="post-form-book">
 
 <div id="div_id_title" class="form-group-book {% if form.title.errors %} has-error {% endif %}"><label for="id_title" class="control-label  requiredField">
-                What is the name of the book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_title" maxlength="100" name="title" type="text" value="{% if object.title %}{{ object.title }}{% elif form.title.data %}{{form.title.data}}{% endif %}">{% if form.title.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+                What is the name of the book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_title" maxlength="100" name="title" type="text" placeholder="Title of the book" value="{% if object.title %}{{ object.title }}{% elif form.title.data %}{{form.title.data}}{% endif %}">{% if form.title.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
 
                 <div id="div_id_author" class="form-group-book{% if form.author.errors %} has-error {% endif %}"> <label for="id_author" class="control-label  requiredField">
-                Who wrote this book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_author" maxlength="100" name="author" type="text" value="{% if object.author %}{{ object.author }}{% elif form.author.data %}{{form.author.data}}{% endif %}"> {% if form.author.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %}</div> </div>
+                Who wrote this book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_author" maxlength="100" name="author" type="text" placeholder="Author" value="{% if object.author %}{{ object.author }}{% elif form.author.data %}{{form.author.data}}{% endif %}"> {% if form.author.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %}</div> </div>
 
                 <div id="div_id_description" class="form-group-book {% if form.description.errors %} has-error {% endif %}"> <label for="id_description" class="control-label  requiredField">
-                Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_description" name="description" rows="10">{% if object.description %}{{ object.description }}{% elif form.description.data %}{{form.description.data}}{% endif %}</textarea>{% if form.description.errors %}<p id="error_1_id_description" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
+                Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_description" name="description" rows="10" placeholder="Describe briefly about the book.
+(E.g. When did you buy the book? How many times have you read the book?) ">{% if object.description %}{{ object.description }}{% elif form.description.data %}{{form.description.data}}{% endif %}</textarea>{% if form.description.errors %}<p id="error_1_id_description" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
 
                 <div class="form-group-book">
                 <label for="id_condition">Condition:</label></br>
@@ -37,44 +44,43 @@
 
  <div id="div_id_personal_review" class="form-group-book"> <label for="id_personal_review" class="control-label ">
                 Your thoughts/summary?
-            </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_personal_review" name="personal_review" rows="10">{% if object.personal_review %}{{ object.personal_review }}{% elif form.personal_review.data %}{{form.personal_review.data}}{% endif %}</textarea> </div> </div> <div id="div_id_genre" class="form-group-book {% if form.genre.errors %} has-error {% endif %}"> <label for="id_genre" class="control-label  requiredField">
-                Genre<span class="asteriskField">*</span> </label> <div class="controls "> <select class="select form-control-book " id="id_genre" name="genre">
-<option value="">---------</option>
+            </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_personal_review" name="personal_review" rows="10" placeholder="Give a short review of the book! (Not necessary) :)">{% if object.personal_review %}{{ object.personal_review }}{% elif form.personal_review.data %}{{form.personal_review.data}}{% endif %}</textarea> </div> </div> <div id="div_id_genre" class="form-group-book {% if form.genre.errors %} has-error {% endif %}"> <label for="id_genre" class="control-label  requiredField">
+                Genre<span class="asteriskField">*</span> </label> <div class="controls ">
+
+<select class="select form-control-book" id="id_genre" name="genre">
+<option value="">Select a genre</option>
 <optgroup label="Non-Fiction">
 <option value="Biography"{% if object.genre == "Biography" or form.genre.data == "Biography" %} selected="selected"{% endif %}>Biography</option>
 <option value="Business"{% if object.genre == "Business" or form.genre.data == "Business" %} selected="selected"{% endif %}>Business</option>
-<option value="Computer"{% if object.genre == "Computer" or form.genre.data == "Computer" %} selected="selected"{% endif %}>Computer</option>
+<option value="Computing"{% if object.genre == "Computing" or form.genre.data == "Computing" %} selected="selected"{% endif %}>Computing</option>
+<option value="Design"{% if object.genre == "Design" or form.genre.data == "Design" %} selected="selected"{% endif %}>Design</option>
 <option value="Engineering"{% if object.genre == "Engineering" or form.genre.data == "Engineering" %} selected="selected"{% endif %}>Engineering</option>
 <option value="Finance"{% if object.genre == "Finance" or form.genre.data == "Finance" %} selected="selected"{% endif %}>Finance</option>
-<option value="Food"{% if object.genre == "" %} selected="selected"{% endif %}>Food &amp; Beverages</option>
+<option value="Food"{% if object.genre == "Food" or form.genre.data == "Food" %} selected="selected"{% endif %}>Food</option>
 <option value="History"{% if object.genre == "History" or form.genre.data == "History" %} selected="selected"{% endif %}>History</option>
 <option value="Law"{% if object.genre == "Law" or form.genre.data == "Law" %} selected="selected"{% endif %}>Law</option>
-<option value="Manga"{% if object.genre == "Manga" or form.genre.data == "Manga" %} selected="selected"{% endif %}>Manga</option>
-<option value="Medical"{% if object.genre == "Medical" or form.genre.data == "Medical" %} selected="selected"{% endif %}>Medical</option>
-<option value="Novel"{% if object.genre == "Novel" or form.genre.data == "Novel" %} selected="selected"{% endif %}>Novel</option>
 <option value="Religion"{% if object.genre == "Religion" or form.genre.data == "Religion" %} selected="selected"{% endif %}>Religion</option>
+<option value="Science"{% if object.genre == "Science" or form.genre.data == "Science" %} selected="selected"{% endif %}>Science</option>
 <option value="Sports"{% if object.genre == "Sports" or form.genre.data == "Sports" %} selected="selected"{% endif %}>Sports</option>
 <option value="Technology"{% if object.genre == "Technology" or form.genre.data == "Technology" %} selected="selected"{% endif %}>Technology</option>
 </optgroup>
 <optgroup label="Fiction">
-<option value="Action"{% if object.genre == "Action" %} selected="selected"{% endif %}>Action</option>
-<option value="Adventure"{% if object.genre == "Adventure" %} selected="selected"{% endif %}>Adventure</option>
-<option value="Classics"{% if object.genre == "Classics" %} selected="selected"{% endif %}>Classics</option>
-<option value="Crime"{% if object.genre == "Crime" %} selected="selected"{% endif %}>Crime</option>
-<option value="Fantasy"{% if object.genre == "Fantasy" %} selected="selected"{% endif %}>Fantasy</option>
-<option value="Horror"{% if object.genre == "Horror" %} selected="selected"{% endif %}>Horror</option>
-<option value="Romance"{% if object.genre == "Romance" %} selected="selected"{% endif %}>Romance</option>
-<option value="ScienceFiction"{% if object.genre == "ScienceFiction" %} selected="selected"{% endif %}>Science Fiction</option>
-<option value="Thrillers"{% if object.genre == "Thrillers" %} selected="selected"{% endif %}>Thrillers</option>
+<option value="Action"{% if object.genre == "Action" or form.genre.data == "Action" %} selected="selected"{% endif %}>Action</option>
+<option value="Comic"{% if object.genre == "Comic" or form.genre.data == "Comic" %} selected="selected"{% endif %}>Comic</option>
+<option value="Crime"{% if object.genre == "Crime" or form.genre.data == "Crime" %} selected="selected"{% endif %}>Crime</option>
+<option value="Fantasy"{% if object.genre == "Fantasy" or form.genre.data == "Fantasy" %} selected="selected"{% endif %}>Fantasy</option>
+<option value="Horror"{% if object.genre == "Horror" or form.genre.data == "Horror" %} selected="selected"{% endif %}>Horror</option>
+<option value="Mystery"{% if object.genre == "Mystery" or form.genre.data == "Mystery" %} selected="selected"{% endif %}>Mystery</option>
+<option value="Novels"{% if object.genre == "Novels" or form.genre.data == "Novels" %} selected="selected"{% endif %}>Novels</option>
+<option value="Romance"{% if object.genre == "Romance" or form.genre.data == "Romance" %} selected="selected"{% endif %}>Romance</option>
+<option value="sciencefiction"{% if object.genre == "sciencefiction" or form.genre.data == "sciencefiction" %} selected="selected"{% endif %}>Science Fiction</option>
 </optgroup>
-<optgroup label="School Books">
-<option value="Secondary"{% if object.genre == "Secondary" %} selected="selected"{% endif %}>Secondary</option>
-<option value="Primary"{% if object.genre == "Primary" %} selected="selected"{% endif %}>Primary</option>
-<option value="Polytechnic"{% if object.genre == "Polytechnic" %} selected="selected"{% endif %}>Polytechnic</option>
-<option value="juniorcollege"{% if object.genre == "juniorcollege" %} selected="selected"{% endif %}>Junior College</option>
-<option value="university"{% if object.genre == "university" %} selected="selected"{% endif %}>University</option>
+<optgroup label="Others">
+<option value="Others"{% if object.genre == "Others" or form.genre.data == "Others" %} selected="selected"{% endif %}>Others</option>
 </optgroup>
-</select>{% if form.genre.errors %}<p id="error_1_id_genre" class="help-block"><strong>This field is required.</strong></p>{% endif %} </div> </div> 
+</select>
+
+{% if form.genre.errors %}<p id="error_1_id_genre" class="help-block"><strong>This field is required.</strong></p>{% endif %} </div> </div> 
 
 <div id="div_id_price" class="form-group-book {% if form.price.errors %} has-error {% endif %}"> <label for="id_price" class="control-label  requiredField">
                 How much are you selling for?<span class="asteriskField">*</span> </label> <div class="controls"> <div class=" input-group"><span class="input-group-addon">$</span><input class="numberinput form-control-book " id="id_price" name="price" type="number" step="0.01" value="{% if object.price %}{{ object.price }}{% elif form.price.data %}{{form.price.data}}{% endif %}"> </div>{% if form.price.errors %}<p id="error_1_id_price" class="help-block"><strong>{{ form.price.errors }}</strong></p>{% endif %}</div> </div>

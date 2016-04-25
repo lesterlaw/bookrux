@@ -59,6 +59,144 @@
                                 <img src="{% static 'img/logo.jpg' %}" alt="Bookrux Logo" class="hidden-xs" style="height:42px;">
                                 <img src="{% static 'img/logo.jpg' %}" alt="Bookrux Logo" class="visible-xs" style="height:35px;">
                             </a>
+                            <a href="javascript: void(0)" class="dropdown-toggle navbar-brand home visible-xs " id='dropdown-button-mobile' data-toggle="dropdown" style="text-decoration:none; padding-top:20px;">Browse <b class="caret"></b></a>
+                                    <ul class="dropdown-menu" id="dropdown-menu-mobile">
+                                        <li class="dropdown-header"><h5 class="main-green">Books</h5></li>
+                                        <li class="dropdown-header"><h5>Non-fiction</h5></li>
+                                            <li><a href="{% url 'books:genredetail' 'Biography' %}">Biography</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Business' %}">Business</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Computing' %}">Computing</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Design' %}">Design</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Engineering' %}">Engineering</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Finance' %}">Finance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Food' %}">Food</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'History' %}">History</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Law' %}">Law</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Religion' %}">Religion</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Science' %}">Science</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Sports' %}">Sports</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Technology' %}">Technology</a></li>
+                                        <li class="dropdown-header"><h5>Fiction</h5></li>
+                                            <li><a href="{% url 'books:genredetail' 'Action' %}">Action</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Comic' %}">Comic</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Crime' %}">Crime</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Fantasy' %}">Fantasy</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Horror' %}">Horror</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Mystery' %}">Mystery</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Novels' %}">Novels</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Romance' %}">Romance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'sciencefiction' %}">Science Fiction</a></li>
+                                        <li class="dropdown-header"><h5>Others</h5></li>
+                                            <li><a href="{% url 'books:genredetail' 'Others' %}">Others</a></li>
+                                        <li class="dropdown-header dropdown-header-head"><h5 class="main-green">Textbooks and Notes</h5></li>
+                                        <li class="dropdown-header"><h5>Primary</h5></li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'prienglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'priscience' %}">Science</a>
+                                            </li>
+                                        <li class="dropdown-header"><h5>Secondary</h5></li>
+
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secenglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'sechumanities' %}">Humanities</a>
+                                            </li>
+                                        <li class="dropdown-header"><h5>Junior College</h5></li>
+
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcgp' %}">General Paper</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jchumanities' %}">Humanities</a>
+                                            </li>
+                                        <li class="dropdown-header"><h5>Polytechnic</h5></li>
+
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polybusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polydesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polymedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyscience' %}">Science</a>
+                                            </li>
+                                        <li class="dropdown-header"><h5>ITE</h5></li>
+
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itebusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itedesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itemedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itescience' %}">Science</a>
+                                            </li>
+                                        <li class="dropdown-header"><h5>University</h5></li>
+
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unibusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unidesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniit' %}">IT</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unimedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniscience' %}">Science</a>
+                                            </li>
+                                    </ul>
                             <div class="navbar-buttons">
                                 <button type="button" class="navbar-toggle btn-template-main" data-toggle="collapse" data-target="#navigation" {% if unread_count %}style="color:#FF5948;"{% endif %}>
                                     <span class="sr-only">Toggle navigation</span>
@@ -71,7 +209,13 @@
                         <div class="navbar-collapse collapse" id="navigation" style="">
                                 <ul class="nav navbar-nav">
                                 
-                            <!--       <li><a href="#">Page 2</a></li> 
+<!--                                   <li class="dropdown" style="position:relative;z-index:1000;">
+                                    <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none;">TESTING<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li>sss</li>
+                                    </ul>
+                                </li> -->
+                                 <!-- 
                                   <li><a href="#">Page 3</a></li>  -->
                                 </ul>
 
@@ -152,6 +296,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script>
@@ -169,7 +314,11 @@
     
 
     <!-- owl carousel -->
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script><script type="text/javascript">
+    $(document).ready(function(){
+        $("#myModal").modal('show');
+    });
+</script>
 
 </body>
 

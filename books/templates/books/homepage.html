@@ -1,14 +1,263 @@
 {% extends 'books/base.html' %}{% load staticfiles %}
 
 {% block content %}
+
+{% if not user.is_authenticated %}
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Sign up and buy books today!</h4>
+            </div>
+            <div class="modal-body" style="min-height:473px;">
+<div>
+<h4 style="display:inline;">Already a user?    </h4><a style="" href="{% url 'auth_login' %}"><button class="btn btn-primary">Login</button></a>
+</div>
+                <form method="post" action="{% url 'registration_register' %}" class="post-form text-center" style="margin-top:5px;">{% csrf_token %}
+    
+
+<div id="div_id_username" class="form-group"> <label for="id_username" class="control-label  requiredField">
+                Username<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_username" maxlength="30" name="username" type="text"> <p id="hint_id_username" class="help-block">Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.</p> </div> </div> <div id="div_id_email" class="form-group"> <label for="id_email" class="control-label  requiredField">
+                Email<span class="asteriskField">*</span> </label> <div class="controls "> <input class="emailinput form-control" id="id_email" name="email" type="email"> <p id="hint_id_email" class="help-block">email address</p> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class="control-label  requiredField">
+                Password<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_password1" name="password1" type="password"> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class="control-label  requiredField">
+                Password confirmation<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_password2" name="password2" type="password"> <p id="hint_id_password2" class="help-block">Enter the same password as before, for verification.</p> </div> </div>
+
+    <button class="btn btn-primary btn-lg" type="submit" value="Submit" style="margin-bottom:-15px;">Sign up</button>
+</form>
+</br>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
 <div style="float:left;">
 <img class="img-responsive" src="{% static 'img/homepic.jpg' %}" id="hometop" style="position:relative;">
-<!-- <h1 class="text-center" style="position: absolute; 
+<h1 class="text-center hidden-xs" style="position: absolute; 
+   top: 110px; 
+   left: 0; 
+   width: 100%;
+   padding: 0 10px;">“A reader lives a thousand lives before he dies, said Jojen. The man who never reads lives only one.”</h1>
+<h1 class="text-center visible-md" style="position: absolute; 
    top: 200px; 
    left: 0; 
-   width: 100%;">“A reader lives a thousand lives before he dies, said Jojen. The man who never reads lives only one.”</h1> -->
+   width: 100%;
+   padding: 0 10px;">“If we encounter a man of rare intellect, we should ask him what books he reads.”</h1>
+<h1 class="text-center visible-lg" style="position: absolute; 
+   top: 250px; 
+   left: 0; 
+   width: 100%;
+   padding: 0 10px;">“If we encounter a man of rare intellect, we should ask him what books he reads.”</h1>
 
 </div>
+<!-- *** LEFT COLUMN ***
+      _________________________________________________________ -->
+
+                    <div class="col-sm-3 hidden-xs" style="padding-top:10px;">
+
+                        
+                        <!-- *** MENUS AND FILTERS ***
+ _________________________________________________________ -->
+                        <div class="panel panel-default sidebar-menu">
+
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked category-menu">
+                                    <li>
+                                        <a href="{% url 'books:booklist' %}" style="border-bottom: 5px solid #38a7bb"><p class="panel-title no-margin">Books<span class="badge pull-right">{{ bookcount }}</span></p></a>
+                                        <p class="no-margin">Non-fiction</p>
+                                        <ul>
+                                            <li><a href="{% url 'books:genredetail' 'Biography' %}">Biography</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Business' %}">Business</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Computing' %}">Computing</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Design' %}">Design</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Engineering' %}">Engineering</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Finance' %}">Finance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Food' %}">Food</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'History' %}">History</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Law' %}">Law</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Religion' %}">Religion</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Science' %}">Science</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Sports' %}">Sports</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Technology' %}">Technology</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <p class="no-margin">Fiction</p>
+                                        <ul>
+                                            <li><a href="{% url 'books:genredetail' 'Action' %}">Action</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Comic' %}">Comic</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Crime' %}">Crime</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Fantasy' %}">Fantasy</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Horror' %}">Horror</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Mystery' %}">Mystery</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Novels' %}">Novels</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Romance' %}">Romance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'sciencefiction' %}">Science Fiction</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <p class="no-margin">Others</p>
+                                        <ul>
+                                          <li><a href="{% url 'books:genredetail' 'others' %}">Others</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'books:booklist' %}" style="border-bottom: 5px solid #38a7bb"><p class="panel-title no-margin">Textbooks and Notes<span class="badge pull-right">{{ notecount }}</span></p></a>
+                                        <p class="no-margin">Primary</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'prienglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'priscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                      </li>
+                                      <li>
+                                        <p class="no-margin">Secondary</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secenglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'sechumanities' %}">Humanities</a>
+                                            </li>
+                                        </ul>
+                                       </li>
+                                      <li>
+                                        <p class="no-margin">Junior College</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcgp' %}">General Paper</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jchumanities' %}">Humanities</a>
+                                            </li>
+                                        </ul>
+                                       </li>
+                                      <li>
+                                        <p class="no-margin">Polytechnic</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polybusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polydesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polymedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                       </li>
+                                      <li>
+                                        <p class="no-margin">ITE</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itebusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itedesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itemedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itescience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                       </li>
+                                      <li>
+                                        <p class="no-margin">University</p>
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unibusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unidesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniit' %}">IT</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unimedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                       </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+                        <div class="banner">
+                            <a href="{% url 'contactview' %}">
+                                <img src="{% static 'img/advertisewithus.png' %}" alt="sales 2014" class="img-responsive">
+                            </a>
+                        </div>
+                        <!-- /.banner -->
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+                    <!-- *** LEFT COLUMN END *** -->
+<div class="col-sm-9">
+
+                              <ul class="nav nav-tabs" style="padding-top:10px;">
+                                <li class="active" style="width:50%;"><a data-toggle="tab" href="#home" class="text-center">Books</a></li>
+                                <li style="width:50%;"><a data-toggle="tab" href="#menu1" class="text-center">Textbooks/Notes</a></li>
+                              </ul>
+
+                              <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
 <div class="featurette" style="" id="homepagesearch">
    <div class="featurette-inner text-center">
       <form method='GET' action='/books/' class="search" role="form">
@@ -64,15 +313,90 @@
    <!-- /.featurette-inner (display:table-cell) -->
 
 </div>
-<div class="container">
+
+</div>
+<div id="menu1" class="tab-pane fade">
+
+<div class="featurette" style="" id="homepagesearch">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='/notes/' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for lecture notes' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Subject</option>
+                <optgroup label="Primary">
+                <option value="prienglish"{% if request.GET.fil == "prienglish" %} selected="selected"{% endif %}>English</option>
+                <option value="primath"{% if request.GET.fil == "primath" %} selected="selected"{% endif %}>Math</option>
+                <option value="primothertongue"{% if request.GET.fil == "primothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="priscience"{% if request.GET.fil == "priscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="Secondary">
+                <option value="secenglish"{% if request.GET.fil == "secenglish" %} selected="selected"{% endif %}>English</option>
+                <option value="secmath"{% if request.GET.fil == "secmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="secmothertongue"{% if request.GET.fil == "secmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="secscience"{% if request.GET.fil == "secscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="sechumanities"{% if request.GET.fil == "sechumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Junior College">
+                <option value="jcgp"{% if request.GET.fil == "jcgp" %} selected="selected"{% endif %}>General Paper</option>
+                <option value="jcmath"{% if request.GET.fil == "jcmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="jcmothertongue"{% if request.GET.fil == "jcmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="jcscience"{% if request.GET.fil == "jcscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="jchumanities"{% if request.GET.fil == "jchumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Polytechnic">
+                <option value="polybusiness"{% if request.GET.fil == "polybusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="polydesign"{% if request.GET.fil == "polydesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="polyengineering"{% if request.GET.fil == "polyengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="polyit"{% if request.GET.fil == "polyit" %} selected="selected"{% endif %}>IT</option>
+                <option value="polymedia"{% if request.GET.fil == "polymedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="polyscience"{% if request.GET.fil == "polyscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="ITE">
+                <option value="itebusiness"{% if request.GET.fil == "itebusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="itedesign"{% if request.GET.fil == "itedesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="iteengineering"{% if request.GET.fil == "iteengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="iteit"{% if request.GET.fil == "iteit" %} selected="selected"{% endif %}>IT</option>
+                <option value="itemedia"{% if request.GET.fil == "itemedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="itescience"{% if request.GET.fil == "itescience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="University">
+                <option value="unibusiness"{% if request.GET.fil == "unibusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="unidesign"{% if request.GET.fil == "unidesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="uniengineering"{% if request.GET.fil == "uniengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="uniit"{% if request.GET.fil == "uniit" %} selected="selected"{% endif %}>IT</option>
+                <option value="unimedia"{% if request.GET.fil == "unimedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="uniscience"{% if request.GET.fil == "uniscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+
+                                </div>
+                              </div>
+</div>
+
+
+<div class="col-sm-9">
 <div style="clear:both">
 
 <div class="row portfolio">
 
-<div class="heading text-center"><h2>Latest Books</h2></div>
+<div class="heading" style="padding-left:15px;"><h2>Latest Books</h2> <a href="{% url 'books:booklist' %}"><h4 id="sub-heading-homepage">See more</h4></a></div> 
 {% for book in books %}
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
-<div class="col-xs-6 col-sm-6 col-md-4">
+<div class="col-xs-6 col-sm-6 col-md-3">
     <div class="box-image-text">
       <div class="top">
 <a href="{% url 'books:bookdetail' book.slug %}">
@@ -107,10 +431,11 @@
 </div>
 
 <div class="row portfolio">
-<div class="heading text-center"><h2>Latest Lecture Notes</h2></div>
+<div class="heading" style="padding-left:15px;"><h2>Latest Textbooks/Notes</h2><a href="{% url 'notes:notelist' %}"><h4 id="sub-heading-homepage">See more</h4></a></div>
+{% if notes %}
 {% for note in notes %}
 <!-- before was col-xs-6 col-sm-4 (3 per row)-->
-<div class="col-xs-6 col-sm-6 col-md-4">
+<div class="col-xs-6 col-sm-6 col-md-3">
     <div class="box-image-text">
       <div class="top">
 <a href="{% url 'notes:notedetail' note.slug %}">
@@ -133,7 +458,7 @@
         {% if note.sold == True %}
         <button class="buttonx buttonxred">SOLD</button>
         {% else %}
-        <button class="buttonx{% if note.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ note.slug }}" ><strong><i class="fa fa-heart" id="likebuttonheart{{forloop.counter}}" style="color:red"><span style="color:white;">   {{note.likes}}</span></i></strong></button>
+        <a href="{% url 'notes:notedetail' note.slug %}"><button class="buttonx">Buy Now!</button></a>
         {% endif %}
         <button class="buttony"><strong>${{ note.price }}</strong></button>
     </div>
@@ -143,26 +468,26 @@
 
 
 {% endfor %}
-</div>
+{% else %}
 
-</div></div>
-
-<div class="container text-center">
-
-<div class="row text-center" style="">
-  <div class="col-md-6 col-xs-12 col-sm-8 col-md-offset-3 col-sm-offset-2">
-  <a href="{% url 'books:booklist' %}"><button class="btn btn-default btn-lg btn-block" style="margin: 0 auto;">See More Books</button></a>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>
+    There are no posted lecture notes or textbooks yet
+    </h4>
   </div>
 </div>
-
+{% endif %}
 </div>
+</div></div>
 
-<div class="container">
+
+<div class="col-sm-9">
 <div style="clear:both">
 
 <div class="row portfolio">
-<div class="heading text-center"><h2>Genres</h2></div>
-<div class="col-xs-6 col-sm-6 col-md-4">
+<div class="heading" style="padding-left:15px;"><h2>Popular Genres</h2><!--  <a href="{% url 'books:genrelist' %}"><h4 id="sub-heading-homepage">See more</h4></a> --></div> 
+<div class="col-xs-6 col-sm-6 col-md-3">
 <a href="{% url 'books:genredetail' 'business' %}">
     <div class="box-image-text">
       <div class="top">
@@ -178,7 +503,7 @@
     <!-- /.box-image -->
 
 </div>
-<div class="col-xs-6 col-sm-6 col-md-4">
+<div class="col-xs-6 col-sm-6 col-md-3">
 <a href="{% url 'books:genredetail' 'business' %}">
     <div class="box-image-text">
       <div class="top">
@@ -198,6 +523,7 @@
 </div>
 </div>
 </div>
+<div class="container"></div>
         <footer id="footer">
             <div class="container">
                 <div class="col-md-6 col-sm-6">

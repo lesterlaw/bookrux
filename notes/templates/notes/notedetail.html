@@ -8,14 +8,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7" style="display:inline;">
-                <h1>{{ note.title|title }}{% if note.author %} - {{ note.author|title }}{% endif %}</h1>
+                <h1>{{ note.name|title }}{% if note.author %} - {{ note.author|title }}{% endif %}</h1>
 
             </div>
-            {% if request.user == note.user %}
+            {% if request.user == note.user or request.user.is_staff %}
             <div class="col-md-5">
                 <ul class="breadcrumb">
                     {% if note.sold == False %}
-<!--                     <a href="{% url 'books:sold' note.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this book as sold?');">Set as Sold</button></a> -->
+                    <a href="{% url 'notes:sold' note.slug %}"><button class="btn btn-default" onclick="return confirm('Do you want to mark this item as sold?');">Set as Sold</button></a>
                     <a href="{% url 'notes:editnote' note.slug %}"><button class="btn btn-default">Edit Post</button></a>{% endif %}
                     <a href="{% url 'notes:deletenote' note.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
                 </ul>
@@ -120,7 +120,6 @@
                                             
 
                                             <!-- ADD TO BOOKSHELF BUTTON (DOESNT WORK) -->
-                                            <button type="submit" class="btn btn-template-main likes1" data-toggle="tooltip" data-placement="top" title="Add to wishlist" style="color:red" data-catid="{{ note.slug }}"><i id="likebuttonheart1" class="fa fa-heart" style="color:red"></i>
                                             </button>
                                         </p>
 

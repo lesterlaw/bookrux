@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
 from django.views import generic
 from .models import Note
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from .forms import AddNoteForm
+from django.db.models import Q
 from django.utils import timezone
 # Create your views here.
 class NoteList(generic.ListView):
@@ -12,21 +14,21 @@ class NoteList(generic.ListView):
 	context_object_name = 'notes'
 	paginate_by = 12
 
-	# def get_queryset(self):
-	# 	query = self.request.GET.get('q')
-	# 	filtered = self.request.GET.get('fil')
-	# 	if query and not filtered:
-	# 		return Note.objects.filter(
-	# 			Q(title__icontains=query)
-	# 			).order_by('sold', '-published_date')
-	# 	elif filtered and not query:
-	# 		return Note.objects.filter(
-	# 			Q(genre__icontains=filtered)).order_by('sold', '-published_date')
-	# 	elif filtered and query:
-	# 		return Note.objects.filter(
-	# 			Q(title__icontains=query) &
-	# 			Q(genre__icontains=filtered)).order_by('sold', '-published_date')
-	# 	return Note.objects.order_by('sold', '-published_date')
+	def get_queryset(self):
+		query = self.request.GET.get('q')
+		filtered = self.request.GET.get('fil')
+		if query and not filtered:
+			return Note.objects.filter(
+				Q(name__icontains=query)
+				).order_by('sold', '-published_date')
+		elif filtered and not query:
+			return Note.objects.filter(
+				Q(subject__icontains=filtered)).order_by('sold', '-published_date')
+		elif filtered and query:
+			return Note.objects.filter(
+				Q(name__icontains=query) &
+				Q(subject__icontains=filtered)).order_by('sold', '-published_date')
+		return Note.objects.order_by('sold', '-published_date')
 
 class NoteDetail(generic.DetailView):
 	model = Note
@@ -50,7 +52,7 @@ def AddNote(request):
 @login_required
 def EditNote(request, slug):
 	post = get_object_or_404(Note, slug=slug)
-	if request.user == post.user:
+	if request.user == post.user or request.user.is_staff:
 		if request.method == "POST":
 			form = AddNoteForm(request.POST, instance=post, files=request.FILES)
 			if form.is_valid():
@@ -68,9 +70,25 @@ def EditNote(request, slug):
 @login_required
 def DeleteNote(request, slug):
 	post = get_object_or_404(Note, slug=slug)
-	if request.user == post.user:
+	if request.user == post.user or request.user.is_staff:
 		post.delete()
 		return redirect('notes:notelist')
 	else:
 		messages.warning(request, 'You are not allowed to delete this post!')
 		return redirect(reverse('notes:notelist'))
+
+
+def sold(request, slug):
+	post = get_object_or_404(Note, slug=slug)
+	if post.sold == False:
+		if request.user == post.user or request.user.is_staff:
+			post.sold = True
+			post.save()
+			messages.success(request, 'This note has been successfully marked as sold')
+			return redirect('notes:notedetail', slug=post.slug)
+		else:
+			messages.warning(request, 'You are not allowed to mark this book as sold')
+			return redirect('notes:notedetail', slug=post.slug)
+	else:
+		messages.warning(request, 'This book has already been marked as sold')
+		return redirect('notes:notedetail', slug=post.slug)

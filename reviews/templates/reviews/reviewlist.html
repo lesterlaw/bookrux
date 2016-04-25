@@ -1,9 +1,197 @@
 {% extends 'books/base.html' %}
+{% load staticfiles %}
+{% load likert_fa_stars %}
 
 {% block content %}
+        <div id="heading-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1>List of reviews being sold!</h1>
+                    </div>
+<!--                     <div class="col-md-5">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html">Home</a>
+                            </li>
+                            <li>Content boxes</li>
+                        </ul>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+{% if reviews %}
+
+<div class="featurette">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='/reviews/' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for reviews' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Non-Fiction">
+                <option value="Biography"{% if request.GET.fil == "Biography" %} selected=="selected"{% endif %}>Biography</option>
+                <option value="Business"{% if request.GET.fil == "Business" %} selected=="selected"{% endif %}>Business</option>
+                <option value="Computing"{% if request.GET.fil == "Computing" %} selected=="selected"{% endif %}>Computing</option>
+                <option value="Design"{% if request.GET.fil == "Design" %} selected=="selected"{% endif %}>Design</option>
+                <option value="Engineering"{% if request.GET.fil == "Engineering" %} selected=="selected"{% endif %}>Engineering</option>
+                <option value="Finance"{% if request.GET.fil == "Finance" %} selected=="selected"{% endif %}>Finance</option>
+                <option value="Food"{% if request.GET.fil == "Food" %} selected=="selected"{% endif %}>Food</option>
+                <option value="History"{% if request.GET.fil == "History" %} selected=="selected"{% endif %}>History</option>
+                <option value="Law"{% if request.GET.fil == "Law" %} selected=="selected"{% endif %}>Law</option>
+                <option value="Religion"{% if request.GET.fil == "Religion" %} selected=="selected"{% endif %}>Religion</option>
+                <option value="Science"{% if request.GET.fil == "Science" %} selected=="selected"{% endif %}>Science</option>
+                <option value="Sports"{% if request.GET.fil == "Sports" %} selected=="selected"{% endif %}>Sports</option>
+                <option value="Technology"{% if request.GET.fil == "Technology" %} selected=="selected"{% endif %}>Technology</option>
+                </optgroup>
+                <optgroup label="Fiction">
+                <option value="Action"{% if request.GET.fil == "Action" %} selected=="selected"{% endif %}>Action</option>
+                <option value="Comic"{% if request.GET.fil == "Comic" %} selected=="selected"{% endif %}>Comic</option>
+                <option value="Crime"{% if request.GET.fil == "Crime" %} selected=="selected"{% endif %}>Crime</option>
+                <option value="Fantasy"{% if request.GET.fil == "Fantasy" %} selected=="selected"{% endif %}>Fantasy</option>
+                <option value="Horror"{% if request.GET.fil == "Horror" %} selected=="selected"{% endif %}>Horror</option>
+                <option value="Mystery"{% if request.GET.fil == "Mystery" %} selected=="selected"{% endif %}>Mystery</option>
+                <option value="Novels"{% if request.GET.fil == "Novels" %} selected=="selected"{% endif %}>Novels</option>
+                <option value="Romance"{% if request.GET.fil == "Romance" %} selected=="selected"{% endif %}>Romance</option>
+                <option value="sciencefiction"{% if request.GET.fil == "sciencefiction" %} selected=="selected"{% endif %}>Science Fiction</option>
+                </optgroup>
+                <optgroup label="Others">
+                <option value="Others"{% if request.GET.fil == "Others" %} selected=="selected"{% endif %}>Others</option>
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+
+<div class="container">
+<div style="clear:both">
+
+<div class="row portfolio">
+
 
 {% for review in reviews %}
-<a href="{% url 'reviews:reviewdetail' review.slug %}">{{ review.title }}</a>
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-xs-6 col-sm-4 col-md-3">
+    <div class="box-image-text">
+      <div class="top">
+<a href="{% url 'reviews:reviewdetail' review.slug %}">
+          <div class="image rcorner1 text-center">
+              <img src="{% if review.image1 %}
+                          {{ review.image1.url }}
+                        {% elif review.image2 %}
+                            {{ review.image2.url }}
+                        {% elif review.image3 %}
+                            {{ review.image3.url }}
+                        {% elif review.image4 %}
+                            {{ review.image4.url }}
+                        {% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="" id="listimg">
+          </div>
+</a>
+      </div>
+      <div class="content haha">
+          <h5>{{ review.title|title }}</h5>
+      </div>
+        <a href="{% url 'reviews:reviewdetail' review.slug %}"><button class="buttonx">Read</button></a>
+        <button class="buttony"><strong>{{ review.rating }}<i class="fa fa-star" style="color:#FFBA22"></i></strong></button>
+    </div>
+    <!-- /.box-image -->
+
+</div>
+
+
 {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div>
+<ul class="pagination nav navbar-nav">
+    {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">Prev</a></li>
+    {% endif %}
+    {% for page in page_obj.paginator.page_range %}
+        <li class="{% if page_obj.number == page  %}active{% endif %}"><a href="?page={{page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">{{ page }}</a></li>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <li> <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">Next</a></li>
+    {% endif %}
+ </ul>
+</div>
+{% endif %}
+{% else %}
+<div class="featurette">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='/reviews/' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for reviews' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Non-Fiction">
+                <option value="Biography"{% if request.GET.fil == "Biography" %} selected=="selected"{% endif %}>Biography</option>
+                <option value="Business"{% if request.GET.fil == "Business" %} selected=="selected"{% endif %}>Business</option>
+                <option value="Computing"{% if request.GET.fil == "Computing" %} selected=="selected"{% endif %}>Computing</option>
+                <option value="Design"{% if request.GET.fil == "Design" %} selected=="selected"{% endif %}>Design</option>
+                <option value="Engineering"{% if request.GET.fil == "Engineering" %} selected=="selected"{% endif %}>Engineering</option>
+                <option value="Finance"{% if request.GET.fil == "Finance" %} selected=="selected"{% endif %}>Finance</option>
+                <option value="Food"{% if request.GET.fil == "Food" %} selected=="selected"{% endif %}>Food</option>
+                <option value="History"{% if request.GET.fil == "History" %} selected=="selected"{% endif %}>History</option>
+                <option value="Law"{% if request.GET.fil == "Law" %} selected=="selected"{% endif %}>Law</option>
+                <option value="Religion"{% if request.GET.fil == "Religion" %} selected=="selected"{% endif %}>Religion</option>
+                <option value="Science"{% if request.GET.fil == "Science" %} selected=="selected"{% endif %}>Science</option>
+                <option value="Sports"{% if request.GET.fil == "Sports" %} selected=="selected"{% endif %}>Sports</option>
+                <option value="Technology"{% if request.GET.fil == "Technology" %} selected=="selected"{% endif %}>Technology</option>
+                </optgroup>
+                <optgroup label="Fiction">
+                <option value="Action"{% if request.GET.fil == "Action" %} selected=="selected"{% endif %}>Action</option>
+                <option value="Comic"{% if request.GET.fil == "Comic" %} selected=="selected"{% endif %}>Comic</option>
+                <option value="Crime"{% if request.GET.fil == "Crime" %} selected=="selected"{% endif %}>Crime</option>
+                <option value="Fantasy"{% if request.GET.fil == "Fantasy" %} selected=="selected"{% endif %}>Fantasy</option>
+                <option value="Horror"{% if request.GET.fil == "Horror" %} selected=="selected"{% endif %}>Horror</option>
+                <option value="Mystery"{% if request.GET.fil == "Mystery" %} selected=="selected"{% endif %}>Mystery</option>
+                <option value="Novels"{% if request.GET.fil == "Novels" %} selected=="selected"{% endif %}>Novels</option>
+                <option value="Romance"{% if request.GET.fil == "Romance" %} selected=="selected"{% endif %}>Romance</option>
+                <option value="sciencefiction"{% if request.GET.fil == "sciencefiction" %} selected=="selected"{% endif %}>Science Fiction</option>
+                </optgroup>
+                <optgroup label="Others">
+                <option value="Others"{% if request.GET.fil == "Others" %} selected=="selected"{% endif %}>Others</option>
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
+
+<div class="container">
+<h2>Search again</h2>
+<h4>No such post with this search <a href="{% url 'reviews:reviewlist' %}">Go back</a></h4>
+</div>
+
+{% endif %}
+</div>
+</div>
+ 
+
+</div>
+
 
 {% endblock %}

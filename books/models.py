@@ -18,45 +18,39 @@ from types import MethodType
 from likert_field.models import LikertField
 class Book(models.Model):
 	Genres = (
-	('Non-Fiction', (
-		('Biography','Biography'),
-		('Business','Business'),
-		('Computer','Computer'),
-		('Engineering', 'Engineering'),
-		('Finance', 'Finance'),
-		('Food','Food & Beverages'),
-		('History','History'),
-		('Law','Law'),
-		('Manga', 'Manga'),
-		('Medical','Medical'),
-		('Novel', 'Novel'),
-		('Religion','Religion'),
-		('Sports','Sports'),
-		('Technology','Technology'),
-		)
-	),
-	('Fiction', (
-		('Action', 'Action'),
-		('Adventure', 'Adventure'),
-		('Classics', 'Classics'),
-		('Crime', 'Crime'),
-		('Fantasy', 'Fantasy'),
-		('Horror', 'Horror'),
-		('Romance', 'Romance'),
-		('ScienceFiction', 'Science Fiction'),
-		('Thrillers', 'Thrillers'),
-		)
-	),
-	('School Books', (
-		('Secondary','Secondary'),
-		('Primary','Primary'),
-		('Polytechnic','Polytechnic'),
-		('juniorcollege','Junior College'),
-		('university', 'University'),
-			
-		)
-	),
-)
+		('Non-Fiction', (
+			('Biography','Biography'),
+			('Business','Business'),
+			('Computing','Computing'),
+			('Design','Design'),
+			('Engineering','Engineering'),
+			('Finance','Finance'),
+			('Food','Food'),
+			('History','History'),
+			('Law','Law'),
+			('Religion','Religion'),
+			('Science','Science'),
+			('Sports','Sports'),
+			('Technology','Technology'),
+			)
+		),
+		('Fiction', (
+			('Action','Action'),
+			('Comic','Comic'),
+			('Crime','Crime'),
+			('Fantasy','Fantasy'),
+			('Horror','Horror'),
+			('Mystery','Mystery'),
+			('Novels','Novels'),
+			('Romance','Romance'),
+			('sciencefiction','Science Fiction'),
+			)
+		),
+		('Others',(
+			('Others', 'Others'),
+			)
+		),
+	)
 	user = models.ForeignKey(User)
 	author = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)

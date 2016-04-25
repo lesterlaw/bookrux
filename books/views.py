@@ -26,10 +26,12 @@ from serializers import BookSerializer, UserSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def homepage(request):
-	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:6]
-	notes = Note.objects.all().order_by('-published_date').filter(sold=False)[:6]
+	bookcount = Book.objects.all().count
+	notecount = Note.objects.all().count
+	books = Book.objects.all().order_by('-published_date').filter(sold=False)[:4]
+	notes = Note.objects.all().order_by('-published_date').filter(sold=False)[:4]
 	reviews = Review.objects.all().order_by('-published_date')
-	return render(request, 'books/homepage.html', {'books':books,'notes':notes,'reviews':reviews})
+	return render(request, 'books/homepage.html', {'books':books,'notes':notes,'reviews':reviews, 'bookcount':bookcount, 'notecount':notecount})
 	
 class BookList(generic.ListView):
 	model = Book
@@ -125,7 +127,7 @@ def AddBook(request):
 @login_required
 def EditBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
-	if request.user == post.user:
+	if request.user == post.user or request.user.is_staff:
 		if request.method == "POST":
 			form = AddBookForm(request.POST, instance=post, files=request.FILES)
 			if form.is_valid():
@@ -143,7 +145,7 @@ def EditBook(request, slug):
 @login_required
 def DeleteBook(request, slug):
 	post = get_object_or_404(Book, slug=slug)
-	if request.user == post.user:
+	if request.user == post.user or request.user.is_staff:
 		post.delete()
 		return redirect('books:booklist')
 	else:
@@ -153,7 +155,7 @@ def DeleteBook(request, slug):
 def sold(request, slug):
 	post = get_object_or_404(Book, slug=slug)
 	if post.sold == False:
-		if request.user == post.user:
+		if request.user == post.user or request.user.is_staff:
 			post.sold = True
 			post.save()
 			messages.success(request, 'This book has been successfully marked as sold')
@@ -280,6 +282,7 @@ class UserProfileDetail(generic.DetailView):
 		context = super(UserProfileDetail, self).get_context_data(**kwargs)
 		context['books'] = Book.objects.all().order_by('sold','-published_date').filter(user__userprofile__slug__iexact=self.kwargs['slug'])
 		context['ratings'] = Rating.objects.all().filter(user__slug__iexact=self.kwargs['slug'])
+		context['notes'] = Note.objects.all().filter(user__userprofile__slug__iexact=self.kwargs['slug'])
 
 		return context
 

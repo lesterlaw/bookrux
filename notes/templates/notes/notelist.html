@@ -2,6 +2,91 @@
 {% load staticfiles %}
 
 {% block content %}
+        <div id="heading-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1>List of notes being sold!</h1>
+                    </div>
+<!--                     <div class="col-md-5">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html">Home</a>
+                            </li>
+                            <li>Content boxes</li>
+                        </ul>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+{% if notes %}
+
+<div class="featurette" style="" id="homepagesearch">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for lecture notes' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Subject</option>
+                <optgroup label="Primary">
+                <option value="prienglish"{% if request.GET.fil == "prienglish" %} selected="selected"{% endif %}>English</option>
+                <option value="primath"{% if request.GET.fil == "primath" %} selected="selected"{% endif %}>Math</option>
+                <option value="primothertongue"{% if request.GET.fil == "primothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="priscience"{% if request.GET.fil == "priscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="Secondary">
+                <option value="secenglish"{% if request.GET.fil == "secenglish" %} selected="selected"{% endif %}>English</option>
+                <option value="secmath"{% if request.GET.fil == "secmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="secmothertongue"{% if request.GET.fil == "secmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="secscience"{% if request.GET.fil == "secscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="sechumanities"{% if request.GET.fil == "sechumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Junior College">
+                <option value="jcgp"{% if request.GET.fil == "jcgp" %} selected="selected"{% endif %}>General Paper</option>
+                <option value="jcmath"{% if request.GET.fil == "jcmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="jcmothertongue"{% if request.GET.fil == "jcmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="jcscience"{% if request.GET.fil == "jcscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="jchumanities"{% if request.GET.fil == "jchumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Polytechnic">
+                <option value="polybusiness"{% if request.GET.fil == "polybusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="polydesign"{% if request.GET.fil == "polydesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="polyengineering"{% if request.GET.fil == "polyengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="polyit"{% if request.GET.fil == "polyit" %} selected="selected"{% endif %}>IT</option>
+                <option value="polymedia"{% if request.GET.fil == "polymedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="polyscience"{% if request.GET.fil == "polyscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="ITE">
+                <option value="itebusiness"{% if request.GET.fil == "itebusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="itedesign"{% if request.GET.fil == "itedesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="iteengineering"{% if request.GET.fil == "iteengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="iteit"{% if request.GET.fil == "iteit" %} selected="selected"{% endif %}>IT</option>
+                <option value="itemedia"{% if request.GET.fil == "itemedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="itescience"{% if request.GET.fil == "itescience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="University">
+                <option value="unibusiness"{% if request.GET.fil == "unibusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="unidesign"{% if request.GET.fil == "unidesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="uniengineering"{% if request.GET.fil == "uniengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="uniit"{% if request.GET.fil == "uniit" %} selected="selected"{% endif %}>IT</option>
+                <option value="unimedia"{% if request.GET.fil == "unimedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="uniscience"{% if request.GET.fil == "uniscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+
+</div>
 
 <div class="container">
 <div style="clear:both">
@@ -34,7 +119,7 @@
         {% if note.sold == True %}
         <button class="buttonx buttonxred">SOLD</button>
         {% else %}
-        <button class="buttonx{% if note.sold = True %} buttonxred{% endif %} likes{{forloop.counter}}" id="likes" data-catid="{{ note.slug }}" ><strong><i class="fa fa-heart" id="likebuttonheart{{forloop.counter}}" style="color:red"><span style="color:white;">   {{note.likes}}</span></i></strong></button>
+        <a href="{% url 'notes:notedetail' note.slug %}"><button class="buttonx">Buy Now!</button></a>
         {% endif %}
         <button class="buttony"><strong>${{ note.price }}</strong></button>
     </div>
@@ -50,18 +135,91 @@
 <div>
 <ul class="pagination nav navbar-nav">
     {% if page_obj.has_previous %}
-            <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">Prev</a></li>
     {% endif %}
     {% for page in page_obj.paginator.page_range %}
-        <li class="{% if page_obj.number == page  %}active{% endif %}"><a href="?page={{page }}">{{ page }}</a></li>
+        <li class="{% if page_obj.number == page  %}active{% endif %}"><a href="?page={{page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">{{ page }}</a></li>
     {% endfor %}
 
     {% if page_obj.has_next %}
-        <li> <a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        <li> <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.fil %}&fil={{ request.GET.fil }}{% endif %}">Next</a></li>
     {% endif %}
  </ul>
 </div>
 {% endif %}
+{% else %}
+<div class="featurette" style="" id="homepagesearch">
+   <div class="featurette-inner text-center">
+      <form method='GET' action='' class="search" role="form">
+         <div class="input-group input-group-lg">
+            <input type='text' name='q' placeholder='Seach for lecture notes' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+                <option value="">Genre</option>
+                <optgroup label="Primary">
+                <option value="prienglish"{% if request.GET.fil == "prienglish" %} selected="selected"{% endif %}>English</option>
+                <option value="primath"{% if request.GET.fil == "primath" %} selected="selected"{% endif %}>Math</option>
+                <option value="primothertongue"{% if request.GET.fil == "primothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="priscience"{% if request.GET.fil == "priscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="Secondary">
+                <option value="secenglish"{% if request.GET.fil == "secenglish" %} selected="selected"{% endif %}>English</option>
+                <option value="secmath"{% if request.GET.fil == "secmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="secmothertongue"{% if request.GET.fil == "secmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="secscience"{% if request.GET.fil == "secscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="sechumanities"{% if request.GET.fil == "sechumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Junior College">
+                <option value="jcgp"{% if request.GET.fil == "jcgp" %} selected="selected"{% endif %}>General Paper</option>
+                <option value="jcmath"{% if request.GET.fil == "jcmath" %} selected="selected"{% endif %}>Math</option>
+                <option value="jcmothertongue"{% if request.GET.fil == "jcmothertongue" %} selected="selected"{% endif %}>Mother Tongue</option>
+                <option value="jcscience"{% if request.GET.fil == "jcscience" %} selected="selected"{% endif %}>Science</option>
+                <option value="jchumanities"{% if request.GET.fil == "jchumanities" %} selected="selected"{% endif %}>Humanities</option>
+                </optgroup>
+                <optgroup label="Polytechnic">
+                <option value="polybusiness"{% if request.GET.fil == "polybusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="polydesign"{% if request.GET.fil == "polydesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="polyengineering"{% if request.GET.fil == "polyengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="polyit"{% if request.GET.fil == "polyit" %} selected="selected"{% endif %}>IT</option>
+                <option value="polymedia"{% if request.GET.fil == "polymedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="polyscience"{% if request.GET.fil == "polyscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="ITE">
+                <option value="itebusiness"{% if request.GET.fil == "itebusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="itedesign"{% if request.GET.fil == "itedesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="iteengineering"{% if request.GET.fil == "iteengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="iteit"{% if request.GET.fil == "iteit" %} selected="selected"{% endif %}>IT</option>
+                <option value="itemedia"{% if request.GET.fil == "itemedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="itescience"{% if request.GET.fil == "itescience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+                <optgroup label="University">
+                <option value="unibusiness"{% if request.GET.fil == "unibusiness" %} selected="selected"{% endif %}>Business</option>
+                <option value="unidesign"{% if request.GET.fil == "unidesign" %} selected="selected"{% endif %}>Design</option>
+                <option value="uniengineering"{% if request.GET.fil == "uniengineering" %} selected="selected"{% endif %}>Engineering</option>
+                <option value="uniit"{% if request.GET.fil == "uniit" %} selected="selected"{% endif %}>IT</option>
+                <option value="unimedia"{% if request.GET.fil == "unimedia" %} selected="selected"{% endif %}>Media</option>
+                <option value="uniscience"{% if request.GET.fil == "uniscience" %} selected="selected"{% endif %}>Science</option>
+                </optgroup>
+
+            </select>
+            <span class="input-group-btn">
+            <button class="btn btn-search1" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+         <!-- /input-group -->
+      </form>
+      <!-- /.max-width on this form -->
+
+   </div>
+   <!-- /.featurette-inner (display:table-cell) -->
+   </div>
+
+<div class="container">
+<h2>Search again</h2>
+<h4>No such post with this search <a href="{% url 'notes:notelist' %}">Go back</a></h4>
+</div>
+
+{% endif %}
+</div>
 </div>
  
 

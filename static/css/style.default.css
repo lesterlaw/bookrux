@@ -953,7 +953,7 @@ fieldset[disabled] .btn-template-primary.active {
   font-weight: normal;
   text-transform: none !important;
   display: block;
-  padding: 10px 15px;
+  padding: 5px 15px;
   padding-left: 30px;
   font-size: 12px;
   color: #999999;
@@ -2655,7 +2655,8 @@ fieldset[disabled] .btn-template-primary.active {
   letter-spacing: 0.08em;
 }
 /* nav */
-.nav > li > a {
+.nav > li > a ,
+.nav > li > p {
   padding: 10px 15px;
 }
 .nav > li > a:hover,
@@ -3071,8 +3072,7 @@ fieldset[disabled] .btn-template-primary.active {
 .navbar-default .navbar-nav > li > a {
   color: #555555;
 }
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
+.navbar-default .navbar-nav > li > a:hover{
   color: #555555;
   background-color: #80cbd9;
 }

@@ -1,5 +1,428 @@
 {% extends 'books/base.html' %}
 
+{% load staticfiles %}
+{% load likert_fa_stars %}
 {% block content %}
-{{ review.title }}
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7" style="display:inline;">
+                <h1>Review of {{ object.title }}</h1>
+
+            </div>
+            {% if request.user == object.author or request.user.is_staff %}
+            <div class="col-md-5">
+                <ul class="breadcrumb">
+                    <a href="{% url 'reviews:editreview' object.slug %}"><button class="btn btn-default">Edit Post</button></a>
+                    <a href="{% url 'reviews:deletereview' object.slug %}"><button class="btn btn-default" onclick="return confirm('Are you sure want to delete?');">Delete Post</button></a>
+                </ul>
+
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+        <div id="content" class="team-member-detail">
+            <div class="container">
+                <section>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="heading">
+                                <h2>{{ object.title|title }}{% if object.writer %} - {{ object.writer|title }}{% endif %}</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            {{ object.rating|fa_stars4 }}<br>
+                            {{ object.review }}
+
+                                <blockquote>
+                                    <p><em>Posted by <a href="{% url 'user_profile_detail' object.author.userprofile.slug %}">{{object.author}}</a> on {{object.published_date}}</em>
+                                    </p>
+                                </blockquote>
+
+                        </div>
+                        <div class="col-md-4 thumbnail">
+                            <img class="img-responsive" alt="pic1" src="{% if object.image1 %}{{ object.image1.url }}{% else %}{% static 'img/nobookimg.png' %}{% endif %}">
+                        </div>
+                    </div>
+                </section>
+
+                </section>
+                <div class="row portfolio">
+
+                        <div class="col-md-12">
+                            <div class="heading">
+                                <h3>Similar books for sale</h3>
+                            </div>
+                        </div>
+
+                        {% for book in similarbooks %}
+<!-- before was col-xs-6 col-sm-4 (3 per row)-->
+<div class="col-sm-6 col-md-3">
+    <div class="box-image-text">
+      <div class="top">
+<a href="{% url 'books:bookdetail' book.slug %}">
+          <div class="image rcorner1 text-center">
+              <img src="{% if book.image1 %}
+                          {{ book.image1.url }}
+                        {% elif book.image2 %}
+                            {{ book.image2.url }}
+                        {% elif book.image3 %}
+                            {{ book.image3.url }}
+                        {% elif book.image4 %}
+                            {{ book.image4.url }}
+                        {% else %}{% static 'img/nobookimg.png' %}{% endif %}" alt="" id="listimg">
+          </div>
+</a>
+      </div>
+      <div class="content haha">
+          <h5>{{ book.title }}</h5>
+        <a href="{% url 'books:bookdetail' book.slug %}"><button class="buttonx">Buy Now!</button></a>
+        <button class="buttony"><strong>${{ book.price }}</strong></button>
+    </div>
+    <!-- /.box-image -->
+
+</div>
+</div>
+
+
+                        {% endfor %}
+
+                    </div>
+            </div>
+            <!-- /.container --></div>
+
+                    <!-- *** RIGHT COLUMN ***
+		  _________________________________________________________ -->
+
+                    <div class="col-sm-12 col-lg-3 col-md-3">
+
+                        <!-- *** MENUS AND FILTERS ***
+ _________________________________________________________ -->
+                        <div class="panel panel-default sidebar-menu">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Genres</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked category-menu">
+                                    <li>
+                                        <a href="{% url 'books:booklist' %}" style="border-bottom: 5px solid #38a7bb"><p class="panel-title no-margin">Books<span class="badge pull-right">{{ bookcount }}</span></p></a>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#nfiction">Non-fiction</a>
+                                        <div id="nfiction" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li><a href="{% url 'books:genredetail' 'business' %}">Business</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Biography' %}">Biography</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Business' %}">Business</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Computing' %}">Computing</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Design' %}">Design</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Engineering' %}">Engineering</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Finance' %}">Finance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Food' %}">Food</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'History' %}">History</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Law' %}">Law</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Religion' %}">Religion</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Science' %}">Science</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Sports' %}">Sports</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Technology' %}">Technology</a></li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#fiction">Fiction</a>
+                                        <div id="fiction" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li><a href="{% url 'books:genredetail' 'Action' %}">Action</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Comic' %}">Comic</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Crime' %}">Crime</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Fantasy' %}">Fantasy</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Horror' %}">Horror</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Mystery' %}">Mystery</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Novels' %}">Novels</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'Romance' %}">Romance</a></li>
+                                            <li><a href="{% url 'books:genredetail' 'sciencefiction' %}">Science Fiction</a></li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#Others">Others</a>
+                                        <div id="Others" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                          <li><a href="{% url 'books:genredetail' 'others' %}">Others</a></li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'books:booklist' %}" style="border-bottom: 5px solid #38a7bb"><p class="panel-title no-margin">Textbooks and Notes<span class="badge pull-right">{{ notecount }}</span></p></a>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#pri">Primary</a>
+                                        <div id="pri" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'prienglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'primothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'priscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                      </li>
+                                      <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#sec">Secondary</a>
+                                        <div id="sec" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secenglish' %}">English</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'secscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'sechumanities' %}">Humanities</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                       </li>
+                                      <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#jc">Junior College</a>
+                                        <div id="jc" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcgp' %}">General Paper</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmath' %}">Math</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcmothertongue' %}">Mother Tongue</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jcscience' %}">Science</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'jchumanities' %}">Humanities</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                       </li>
+                                      <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#poly">Polytechnic</a>
+                                        <div id="poly" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polybusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polydesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polymedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'polyscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                       </li>
+                                      <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#ite">ITE</a>
+                                        <div id="ite" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itebusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itedesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'iteit' %}">IT</a>
+                                            </li>                                          
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itemedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'itescience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                       </li>
+                                      <li>
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#uni">University</a>
+                                        <div id="uni" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                        <ul>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unibusiness' %}">Business</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unidesign' %}">Design</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniengineering' %}">Engineering</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniit' %}">IT</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'unimedia' %}">Media</a>
+                                            </li>
+                                            <li>
+                                              <a href="{% url 'books:genredetail' 'uniscience' %}">Science</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                      </div>
+                                       </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="panel panel-default sidebar-menu">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Brands</h3>
+                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <form>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Armani (10)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Versace (12)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Carlo Bruni (15)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Jack Honey (14)
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default sidebar-menu">
+
+                            <div class="panel-heading">
+                                <h3 class="panel-title clearfix">Colours</h3>
+                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <form>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> <span class="colour white"></span> White (14)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> <span class="colour blue"></span> Blue (10)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> <span class="colour green"></span> Green (20)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> <span class="colour yellow"></span> Yellow (13)
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"> <span class="colour red"></span> Red (10)
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
+
+                                </form>
+
+                            </div>
+                        </div> -->
+
+                        <!-- *** MENUS AND FILTERS END *** -->
+
+<!--                         <div class="banner">
+                            <a href="shop-category.html">
+                                <img src="../../../static/img/banner.jpg" alt="sales 2014" class="img-responsive">
+                            </a>
+                        </div>
+                    </div> -->
+                    <!-- /.col-md-3 -->
+
+                    <!-- *** RIGHT COLUMN END *** -->
+
+                </div>
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+
+
 {% endblock %}

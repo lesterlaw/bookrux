@@ -1,6 +1,12 @@
+var d = document.getElementById("book5");
+if (d){
+  d.className += " hidden-sm hidden-xs";
+}
+
 $('.carousel').carousel({
     interval: false
 }); 
+
 
 function upload_img(input) {
     if (input.files && input.files[0]) {

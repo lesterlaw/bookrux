@@ -7,7 +7,6 @@
     height: 30%; /* set a pixel height and then remove the body,html height */
     vertical-align: middle;
     color: #fff;
-    margin-top:-40px;
 }
 .featurette-inner {
     display: table-cell;
@@ -394,4 +393,59 @@ textarea:focus, input:focus{
 .form-group-book{
   padding:15px;
   border-bottom: 2px solid #e6e6e6;
+}
+
+#dropdown-menu-mobile{
+  width:100%;
+  max-height:80vh;
+  z-index: 1000;
+  height:500px;
+   overflow:auto;/* to get scroll */
+}
+
+#dropdown-button-mobile:focus{
+  border-top: solid 5px #38a7bb;
+  background: #cfcfcf !important;
+  color: black !important;
+}
+#dropdown-button-mobile:hover{
+  color:black;
+  background-color: #e6e6e6;
+}
+#dropdown-button-mobile:active{
+  border-top: solid 5px #20616d;
+  }
+  #dropdown-menu-mobile > li{
+    border:none;
+    text-transform: none;
+  }
+#dropdown-menu-mobile > li > h5{
+  padding:0 20px;
+  color: #a1a1a1;
+  font-size: 18px;
+}
+#dropdown-menu-mobile > li > a{
+  padding:0 40px;
+  color: #555;
+  font-weight: bold;
+  font-size: 18px;
+}
+.no-margin{
+  margin:0;
+}
+.main-green{
+  color:#38a7bb !important; 
+}
+.dropdown-header-head{
+  padding:0 5px;
+}
+#sub-heading-homepage{
+  vertical-align: bottom;
+  margin-left: 10px;
+  padding-bottom: 15px;
+  color: #FFBA22;
+  border: none;
+}
+#sub-heading-homepage:hover{
+  text-decoration: underline;
 }
