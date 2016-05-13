@@ -1,0 +1,26 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+
+Chat book:{{ chat }}
+<div class="chats">
+{% for x in chat.message_set.all %}
+
+<div class="bubble">
+	{{x}}
+</div>
+
+{% endfor %}
+</div>
+<div>
+	<p><a href="{% url 'chats:sendmessage' chat.slug %}">send</a></p>
+</div>
+<form action="{% url 'chats:sendmessage' chat.slug %}" method="POST" id="post-formx" class="post-form col-md-5">{% csrf_token %}
+    
+
+<div id="div_id_message" class="form-group"> <label for="id_message" class="control-label  requiredField">
+                Message<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control" cols="40" id="id_message" name="message" rows="10"></textarea> </div> </div>
+
+    <button type="submit" class="save btn btn-default">Send</button>
+</form>
+{% endblock %}

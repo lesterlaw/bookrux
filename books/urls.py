@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^sold/(?P<slug>[\w.@+-]+)/$', views.sold, name='sold'),
     url(r'^rent/$', views.rentcomingsoon, name='rentcomingsoon'),
     url(r'^like/$', views.LikeBook, name='likebook'),
+    url(r'^mass/$', views.MassMail, name='massmail'),
 ]

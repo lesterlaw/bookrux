@@ -11,6 +11,7 @@ from registration.signals import user_registered
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from autoslug import AutoSlugField
+from taggit.managers import TaggableManager
 from PIL import Image, ExifTags
 from django.core.validators import MaxValueValidator
 import django_filters
@@ -67,6 +68,7 @@ class Book(models.Model):
 		max_length=13,
 	)
 	sold = models.BooleanField(default=False)
+	tags = TaggableManager()
 	image1 = models.ImageField(
             null=True,
             blank=True)
@@ -85,7 +87,7 @@ class Book(models.Model):
 		published_date.save()
 
 	def __unicode__(self):
-			return self.title
+		return self.title
 
 	def save(self, *args, **kwargs):
 		# this is required when you override save functions

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, HttpResponse, Http404
 from django.template.loader import render_to_string, get_template
 from django.template import Context
 from django.core.urlresolvers import reverse
@@ -8,17 +8,18 @@ from notes.models import Note
 from reviews.models import Review
 from django.contrib.auth.models import User
 from django.views import generic
-from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm, ContactForm
+from .forms import AddBookForm, UserProfileUpdateForm, AddRatingForm, ContactForm, MassMailForm
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.contrib import messages
 from django.conf import settings
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.views.generic.edit import FormView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import stripe
 stripe.api_key = settings.STRIPE_SECRET
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
@@ -33,6 +34,37 @@ def homepage(request):
 	reviews = Review.objects.all().order_by('-published_date')
 	return render(request, 'books/homepage.html', {'books':books,'notes':notes,'reviews':reviews, 'bookcount':bookcount, 'notecount':notecount})
 	
+def MassMail(request):
+
+	if request.user.is_staff:
+
+		form_class = MassMailForm
+		if request.method == 'POST':
+			form = form_class(data=request.POST)
+
+			if form.is_valid():
+				form_subject = request.POST.get('subject', '')
+				form_content = request.POST.get('content', '')
+
+				text_content = strip_tags(form_content)
+				html_message = form_content
+
+				receivers = []
+				for user in User.objects.filter(is_superuser=False):
+					receivers.append(user.email)
+
+				msg = EmailMultiAlternatives(form_subject, text_content, 'bookrux@gmail.com', receivers)
+				msg.attach_alternative(html_message, "text/html")
+				msg.send()
+				return redirect('homepage')
+
+		return render(request, 'books/massmail.html', {
+			'form': form_class,
+		})
+	else:
+		raise Http404("Poll does not exist")
+
+
 class BookList(generic.ListView):
 	model = Book
 	template_name = 'books/booklist.html'
@@ -44,6 +76,7 @@ class BookList(generic.ListView):
 		filtered = self.request.GET.get('fil')
 		if query and not filtered:
 			return Book.objects.filter(
+				Q(tags__name__in=query.split()) |
 				Q(title__icontains=query)
 				).order_by('sold', '-published_date')
 		elif filtered and not query:
@@ -51,7 +84,8 @@ class BookList(generic.ListView):
 				Q(genre__icontains=filtered)).order_by('sold', '-published_date')
 		elif filtered and query:
 			return Book.objects.filter(
-				Q(title__icontains=query) &
+				Q(title__icontains=query) |
+				Q(tags__name__in=query.split()) &
 				Q(genre__icontains=filtered)).order_by('sold', '-published_date')
 		return Book.objects.order_by('sold', '-published_date')
 
@@ -119,6 +153,7 @@ def AddBook(request):
 			post.user = request.user
 			post.published_date = timezone.now()
 			post.save()
+			form.save_m2m()
 			return redirect('books:bookdetail', slug=post.slug)
 	else:
 		form = AddBookForm()
@@ -135,6 +170,7 @@ def EditBook(request, slug):
 				post.user = request.user
 				post.published_date = timezone.now()
 				post.save()
+				form.save_m2m()
 				return redirect('books:bookdetail', slug=slug)
 		else:
 			form = AddBookForm(instance=post)
@@ -345,12 +381,3 @@ def LikeBook(request):
 	else:
 		messages.error(request, "Log in or sign up to like an image!")
 		return redirect('auth_login')
-
-class BookViewSet(viewsets.ModelViewSet):
-	queryset = Book.objects.all()
-	serializer_class = BookSerializer
-
-
-class UserViewSet(viewsets.ModelViewSet):
-	queryset = User.objects.all()
-	serializer_class = UserSerializer

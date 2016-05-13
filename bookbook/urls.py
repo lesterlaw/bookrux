@@ -22,16 +22,11 @@ import books.views
 from books import views
 from django.core.urlresolvers import reverse
 
-from rest_framework import routers
-
-router = routers.DefaultRouter()
-router.register(r'Book', views.BookViewSet)
-router.register(r'User', views.UserViewSet)
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', books.views.homepage, name="homepage"),
     url(r'^books/', include('books.urls', namespace="books")),
+    url(r'^chats/', include('chat.urls', namespace="chats")),
     url(r'^reviews/', include('reviews.urls', namespace="reviews")),
     url(r'^notes/', include('notes.urls', namespace="notes")),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
@@ -51,11 +46,11 @@ urlpatterns = [
     url(r'^accounts/(?P<slug>[\w.@+-]+)/update/$',
         books.views.UserProfileUpdate.as_view(success_url="/books/"),
         name='user_profile_edit'),
-    url(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/books/', include('books.api.urls', namespace="books-api")),    
     url(r'^messages/', include('postman.urls', namespace='postman')),
     url(r'^addrating/(?P<slug>[\w.@+-]+)/$', books.views.AddRating, name='addrating'),
     url(r'^contact/$', books.views.ContactView, name='contactview'),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 
 ]
 

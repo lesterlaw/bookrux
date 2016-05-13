@@ -222,6 +222,9 @@
                             <ul class="nav navbar-nav navbar-right">
                                 {% if user.is_authenticated %}
                                 <li><a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out"></i> <span class="text-uppercase">Sign Out</span></a></li>
+                                {% if request.user.is_staff %}
+                                <li><a href="{% url 'books:massmail' %}"><i class="fa fa-envelope"></i> <span class="text-uppercase">Mass mail</span></a></li>
+                                {% endif %}
                                 <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-comments"></i> <span class="text-uppercase">Messages{% postman_unread as unread_count %}{% if unread_count %}<strong>({{ unread_count }})</strong>{% endif %}</span></a></li>
                                 <li class="dropdown" style="position:relative;z-index:1000;">
                                     <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none;"><div class="circularnav"><img src="{% if request.user.userprofile.image %}{{ request.user.userprofile.image.url }}{% else %}{% static "img/noprofilepic.png" %}{% endif %}"></div> <b class="caret"></b></a>

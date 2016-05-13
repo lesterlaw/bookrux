@@ -1,0 +1,12 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+
+{% for chat in chats %}
+
+<a href="{% url 'chats:chatdetail' chat.slug %}">{{ chat }}</a>
+
+
+{% endfor %}
+
+{% endblock %}

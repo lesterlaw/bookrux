@@ -11,15 +11,19 @@
                               </ul>
                               	{% endif %}
 
-<form enctype="multipart/form-data" method="POST" class="post-form col-md-6">{% csrf_token %}
+<form enctype="multipart/form-data" method="POST" class="post-form col-md-8 col-md-offset-2" style="margin-top:20px;">{% csrf_token %}
         
 <div class="post-form-book">
 
 <div id="div_id_title" class="form-group-book {% if form.title.errors %} has-error {% endif %}"><label for="id_title" class="control-label  requiredField">
                 What is the name of the book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_title" maxlength="100" name="title" type="text" placeholder="Title of the book" value="{% if object.title %}{{ object.title }}{% elif form.title.data %}{{form.title.data}}{% endif %}">{% if form.title.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %} </div> </div> 
 
+                <div id="div_id_tags" class="form-group-book {% if form.tags.errors %} has-error {% endif %}"> <label for="id_tags" class="control-label  requiredField">
+                Tags<span class="asteriskField">*</span> </label> <div class="controls "> <input class="tagwidget form-control-book" id="id_tags" name="tags" type="text" placeholder="E.g. Marketing, Design." value="{% if object.tags %}{{ object.tags }}{% elif form.tags.data %}{{form.tags.data}}{% endif %}"> <p id="hint_id_tags" class="help-block">A comma-separated list of tags.</p> {% if form.tags.errors %}<p id="error_1_id_tags" class="help-block"><strong>This field is required.</strong></p> {% endif %}</div> </div>
+
+
                 <div id="div_id_author" class="form-group-book{% if form.author.errors %} has-error {% endif %}"> <label for="id_author" class="control-label  requiredField">
-                Who wrote this book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_author" maxlength="100" name="author" type="text" placeholder="Author" value="{% if object.author %}{{ object.author }}{% elif form.author.data %}{{form.author.data}}{% endif %}"> {% if form.author.errors %}<p id="error_1_id_title" class="help-block"><strong>This field is required.</strong></p> {% endif %}</div> </div>
+                Who wrote this book?<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control-book " id="id_author" maxlength="100" name="author" type="text" placeholder="Author" value="{% if object.author %}{{ object.author }}{% elif form.author.data %}{{form.author.data}}{% endif %}"> {% if form.author.errors %}<p id="error_1_id_author" class="help-block"><strong>This field is required.</strong></p> {% endif %}</div> </div>
 
                 <div id="div_id_description" class="form-group-book {% if form.description.errors %} has-error {% endif %}"> <label for="id_description" class="control-label  requiredField">
                 Details and Condition?<span class="asteriskField">*</span> </label> <div class="controls "> <textarea class="textarea form-control-book " cols="40" id="id_description" name="description" rows="10" placeholder="Describe briefly about the book.

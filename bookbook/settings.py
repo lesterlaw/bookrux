@@ -26,7 +26,7 @@ SECRET_KEY = "jo478()2z&&*@0f2t!!b8^pypy2thqh2#y6gbz0fqoi7h!)fgz"
 DEBUG = True
 
 ALLOWED_HOSTS = []
-SITE_ID =4
+SITE_ID =5
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.sites',
@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'books',
     'reviews',
     'notes',
+    'chat',
+    'taggit',
+    'ckeditor',
+    'ckeditor_uploader',
     'crispy_forms',
     'mathfilters',
     'stripe',
@@ -168,4 +172,9 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.INFO: 'info',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
-                message_constants.ERROR: 'danger',}
+                message_constants.ERROR: 'danger'}
+
+TAGGIT_CASE_INSENSITIVE = True
+
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_UPLOAD_PATH = "uploads/"

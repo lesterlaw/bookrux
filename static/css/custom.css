@@ -449,3 +449,101 @@ textarea:focus, input:focus{
 #sub-heading-homepage:hover{
   text-decoration: underline;
 }
+.tags{
+  margin:0;
+  padding:0;
+  list-style:none;
+  }
+.tags li, .tags a{
+  float:left;
+  height:24px;
+  line-height:24px;
+  position:relative;
+  font-size:13px;
+  }
+.tags a{
+  margin-left:20px;
+  font-weight: bold;
+  padding:0 10px 0 12px;
+  background:#38a7bb;
+  color:#fff;
+  text-decoration:none;
+  -moz-border-radius-bottomright:4px;
+  -webkit-border-bottom-right-radius:4px; 
+  border-bottom-right-radius:4px;
+  -moz-border-radius-topright:4px;
+  -webkit-border-top-right-radius:4px;  
+  border-top-right-radius:4px;  
+  }
+.tags a:before{
+  content:"";
+  float:left;
+  position:absolute;
+  top:0;
+  left:-12px;
+  width:0;
+  height:0;
+  border-color:transparent #38a7bb transparent transparent;
+  border-style:solid;
+  border-width:12px 12px 12px 0;    
+  }
+.tags a:after{
+  content:"";
+  position:absolute;
+  top:10px;
+  left:0;
+  float:left;
+  width:4px;
+  height:4px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  border-radius:2px;
+  background:#fff;
+  -moz-box-shadow:-1px -1px 2px #004977;
+  -webkit-box-shadow:-1px -1px 2px #004977;
+  box-shadow:-1px -1px 2px #004977;
+  }
+.tags a:hover{background:#555;} 
+
+.tags a:hover:before{border-color:transparent #555 transparent transparent;}
+
+.bubble 
+{
+position: relative;
+width: 220px;
+height: 95px;
+padding: 0px;
+background: #FFFFFF;
+-webkit-border-radius: 17px;
+-moz-border-radius: 17px;
+border-radius: 17px;
+border: #7F7F7F solid 2px;
+}
+
+.bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 17px 0 17px 19px;
+border-color: transparent #FFFFFF;
+display: block;
+width: 0;
+z-index: 1;
+right: -19px;
+top: 25px;
+}
+
+.bubble:before 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 18px 0 18px 20px;
+border-color: transparent #7F7F7F;
+display: block;
+width: 0;
+z-index: 0;
+right: -22px;
+top: 24px;
+}

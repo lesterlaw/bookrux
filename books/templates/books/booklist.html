@@ -28,7 +28,7 @@
       <form method='GET' action='' class="search" role="form">
          <div class="input-group input-group-lg">
             <input type='text' name='q' placeholder='Seach for books' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
-            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control" onchange="this.form.submit()">
                 <option value="">Genre</option>
                 <optgroup label="Non-Fiction">
                 <option value="Biography"{% if request.GET.fil == "Biography" %} selected=="selected"{% endif %}>Biography</option>
@@ -154,7 +154,7 @@
       <form method='GET' action='' class="search" role="form">
          <div class="input-group input-group-lg">
             <input type='text' name='q' placeholder='Seach for books!' value='{{ request.GET.q }}' class="form-control" style="width:60%;">
-            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control">
+            <select name='fil' style="color:black; width:40%; font-size:15px;"  class="form-control" onchange="this.form.submit()">
                 <option value="">Genre</option>
                 <optgroup label="Non-Fiction">
                 <option value="Biography"{% if request.GET.fil == "Biography" %} selected=="selected"{% endif %}>Biography</option>

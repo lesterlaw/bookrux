@@ -7,6 +7,21 @@ $('.carousel').carousel({
     interval: false
 }); 
 
+$('#post-formx').on('submit', function(e){
+    e.preventDefault();
+    $.ajax({
+        url: $(this).attr('action'), // the file to call
+        type : "POST", // http method
+        data : { the_post : $('#post-text').val() 
+        csrfmiddlewaretoken: {% csrf_token %}}, // data sent with the post request
+        processData: false,
+        // handle a successful response
+        success: function(json) { // on success..
+             $('.chats').append(json.msg); // update the DIV
+         }
+    });
+});
+
 
 function upload_img(input) {
     if (input.files && input.files[0]) {

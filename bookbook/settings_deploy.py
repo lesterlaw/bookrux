@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'books',
     'reviews',
     'notes',
+    'chat',
+    'taggit',
+    'ckeditor',
+    'ckeditor_uploader',
     'crispy_forms',
     'mathfilters',
     'stripe',
@@ -174,3 +178,8 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
                 message_constants.ERROR: 'danger',}
+
+TAGGIT_CASE_INSENSITIVE = True
+
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_UPLOAD_PATH = "uploads/"
